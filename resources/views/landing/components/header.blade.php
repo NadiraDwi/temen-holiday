@@ -1,6 +1,8 @@
 <nav id="mainNavbar" class="navbar navbar-expand-lg">
     <div class="container">
-        <a class="navbar-brand" href="{{ url('/') }}">TEMENHOLIDAY</a>
+        <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}">
+            <img src="{{ asset('assets/image/logo1.png') }}" alt="Logo" class="logo-navbar">
+        </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>

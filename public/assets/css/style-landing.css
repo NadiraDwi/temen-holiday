@@ -319,3 +319,9 @@ html {
   #modalImage { max-height: 45vh; }
   .modal-detail-img { width: 240px; }
 }
+
+.logo-navbar {
+    height: 60px;     /* ukuran tinggi logo */
+    width: auto;      /* biar proporsional */
+    object-fit: contain;
+}

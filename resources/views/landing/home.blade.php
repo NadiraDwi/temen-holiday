@@ -59,7 +59,7 @@
 
     <div class="col-md-6">
       <div class="ratio ratio-16x9 shadow rounded overflow-hidden">
-        <iframe src="https://maps.google.com/maps?q=jakarta&t=&z=13&ie=UTF8&iwloc=&output=embed" allowfullscreen></iframe>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3951.9732430914682!2d112.67068467405147!3d-7.897864078579777!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd62b271546bb3d%3A0xcbf3f116ff701fb3!2sCV%20TIGA%20PUTRA%20SINGHASARI%20(Temen%20Holiday)!5e0!3m2!1sid!2sid!4v1763436949363!5m2!1sid!2sid" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
       </div>
     </div>
   </div>
@@ -76,7 +76,7 @@
         <a href="{{ url('/kendaraan') }}" class="text-decoration-none">
           <div class="card h-100 shadow-sm card-hover">
             <div class="img-wrapper">
-              <img src="https://picsum.photos/400/250?car1" class="card-img-top">
+              <img src="{{ asset('assets/image/mobil1.jpeg') }}" class="card-img-top card-img-fixed">
             </div>
             <div class="card-body">
               <h5 class="fw-bold text-dark">Avanza</h5>
@@ -90,7 +90,7 @@
         <a href="{{ url('/kendaraan') }}" class="text-decoration-none">
           <div class="card h-100 shadow-sm card-hover">
             <div class="img-wrapper">
-              <img src="https://picsum.photos/400/250?car2" class="card-img-top">
+              <img src="{{ asset('assets/image/mobil2.jpeg') }}" class="card-img-top card-img-fixed">
             </div>
             <div class="card-body">
               <h5 class="fw-bold text-dark">Innova</h5>
@@ -104,7 +104,7 @@
         <a href="{{ url('/kendaraan') }}" class="text-decoration-none">
           <div class="card h-100 shadow-sm card-hover">
             <div class="img-wrapper">
-              <img src="https://picsum.photos/400/250?car3" class="card-img-top">
+              <img src="{{ asset('assets/image/mobil3.jpeg') }}" class="card-img-top card-img-fixed">
             </div>
             <div class="card-body">
               <h5 class="fw-bold text-dark">Hiace</h5>
@@ -134,7 +134,7 @@
       <div class="col-md-4">
         <a href="{{ url('/paket') }}" class="text-decoration-none">
           <div class="card h-100 shadow-sm card-hover">
-            <img src="https://picsum.photos/400/250?travelA" class="card-img-top">
+            <img src="{{ asset('assets/image/wisata1.jpeg') }}" class="card-img-top card-img-fixed">
             <div class="card-body">
               <h5 class="fw-bold text-dark">Paket 1 - Bandung</h5>
               <p class="text-muted">Rp 1.500.000</p>
@@ -146,7 +146,7 @@
       <div class="col-md-4">
         <a href="{{ url('/paket') }}" class="text-decoration-none">
           <div class="card h-100 shadow-sm card-hover">
-            <img src="https://picsum.photos/400/250?travelB" class="card-img-top">
+            <img src="{{ asset('assets/image/wisata2.jpeg') }}" class="card-img-top card-img-fixed">
             <div class="card-body">
               <h5 class="fw-bold text-dark">Paket 2 - Bali</h5>
               <p class="text-muted">Rp 3.200.000</p>
@@ -158,7 +158,7 @@
       <div class="col-md-4">
         <a href="{{ url('/paket') }}" class="text-decoration-none">
           <div class="card h-100 shadow-sm card-hover">
-            <img src="https://picsum.photos/400/250?travelC" class="card-img-top">
+            <img src="{{ asset('assets/image/wisata3.jpeg') }}" class="card-img-top card-img-fixed">
             <div class="card-body">
               <h5 class="fw-bold text-dark">Paket 3 - Lombok</h5>
               <p class="text-muted">Rp 2.800.000</p>

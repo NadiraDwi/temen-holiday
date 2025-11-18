@@ -1,0 +1,321 @@
+/* ========================= GLOBAL ========================= */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #ffffff;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* ========================= NAVBAR (GLASS + SCROLL) ========================= */
+#mainNavbar {
+  position: fixed;
+  width: 100%;
+  z-index: 9999;
+  padding: 15px 0;
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(10px);
+  transition: 0.3s ease;
+}
+
+#mainNavbar .nav-link,
+#mainNavbar .navbar-brand {
+  color: #ffffff !important;
+  font-weight: 700;
+  transition: 0.3s ease;
+}
+
+#mainNavbar .nav-link:hover {
+  color: #0d6efd !important;
+}
+
+/* Scroll state */
+#mainNavbar.scrolled {
+  background: rgba(255,255,255,0.95) !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  padding: 8px 0;
+}
+
+#mainNavbar.scrolled .nav-link,
+#mainNavbar.scrolled .navbar-brand {
+  color: #000000 !important;
+}
+
+#mainNavbar.scrolled .nav-link:hover {
+  color: #0d6efd !important;
+}
+
+#mainNavbar .nav-link.active {
+  color: #0d6efd !important;
+}
+
+/* ========================= HERO ========================= */
+.hero {
+  position: relative;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+}
+
+.hero-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+  text-shadow: 2px 2px 6px rgba(0,0,0,0.7);
+}
+
+.hero-small {
+  height: 35vh;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.hero-small .hero-text h1 {
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+/* ========================= BUTTONS ========================= */
+.btn-primary {
+  border-radius: 8px;
+  font-weight: 600;
+  padding: 8px 18px;
+}
+
+.btn-primary:hover {
+  background-color: #0056d2 !important;
+  transform: none !important;
+}
+
+.more-link {
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: #000 !important;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.more-link:hover {
+  color: #333 !important;
+  text-decoration-color: #333;
+  margin-left: 4px;
+}
+
+/* ========================= GALLERY CARD ========================= */
+.gallery-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  cursor: pointer;
+  background: #fff;
+}
+
+.gallery-card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  transition: transform .35s ease, filter .35s ease;
+  display: block;
+}
+
+.gallery-card:hover img {
+  transform: scale(1.08);
+  filter: brightness(0.6);
+}
+
+/* Overlay full */
+.gallery-card .overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 14px;
+  pointer-events: none;
+  background: linear-gradient(to top, rgba(0,0,0,0.45), rgba(0,0,0,0));
+  opacity: 0;
+  transition: opacity .25s ease;
+}
+
+.gallery-card:hover .overlay {
+  opacity: 1;
+}
+
+/* Title */
+.gallery-card .overlay .title {
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 1rem;
+  text-align: center;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+  transform: translateY(6px);
+  opacity: 0;
+  transition: transform .25s ease, opacity .25s ease;
+}
+
+.gallery-card:hover .overlay .title {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Kartu kendaraan */
+.card-img-fixed {
+  width: 100%;
+  height: 230px;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* ========================= GALLERY MODAL ========================= */
+#galleryModal .modal-content {
+  border-radius: 14px;
+  padding: 1.5rem;
+}
+
+#galleryModal .modal-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-bottom: 0;
+  padding-bottom: .25rem;
+}
+
+#galleryModal .btn-close {
+  position: absolute;
+  right: 0.75rem;
+  top: 0.75rem;
+}
+
+#galleryModal .title-underline {
+  width: 80px;
+  height: 4px;
+  background: #0d6efd;
+  border-radius: 3px;
+  margin-top: 6px;
+}
+
+/* Gambar modal */
+#modalImage {
+  width: 100%;
+  max-height: 80vh;
+  object-fit: contain;
+  border-radius: 8px;
+  display: block;
+  margin: 0 auto;
+}
+
+/* ========================= DETAIL MODAL ========================= */
+.modal-detail-img {
+  width: 320px;
+  height: auto;
+  object-fit: contain;
+}
+
+.modal-title-center {
+  text-align: center;
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.modal-title-line {
+  width: 80px;
+  height: 3px;
+  background: #007bff;
+  margin: 8px auto 18px auto;
+  border-radius: 4px;
+}
+
+.detail-icon {
+  width: 20px;
+  margin-right: 6px;
+}
+
+.detail-list li {
+  margin-bottom: 6px;
+}
+
+.section-divider {
+  border-top: 1px solid #ccc;
+  margin: 15px 0;
+}
+
+.border-end {
+  border-right: 1px solid #e4e4e4 !important;
+}
+
+/* ========================= FOOTER ========================= */
+.footer {
+  background-color: #000000;
+  color: #fff;
+}
+
+.footer-brand {
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-links li {
+  margin-bottom: 8px;
+}
+
+.footer-links a {
+  color: #e3e3e3;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.footer-links a:hover {
+  color: #0d6efd;
+}
+
+.social-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  background: #ffffff22;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  color: white;
+  transition: 0.3s;
+}
+
+.social-icon:hover {
+  background: #0d6efd;
+  color: #000;
+}
+
+.footer-line {
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.newsletter-input {
+  border-radius: 8px;
+  height: 45px;
+}
+
+/* ========================= RESPONSIVE ========================= */
+@media (max-width: 992px) {
+  .gallery-card img { height: 200px; }
+  #modalImage { max-height: 60vh; }
+}
+
+@media (max-width: 576px) {
+  .gallery-card img { height: 140px; }
+  #modalImage { max-height: 45vh; }
+  .modal-detail-img { width: 240px; }
+}

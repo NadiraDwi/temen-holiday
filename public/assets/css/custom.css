@@ -1,0 +1,115 @@
+.framed {
+  border: 1px solid #cccccc;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+.framed .frame-title {
+  font-size: 16px;
+  font-weight: 600;
+  position: relative;
+  top: -30px;
+  background-color: #ffffff;
+  padding: 0 20px;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+.framed .frame-title span {
+  display: block;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 10px;
+}
+
+.sub-total {
+  font-size: 12px;
+  font-weight: 300;
+}
+.sub-total span {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.feather-10 {
+  width: 10px;
+  height: 10px;
+}
+
+.feather-16 {
+  width: 16px;
+  height: 16px;
+}
+
+.feather-24 {
+  width: 24px;
+  height: 24px;
+}
+
+.feather-32 {
+  width: 32px;
+  height: 32px;
+}
+
+.img-thumbnail {
+  width: 200px;
+  height: 200px;
+  background-color: #000000;
+  position: relative;
+  overflow: hidden;
+}
+.img-thumbnail:hover button.remove-img {
+  bottom: 0px;
+}
+.img-thumbnail img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: contain;
+     object-fit: contain;
+  cursor: pointer;
+}
+.img-thumbnail button.remove-img {
+  width: 100%;
+  height: 40px;
+  font-size: 18px;
+  border: none;
+  position: absolute;
+  bottom: -50px;
+  left: 0;
+  margin: auto;
+  background-color: #ff0000;
+  color: #ffffff;
+  transition: all ease-in-out 0.3s;
+}
+.img-thumbnail button.remove-img:hover {
+  background-color: #c60b0b;
+}
+
+.bukti-pembayaran {
+  width: 200px;
+  height: 200px;
+  -o-object-fit: contain;
+     object-fit: contain;
+  border: 4px solid #cccccc;
+  background-color: #000000;
+}
+
+table.dataTable td {
+  padding: 5px 20px !important;
+}
+
+.table td {
+  white-space: normal;
+  word-wrap: normal;
+}
+
+.logo-header {
+  width: 220px;   /* kamu bisa ubah 100–150px */
+  height: auto;
+}
+
+.logo-container {
+  padding: 60px 15px; /* biar nggak mepet */
+  margin-left: 20px;
+}

@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 
 class VehicleCategory extends Model
 {
@@ -12,16 +11,11 @@ class VehicleCategory extends Model
     public $incrementing = false;
     protected $keyType = 'string';
 
-    protected $fillable = ['kategori'];
+    protected $fillable = ['id_category', 'kategori', 'kategori'];
 
-    protected static function boot()
+    // RELASI KE VEHICLE
+    public function vehicles()
     {
-        parent::boot();
-
-        static::creating(function ($model) {
-            if (! $model->id_category) {
-                $model->id_category = Str::uuid()->toString();
-            }
-        });
+        return $this->hasMany(Vehicle::class, 'id_kategori', 'id_category');
     }
 }

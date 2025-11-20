@@ -27,7 +27,9 @@ class KendaraanController extends Controller
 
             return DataTables::of($data)
                 ->addIndexColumn()
-
+                ->addColumn('kategori', function ($row) {
+                    return $row->kategori ? $row->kategori->kategori : '-';
+                })
                 // Gambar di tabel
                 ->editColumn('gambar', function ($row) {
                     if (!$row->gambar) {
@@ -61,7 +63,7 @@ class KendaraanController extends Controller
 
     public function detail($id)
     {
-        $data = Vehicle::with(['contact', 'updatedBy'])
+        $data = Vehicle::with(['contact', 'updatedBy', 'kategori'])
                     ->where('id_vehicle', $id)
                     ->first();
 
@@ -86,7 +88,7 @@ class KendaraanController extends Controller
             'fasilitas' => 'required',
             'harga' => 'required|numeric',
             'gambar' => 'nullable|image|max:2048',
-            'contact_id' => 'required|exists:contacts,id_contact',
+            'contact_id' => 'required|exists:contacts,contact_id',
         ]);
 
         // Upload gambar
@@ -102,7 +104,7 @@ class KendaraanController extends Controller
             'fasilitas' => $request->fasilitas,
             'harga' => $request->harga,
             'gambar' => $gambar_name,
-            'id_contact' => $request->contact_id,   // 🟦 DITAMBAH
+            'id_contact' => $request->id_contact,   // 🟦 DITAMBAH
             'updated_by' => Auth::user()->id,        // user login
         ]);
 

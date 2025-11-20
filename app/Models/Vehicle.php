@@ -18,8 +18,9 @@ class Vehicle extends Model
         'fasilitas',
         'harga',
         'gambar',
-        'contact_id',
-        'updated_by'
+        'id_contact',
+        'updated_by',
+        'id_kategori'
     ];
 
     protected static function boot()
@@ -33,14 +34,19 @@ class Vehicle extends Model
         });
     }
 
-    // RELASI
+    // RELASI KE KATEGORI
+    public function kategori()
+    {
+        return $this->belongsTo(VehicleCategory::class, 'id_kategori', 'id_category');
+    }
+
     public function contact()
     {
-        return $this->belongsTo(Contact::class, 'contact_id', 'id_contact');
+        return $this->belongsTo(Contact::class, 'id_contact', 'id_contact');
     }
 
     public function updatedBy()
     {
-        return $this->belongsTo(User::class, 'updated_by', 'id');
+        return $this->belongsTo(\App\Models\Admin::class, 'updated_by', 'id');
     }
 }

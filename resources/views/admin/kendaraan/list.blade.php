@@ -44,6 +44,7 @@
                             <tr>
                                 <th class="text-center" width="60px">#</th>
                                 <th class="text-center">Nama Kendaraan</th>
+                                <th class="text-center">Kategori</th>
                                 <th class="text-center">Kapasitas</th>
                                 <th>Fasilitas</th>
                                 <th>Harga</th>
@@ -155,6 +156,7 @@ $('#kendaraan-table').DataTable({
     columns: [
         { data: 'DT_RowIndex', className: "dt-body-center", orderable: false, searchable: false },
         { data: 'nama_kendaraan', name: 'nama_kendaraan' },
+        { data: 'kategori', name: 'kategori' },
         { data: 'kapasitas', name: 'kapasitas', className: "dt-body-center" },
         { data: 'fasilitas', name: 'fasilitas' },
         { data: 'harga', name: 'harga' },
@@ -220,7 +222,7 @@ function detailData(id) {
                 d.contact ? d.contact.nama + " (" + d.contact.no_hp + ")" : "-";
 
             document.getElementById("detail-updatedby").innerHTML =
-                d.updated_by_user ? d.updated_by_user.name : "-";
+                d.updated_by ? d.updated_by.name : "-";
 
             new bootstrap.Modal(document.getElementById('detailModal')).show();
         })

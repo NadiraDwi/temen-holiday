@@ -30,14 +30,16 @@ Route::prefix('admin')->group(function () {
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 
         // PAGE daftar kendaraan
-        Route::get('/kendaraan', [AdminKendaraanController::class, 'index'])->name('admin.kendaraan.index');
-        Route::delete('/kendaraan/delete', [AdminKendaraanController::class, 'delete'])->name('admin.kendaraan.delete');
-        Route::get('/kendaraan/detail/{id}', [AdminKendaraanController::class, 'detail'])
-            ->name('admin.kendaraan.detail');
-        Route::get('/kendaraan/create', [AdminKendaraanController::class, 'create'])
-            ->name('admin.kendaraan.create');
-        Route::post('/kendaraan/store', [AdminKendaraanController::class, 'store'])
-            ->name('admin.kendaraan.store');
+        Route::prefix('kendaraan')->name('admin.kendaraan.')->group(function () {
+            Route::get('/', [AdminKendaraanController::class, 'index'])->name('index');
+            Route::get('/create', [AdminKendaraanController::class, 'create'])->name('create');
+            Route::post('/store', [AdminKendaraanController::class, 'store'])->name('store');
+            Route::get('/detail/{id}', [AdminKendaraanController::class, 'detail'])->name('detail');
+            Route::put('/update/{id}', [AdminKendaraanController::class, 'update'])->name('update');
+            Route::delete('/delete', [AdminKendaraanController::class, 'delete'])->name('delete');
+            Route::post('/update-tampilkan-harga', [AdminKendaraanController::class, 'updateTampilkanHarga'])
+                ->name('update-tampilkan-harga');
+        });
 
         // Kategori Kendaraan
         Route::prefix('kategori-kendaraan')->name('kategori-kendaraan.')->group(function () {

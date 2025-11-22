@@ -16,6 +16,6 @@ class VehicleCategory extends Model
     // RELASI KE VEHICLE
     public function vehicles()
     {
-        return $this->hasMany(Vehicle::class, 'id_kategori', 'id_category');
+        return $this->hasMany(Vehicle::class, 'id_category', 'id_kategori');
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\CategoryKendaraanController;
 use App\Http\Controllers\Admin\KendaraanController as AdminKendaraanController;
 use App\Http\Controllers\Landing\GaleriController;
 use App\Http\Controllers\Landing\HomeController;
@@ -37,6 +38,20 @@ Route::prefix('admin')->group(function () {
         Route::post('/kendaraan/store', [AdminKendaraanController::class, 'store'])
             ->name('admin.kendaraan.store');
 
+        // Kategori Kendaraan
+        Route::prefix('kategori-kendaraan')->name('kategori-kendaraan.')->group(function () {
+
+            Route::get('/', [CategoryKendaraanController::class, 'index'])->name('index');
+            Route::get('/list', [CategoryKendaraanController::class, 'list'])->name('list');
+
+            Route::get('/create', [CategoryKendaraanController::class, 'create'])->name('create');
+            Route::post('/store', [CategoryKendaraanController::class, 'store'])->name('store');
+
+            Route::get('/kategori-kendaraan/show', [CategoryKendaraanController::class, 'show'])->name('show');
+            Route::put('/kategori-kendaraan/update', [CategoryKendaraanController::class, 'update'])->name('update');
+
+            Route::delete('/delete', [CategoryKendaraanController::class, 'delete'])->name('delete');
+        });
     });
 
 });

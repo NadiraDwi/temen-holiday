@@ -11,7 +11,7 @@ class VehicleCategory extends Model
     public $incrementing = false;
     protected $keyType = 'string';
 
-    protected $fillable = ['id_category', 'kategori', 'kategori'];
+    protected $fillable = ['id_category', 'kategori', 'keterangan'];
 
     // RELASI KE VEHICLE
     public function vehicles()

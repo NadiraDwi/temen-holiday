@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <!-- [Head] start -->
@@ -162,7 +161,7 @@
             <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
           </a>
           <ul class="pc-submenu">
-            <li class="pc-item"><a class="pc-link" href="/kendaraan/kategori">Kategori Kendaraan</a></li>
+            <li class="pc-item"><a class="pc-link" href="{{ route('kategori-kendaraan.index') }}">Kategori Kendaraan</a></li>
             <li class="pc-item">
                 <a class="pc-link" href="{{ route('admin.kendaraan.index') }}">Data Kendaraan</a>
             </li>

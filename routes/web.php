@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\CategoryKendaraanController;
 use App\Http\Controllers\Admin\KendaraanController as AdminKendaraanController;
+use App\Http\Controllers\Admin\GaleriController as AdminGaleriController;
 use App\Http\Controllers\Landing\GaleriController;
 use App\Http\Controllers\Landing\HomeController;
 use App\Http\Controllers\Landing\KendaraanController;
@@ -52,6 +53,20 @@ Route::prefix('admin')->group(function () {
 
             Route::delete('/delete', [CategoryKendaraanController::class, 'delete'])->name('delete');
         });
+
+        Route::prefix('galeri')->name('galeri.')->group(function () {
+
+            Route::get('/', [AdminGaleriController::class, 'index'])->name('index');
+            Route::get('/list', [AdminGaleriController::class, 'list'])->name('list');
+            Route::post('/store', [AdminGaleriController::class, 'store'])->name('store');
+
+            // ✅ HARUS PAKAI PARAMETER ID
+            Route::get('/edit/{id}', [AdminGaleriController::class, 'edit'])->name('edit');
+            Route::post('/update/{id}', [AdminGaleriController::class, 'update'])->name('update');
+
+            Route::delete('/delete', [AdminGaleriController::class, 'delete'])->name('delete');
+        });
+
     });
 
 });

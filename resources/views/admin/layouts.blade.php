@@ -187,7 +187,7 @@
 
         <!-- Galeri -->
         <li class="pc-item">
-          <a href="/galeri" class="pc-link">
+          <a href="{{ route('galeri.index') }}" class="pc-link">
             <span class="pc-micon">
               <i class="fas fa-images"></i>
             </span>

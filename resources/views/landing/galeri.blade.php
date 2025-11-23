@@ -31,11 +31,11 @@
 
         @foreach ($galeri as $item)
         <div class="col-6 col-md-3">
-            <a href="{{ asset($item['path']) }}" class="gallery-item">
+            <a href="{{ asset('storage/galeri/' . $item->gambar) }}" class="gallery-item">
                 <div class="gallery-card">
-                    <img src="{{ asset($item['path']) }}" alt="{{ $item['title'] }}">
+                    <img src="{{ asset('storage/galeri/' . $item->gambar) }}" alt="{{ $item->judul }}">
                     <div class="overlay">
-                        <span class="title">{{ $item['title'] }}</span>
+                        <span class="title">{{ $item->judul }}</span>
                     </div>
                 </div>
             </a>
@@ -43,7 +43,6 @@
         @endforeach
 
     </div>
-
 </div>
 
 <!-- FOOTER -->
@@ -64,8 +63,8 @@
             "></div>
 
             <img id="modalImage"
-                 class="rounded shadow-sm"
-                 style="width: 100%; max-height: 480px; object-fit: cover; border-radius: 10px;">
+                class="rounded shadow-sm"
+                style="width: 100%; height: 310px; object-fit: cover; border-radius: 10px;">
 
             <div class="text-center mt-4">
                 <button class="btn btn-secondary px-4" data-bs-dismiss="modal">Tutup</button>

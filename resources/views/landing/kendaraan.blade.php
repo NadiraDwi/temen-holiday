@@ -24,69 +24,53 @@
   </div>
 </section>
 
-<!-- CARD KENDARAAN -->
-<div class="container py-5">
-  <h2 class="text-center fw-bold mb-4">Pilihan Kendaraan</h2>
+  <!-- CARD KENDARAAN -->
+  <div class="container py-5">
+    <h2 class="text-center fw-bold mb-4">Pilihan Kendaraan</h2>
 
-  <div class="row g-4">
+    <div class="text-center mb-4">
+    <button class="filter-chip active" data-filter="all">
+        Semua
+    </button>
 
-    <!-- CARD: Toyota Avanza -->
-    <div class="col-md-4">
+    @foreach($categories as $cat)
+    <button class="filter-chip" data-filter="{{ $cat->id_category }}">
+        {{ $cat->kategori }}
+    </button>
+    @endforeach
+  </div>
+
+  <div class="row g-4" id="vehicleContainer">
+
+    @foreach($vehicles as $v)
+    <div class="col-md-4 vehicle-item" data-category="{{ $v->id_kategori }}">
       <div class="card shadow-sm">
-        <img src="{{ asset('assets/image/mobil4.jpeg') }}" class="card-img-top card-img-fixed" alt="Toyota Avanza">
+
+        <img src="{{ asset('storage/kendaraan/' . $v->gambar) }}"
+            class="card-img-top card-img-fixed"
+            alt="{{ $v->nama_kendaraan }}">
+
         <div class="card-body">
-          <h5 class="card-title fw-bold">Toyota Avanza</h5>
-          <p class="text-muted">Harga: Rp 450.000 / Hari</p>
+          <h5 class="card-title fw-bold">{{ $v->nama_kendaraan }}</h5>
+
+          @if($v->tampilkan_harga)
+            <p class="text-muted">Harga: Rp {{ number_format($v->harga,0,',','.') }} / Hari</p>
+          @endif
+
           <a href="#" class="more-link detail-trigger"
-            data-nama="Toyota Avanza"
-            data-harga="450000"
-            data-kapasitas="7"
-            data-fasilitas='["AC","Audio","Bagasi Sedang"]'
-            data-gambar="{{ asset('assets/image/mobil4.jpeg') }}">
+            data-nama="{{ $v->nama_kendaraan }}"
+            data-harga="{{ $v->harga }}"
+            data-kapasitas="{{ $v->kapasitas }}"
+            data-fasilitas='@json(explode(",", $v->fasilitas))'
+            data-gambar="{{ asset('storage/kendaraan/' . $v->gambar) }}">
             Detail
           </a>
         </div>
       </div>
     </div>
+    @endforeach
 
-    <!-- CARD: Toyota Hiace -->
-    <div class="col-md-4">
-      <div class="card shadow-sm">
-        <img src="{{ asset('assets/image/mobil5.jpeg') }}" class="card-img-top card-img-fixed" alt="Toyota Hiace">
-        <div class="card-body">
-          <h5 class="card-title fw-bold">Toyota Hiace</h5>
-          <p class="text-muted">Harga: Rp 450.000 / Hari</p>
-          <a href="#" class="more-link detail-trigger"
-            data-nama="Toyota Hiace"
-            data-harga="450000"
-            data-kapasitas="12"
-            data-fasilitas='["AC","Audio","Reclining Seat","Bagasi Luas"]'
-            data-gambar="{{ asset('assets/image/mobil5.jpeg') }}">
-            Detail
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <!-- CARD: Elf Long -->
-    <div class="col-md-4">
-      <div class="card shadow-sm">
-        <img src="{{ asset('assets/image/mobil6.jpeg') }}" class="card-img-top card-img-fixed" alt="Elf Long">
-        <div class="card-body">
-          <h5 class="card-title fw-bold">Elf Long</h5>
-          <p class="text-muted">Harga: Rp 450.000 / Hari</p>
-          <a href="#" class="more-link detail-trigger"
-            data-nama="Elf Long"
-            data-harga="450000"
-            data-kapasitas="16"
-            data-fasilitas='["AC","Audio","Reclining Seat","Bagasi Besar"]'
-            data-gambar="{{ asset('assets/image/mobil6.jpeg') }}">
-            Detail
-          </a>
-        </div>
-      </div>
-    </div>
-
+  </div>
   </div>
 </div>
 
@@ -200,13 +184,20 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
+  // Navbar scroll effect
+  const navbar = document.getElementById("mainNavbar");
+  window.addEventListener("scroll", () => {
+    navbar.classList.toggle("scrolled", window.scrollY > 50);
+  });
+</script>
+
+<script>
 document.querySelectorAll(".detail-trigger").forEach(item => {
     item.addEventListener("click", function(e) {
         e.preventDefault();
 
         document.getElementById("modalNama").textContent = this.dataset.nama;
         document.getElementById("modalNama2").textContent = this.dataset.nama;
-
         document.getElementById("modalGambar").src = this.dataset.gambar;
 
         let harga = parseInt(this.dataset.harga).toLocaleString("id-ID");
@@ -220,6 +211,27 @@ document.querySelectorAll(".detail-trigger").forEach(item => {
         fasilitas.forEach(f => list.innerHTML += `<li>${f}</li>`);
 
         new bootstrap.Modal(document.getElementById("detailModal")).show();
+    });
+});
+</script>
+
+<script>
+document.querySelectorAll(".filter-chip").forEach(btn => {
+    btn.addEventListener("click", function() {
+
+        document.querySelectorAll(".filter-chip").forEach(b => b.classList.remove("active"));
+        this.classList.add("active");
+
+        let filter = this.dataset.filter;
+
+        document.querySelectorAll(".vehicle-item").forEach(item => {
+            if(filter === "all" || item.dataset.category === filter){
+                item.style.display = "block";
+            } else {
+                item.style.display = "none";
+            }
+        });
+
     });
 });
 </script>

@@ -21,7 +21,7 @@
 <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
   <div class="carousel-inner">
     <div class="carousel-item active">
-      <div class="hero d-flex align-items-center" style="background-image:url('https://picsum.photos/1200/600?travel1');">
+      <div class="hero d-flex align-items-center" style="background-image:url('assets/image/home1.jpeg');">
         <div class="hero-text">
           <h1>Welcome to Temen Holiday</h1>
           <p>As Warm As Family</p>
@@ -29,7 +29,7 @@
       </div>
     </div>
     <div class="carousel-item">
-      <div class="hero d-flex align-items-center" style="background-image:url('https://picsum.photos/1200/600?travel2');">
+      <div class="hero d-flex align-items-center" style="background-image:url('assets/image/home2.jpeg');">
         <div class="hero-text">
           <h1>Welcome to Temen Holiday</h1>
           <p>As Warm As Family</p>
@@ -72,47 +72,25 @@
 
     <div class="row g-4">
 
-      <div class="col-md-4">
-        <a href="{{ url('/kendaraan') }}" class="text-decoration-none">
-          <div class="card h-100 shadow-sm card-hover">
-            <div class="img-wrapper">
-              <img src="{{ asset('assets/image/mobil1.jpeg') }}" class="card-img-top card-img-fixed">
-            </div>
-            <div class="card-body">
-              <h5 class="fw-bold text-dark">Avanza</h5>
-              <p class="text-muted">Rp 450.000 / Hari</p>
-            </div>
-          </div>
-        </a>
-      </div>
+      @foreach($categories as $cat)
+        @php
+          $vehicle = $cat->vehicles->first();
+        @endphp
 
-      <div class="col-md-4">
-        <a href="{{ url('/kendaraan') }}" class="text-decoration-none">
-          <div class="card h-100 shadow-sm card-hover">
-            <div class="img-wrapper">
-              <img src="{{ asset('assets/image/mobil2.jpeg') }}" class="card-img-top card-img-fixed">
+        <div class="col-md-4">
+          <a href="{{ url('/kendaraan?kategori=' . $cat->id_category) }}" class="text-decoration-none">
+            <div class="vehicle-card"
+              style="background-image: url('{{ $vehicle ? asset('storage/kendaraan/' . $vehicle->gambar) : asset('assets/image/mobil1.jpeg') }}');">
+              
+              <span class="vehicle-badge">{{ $cat->kategori }}</span>
+              <p class="vehicle-desc">
+                {{ $cat->keterangan ?? 'Kendaraan nyaman untuk berbagai kebutuhan.' }}
+              </p>
             </div>
-            <div class="card-body">
-              <h5 class="fw-bold text-dark">Innova</h5>
-              <p class="text-muted">Rp 650.000 / Hari</p>
-            </div>
-          </div>
-        </a>
-      </div>
+          </a>
+        </div>
 
-      <div class="col-md-4">
-        <a href="{{ url('/kendaraan') }}" class="text-decoration-none">
-          <div class="card h-100 shadow-sm card-hover">
-            <div class="img-wrapper">
-              <img src="{{ asset('assets/image/mobil3.jpeg') }}" class="card-img-top card-img-fixed">
-            </div>
-            <div class="card-body">
-              <h5 class="fw-bold text-dark">Hiace</h5>
-              <p class="text-muted">Rp 1.200.000 / Hari</p>
-            </div>
-          </div>
-        </a>
-      </div>
+      @endforeach
 
     </div>
 

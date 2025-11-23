@@ -126,7 +126,7 @@
                 <i class="ti ti-user"></i>
                 <span>My Account</span>
               </a>
-              <a href="#">
+              <a href="{{ route('admin.logout') }}">
                 <i class="ti ti-power"></i>
                 <span>Logout</span>
               </a>

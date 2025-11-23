@@ -16,7 +16,7 @@
 @include('landing.components.header')
 
 <!-- HERO -->
-<section class="hero hero-small" style="background-image: url('https://picsum.photos/1200/600?travel1');">
+<section class="hero hero-small" style="background-image: url('assets/image/home1.jpeg');">
     <div class="hero-text">
         <h1>Gallery</h1>
     </div>

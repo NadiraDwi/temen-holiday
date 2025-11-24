@@ -16,11 +16,19 @@
                 </li>
 
                 <li class="nav-item">
+                    <a class="nav-link {{ Request::is('about') ? 'active' : '' }}" href="{{ url('/about') }}">Tentang Kami</a>
+                </li>
+
+                <li class="nav-item">
                     <a class="nav-link {{ Request::is('kendaraan') ? 'active' : '' }}" href="{{ url('/kendaraan') }}">Kendaraan</a>
                 </li>
 
                 <li class="nav-item">
                     <a class="nav-link {{ Request::is('paket') ? 'active' : '' }}" href="{{ url('/paket') }}">Paket Wisata</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link {{ Request::is('testimoni') ? 'active' : '' }}" href="{{ url('/testimoni') }}">Ulasan</a>
                 </li>
 
                 <li class="nav-item">

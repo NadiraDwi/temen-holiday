@@ -13,6 +13,7 @@ html {
   position: fixed;
   width: 100%;
   z-index: 9999;
+  height: 65px;
   padding: 15px 0;
   background: rgba(255,255,255,0.2);
   backdrop-filter: blur(10px);
@@ -30,7 +31,6 @@ html {
   color: #0d6efd !important;
 }
 
-/* Scroll state */
 #mainNavbar.scrolled {
   background: rgba(255,255,255,0.95) !important;
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
@@ -50,7 +50,7 @@ html {
   color: #0d6efd !important;
 }
 
-/* ========================= HERO ========================= */
+/* ========================= HERO (FULL) ========================= */
 .hero {
   position: relative;
   height: 100vh;
@@ -58,16 +58,66 @@ html {
   background-position: center;
 }
 
-.hero-text {
+/* Overlay gelap biar teks kontras */
+.hero::before {
+  content: "";
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  color: white;
-  text-shadow: 2px 2px 6px rgba(0,0,0,0.7);
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
 }
 
+.hero-content {
+  position: relative;
+  z-index: 2;
+  color: white;
+  max-width: 750px;
+  margin: 0 auto;
+  text-align: center;
+  margin-top: 60px; /* ✅ Agar judul tidak kepotong */
+}
+
+.hero-title {
+  font-size: 56px;
+  font-weight: 800;
+  text-shadow: 0px 6px 14px rgba(0,0,0,0.9);
+}
+
+/* Slogan elegan */
+.hero-subtitle {
+  font-size: 18px;
+  background: rgba(0, 0, 0, 0.55);
+  padding: 10px 25px;
+  border-radius: 30px;
+  margin: 20px 0 35px;
+  font-weight: 500;
+}
+
+/* Search bar */
+.hero-search {
+  width: 100%;
+  max-width: 550px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.search-input {
+  width: 100%;
+  border-radius: 30px;
+  padding: 12px 45px 12px 20px;
+  border: none;
+}
+
+.search-icon {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: #666;
+  cursor: pointer;
+}
+
+/* ========================= HERO SMALL (TIDAK DIUBAH ✅) ========================= */
 .hero-small {
   height: 35vh;
   background-size: cover;
@@ -89,7 +139,6 @@ html {
 
 .btn-primary:hover {
   background-color: #0056d2 !important;
-  transform: none !important;
 }
 
 .more-link {
@@ -121,7 +170,6 @@ html {
   height: 220px;
   object-fit: cover;
   transition: transform .35s ease, filter .35s ease;
-  display: block;
 }
 
 .gallery-card:hover img {
@@ -129,7 +177,6 @@ html {
   filter: brightness(0.6);
 }
 
-/* Overlay full */
 .gallery-card .overlay {
   position: absolute;
   inset: 0;
@@ -137,8 +184,7 @@ html {
   align-items: flex-end;
   justify-content: center;
   padding: 14px;
-  pointer-events: none;
-  background: linear-gradient(to top, rgba(0,0,0,0.45), rgba(0,0,0,0));
+  background: linear-gradient(to top, rgba(0,0,0,0.45), transparent);
   opacity: 0;
   transition: opacity .25s ease;
 }
@@ -147,12 +193,10 @@ html {
   opacity: 1;
 }
 
-/* Title */
 .gallery-card .overlay .title {
   color: #ffffff;
   font-weight: 700;
   font-size: 1rem;
-  text-align: center;
   text-shadow: 0 2px 6px rgba(0,0,0,0.6);
   transform: translateY(6px);
   opacity: 0;
@@ -200,7 +244,6 @@ html {
   margin-top: 6px;
 }
 
-/* Gambar modal */
 #modalImage {
   width: 100%;
   max-height: 80vh;
@@ -246,8 +289,84 @@ html {
   margin: 15px 0;
 }
 
-.border-end {
-  border-right: 1px solid #e4e4e4 !important;
+/* ========================= VEHICLE CARD ========================= */
+.vehicle-card {
+  height: 260px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 12px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  color: white;
+  overflow: hidden;
+  transition: 0.3s;
+}
+
+.vehicle-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.3);
+}
+
+.vehicle-badge {
+  position: relative;
+  background: #007bff;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 14px;
+  color: white;
+  display: inline-block; /* ✅ Biar ngikutin panjang teks */
+  width: auto; /* ✅ Ngepas sesuai teks */
+  max-width: fit-content; /* ✅ Tambahan biar gak melebar */
+  z-index: 2;
+}
+
+.vehicle-desc {
+  position: relative;
+  margin-top: 8px;
+  font-size: 14px;
+  z-index: 2;
+}
+
+.vehicle-card:hover {
+  transform: scale(1.03);
+  cursor: pointer;
+}
+
+.filter-btn.active {
+  background: #007bff;
+  color: white;
+}
+
+.filter-chip {
+  border: 1px solid #d6d6d6;
+  background: white;
+  padding: 8px 18px;
+  border-radius: 40px;
+  font-size: 14px;
+  cursor: pointer;
+  margin: 4px;
+  transition: all 0.25s ease;
+  color: #444;
+}
+
+.filter-chip:hover {
+  border-color: #0d6efd;
+  color: #0d6efd;
+  transform: translateY(-2px);
+}
+
+.filter-chip.active {
+  background: #0d6efd;
+  color: white;
+  border-color: #0d6efd;
+  box-shadow: 0px 4px 10px rgba(13, 110, 253, 0.25);
 }
 
 /* ========================= FOOTER ========================= */
@@ -320,88 +439,163 @@ html {
   .modal-detail-img { width: 240px; }
 }
 
+/* ========================= LOGO NAVBAR ========================= */
 .logo-navbar {
-    height: 60px;     /* ukuran tinggi logo */
-    width: auto;      /* biar proporsional */
-    object-fit: contain;
+  height: 55px;
+  width: auto;
+  object-fit: contain;
 }
 
-.vehicle-card {
-    height: 260px;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    border-radius: 12px;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: 20px;
-    color: white;
-    overflow: hidden;
-    transition: 0.3s;
+.hero-small {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  color: #fff;
+  text-align: center;
 }
 
-/* Gelap tipis biar tulisan kebaca */
-.vehicle-card::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(0,0,0,0.3);
+.hero-small::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.45); /* biar teks lebih jelas */
 }
 
-/* Badge Biru */
-.vehicle-badge {
-    position: relative;
-    background: #007bff;
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-weight: bold;
-    font-size: 14px;
-    align-self: flex-start;
-    z-index: 2;
+.hero-small .hero-text {
+  position: relative;
+  z-index: 2;
+  margin-top: 80px;
 }
 
-/* Deskripsi */
-.vehicle-desc {
-    position: relative;
-    margin-top: 8px;
-    font-size: 14px;
-    z-index: 2;
+.hero-small .hero-text h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  text-shadow: 0px 4px 10px rgba(0,0,0,0.9);
 }
 
-/* Hover effect */
-.vehicle-card:hover {
-    transform: scale(1.03);
-    cursor: pointer;
+.section-title {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 8px;
 }
 
-.filter-btn.active {
+.section-title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 60px;
+  height: 5px;
+  background: #007bff; /* biru */
+  border-radius: 2px;
+}
+
+.section-title-center {
+  position: relative;
+  display: inline-block;
+  margin: 0 auto 40px;
+  padding-bottom: 10px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.section-title-center::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 50px;   /* panjang garis */
+  height: 3px;   /* ketebalan garis */
   background: #007bff;
-  color: white;
+  border-radius: 3px;
 }
 
-.filter-chip {
-    border: 1px solid #d6d6d6;
-    background: white;
-    padding: 8px 18px;
-    border-radius: 40px;
-    font-size: 14px;
-    cursor: pointer;
-    margin: 4px;
-    transition: all 0.25s ease;
-    color: #444;
+.section-title-center {
+  position: relative;
+  display: inline-block;
+  margin: 0 auto 10px;
+  padding-bottom: 10px;
+  font-weight: 700;
+  text-align: center;
 }
 
-.filter-chip:hover {
-    border-color: #0d6efd;
-    color: #0d6efd;
-    transform: translateY(-2px);
+.section-title-center::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: #007bff;
+  border-radius: 3px;
 }
 
-.filter-chip.active {
-    background: #0d6efd;
-    color: white;
-    border-color: #0d6efd;
-    box-shadow: 0px 4px 10px rgba(13, 110, 253, 0.25);
+.section-title-left {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 8px;
+  font-weight: 700;
+}
+
+.section-title-left::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 50px;
+  height: 3px;
+  background: #007bff;
+  border-radius: 3px;
+}
+
+.gallery-scroll {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  scroll-behavior: smooth;
+}
+
+.gallery-scroll::-webkit-scrollbar {
+  height: 6px;
+}
+
+.gallery-scroll::-webkit-scrollbar-thumb {
+  background: #0d6efd;
+  border-radius: 10px;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  color: #ffffffb6;
+  font-weight: bold;
+}
+
+.swiper-slide {
+  cursor: pointer;
+  transition: .3s;
+}
+
+.swiper-slide:hover {
+  transform: scale(1.05);
+}
+
+.gallery-img-home {
+  width: 100%;
+  height: 200px;     /* ✅ Tinggi fix biar tidak panjang */
+  object-fit: cover; /* ✅ Potong gambar dengan rapi */
+  border-radius: 12px;
+}
+
+.about-img {
+  width: 100%;        /* Biar tetap mengikuti lebar kolom */
+  max-width: 550px;   /* ✅ Atur lebar maksimal */
+  height: 400px;      /* ✅ Atur tinggi gambar */
+  object-fit: cover;  /* ✅ Biar gambar tetap rapi & tidak gepeng */
+  border-radius: 12px;
+  display: block;
+  margin: 0 auto;     /* ✅ Biar center di dalam kolom */
 }

@@ -18,7 +18,7 @@
 @include('landing.components.header')
 
 <!-- HERO -->
-<section class="hero hero-small" style="background-image: url('https://picsum.photos/1200/600?travel1');">
+<section class="hero hero-small" style="background-image: url('assets/image/home2.jpeg');">
   <div class="hero-text">
     <h1>Kendaraan</h1>
   </div>
@@ -26,7 +26,6 @@
 
   <!-- CARD KENDARAAN -->
   <div class="container py-5">
-    <h2 class="text-center fw-bold mb-4">Pilihan Kendaraan</h2>
 
     <div class="text-center mb-4">
     <button class="filter-chip active" data-filter="all">

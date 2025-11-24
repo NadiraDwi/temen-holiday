@@ -25,8 +25,6 @@
 <!-- GALLERY -->
 <div class="container py-5">
 
-    <h2 class="text-center fw-bold mb-4">Dokumentasi Perjalanan</h2>
-
     <div class="row g-4">
 
         @foreach ($galeri as $item)

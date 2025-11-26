@@ -41,35 +41,88 @@
 
   <div class="row g-4" id="vehicleContainer">
 
-    @foreach($vehicles as $v)
-    <div class="col-md-4 vehicle-item" data-category="{{ $v->id_kategori }}">
-      <div class="card shadow-sm">
+      @foreach($vehicles as $v)
+      <div class="col-md-4 vehicle-item" data-category="{{ $v->id_kategori }}">
+          <div class="vehicle-2-card">
 
-        <img src="{{ asset('storage/kendaraan/' . $v->gambar) }}"
-            class="card-img-top card-img-fixed"
-            alt="{{ $v->nama_kendaraan }}">
+              <div class="vehicle-2-img-wrapper">
+                  <img src="{{ asset('storage/kendaraan/' . $v->gambar) }}" alt="{{ $v->nama_kendaraan }}">
+              </div>
 
-        <div class="card-body">
-          <h5 class="card-title fw-bold">{{ $v->nama_kendaraan }}</h5>
+              <div class="vehicle-2-body">
+                  <h5 class="vehicle-2-title">{{ $v->nama_kendaraan }}</h5>
 
-          @if($v->tampilkan_harga)
-            <p class="text-muted">Harga: Rp {{ number_format($v->harga,0,',','.') }} / Hari</p>
-          @endif
+                  <p class="vehicle-2-capacity">
+                      <i class="bi bi-people-fill text-primary me-1"></i>
+                      Kapasitas: {{ $v->kapasitas }} orang
+                  </p>
 
-          <a href="#" class="more-link detail-trigger"
-            data-nama="{{ $v->nama_kendaraan }}"
-            data-harga="{{ $v->harga }}"
-            data-kapasitas="{{ $v->kapasitas }}"
-            data-fasilitas='@json(explode(",", $v->fasilitas))'
-            data-gambar="{{ asset('storage/kendaraan/' . $v->gambar) }}">
-            Detail
-          </a>
-        </div>
+                  <button 
+                      class="btn btn-primary vehicle-2-btn detail-trigger"
+                      data-nama="{{ $v->nama_kendaraan }}"
+                      data-id="{{ $v->id_vehicle }}"
+                      data-harga="{{ $v->harga }}"
+                      data-kapasitas="{{ $v->kapasitas }}"
+                      data-fasilitas='@json(explode(",", $v->fasilitas))'
+                      data-gambar="{{ asset('storage/kendaraan/' . $v->gambar) }}"
+                  >
+                      Detail
+                  </button>
+
+              </div>
+          </div>
       </div>
-    </div>
-    @endforeach
+      @endforeach
+
+  </div> <!-- row -->
 
   </div>
+</div>
+
+<!-- MODAL DETAIL -->
+<div class="modal fade" id="detailModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Detail Kendaraan</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+
+        <div class="row">
+          <div class="col-md-5">
+            <img id="detailGambar" class="img-fluid rounded" alt="">
+          </div>
+
+          <div class="col-md-7">
+
+            <h4 id="detailNama"></h4>
+
+            <p class="mt-2">
+              <i class="bi bi-people-fill text-primary"></i>
+              <span id="detailKapasitas"></span> orang
+            </p>
+
+            <p class="mt-2 fw-semibold">Fasilitas:</p>
+            <ul id="detailFasilitas"></ul>
+
+            <p class="mt-3 h5 text-success fw-bold">
+              Harga: <span id="detailHarga"></span>
+            </p>
+
+          </div>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+        <a id="btnPesanSekarang" href="#" class="btn btn-primary">Pesan Sekarang</a>
+      </div>
+
+    </div>
   </div>
 </div>
 
@@ -131,54 +184,6 @@
   </div>
 </footer>
 
-<!-- MODAL DETAIL -->
-<div class="modal fade" id="detailModal" tabindex="-1">
-  <div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content">
-
-      <div class="modal-header">
-        <h5 class="modal-title" id="modalNama">Detail Kendaraan</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-
-      <div class="modal-body">
-
-        <div class="row">
-
-          <div class="col-md-6">
-            <img id="modalGambar" src="" class="img-fluid rounded">
-          </div>
-
-          <div class="col-md-6">
-            <h4 id="modalNama2" class="fw-bold"></h4>
-
-            <p class="mt-2">
-              <i class="bi bi-cash-stack text-success me-2"></i>
-              <span id="modalHarga" class="fw-semibold"></span>
-            </p>
-
-            <p class="mt-3">
-              <i class="bi bi-people-fill text-primary me-2"></i>
-              Kapasitas:
-              <span id="modalKapasitas" class="fw-semibold"></span>
-            </p>
-
-            <p class="mt-3">
-              <i class="bi bi-card-checklist text-warning me-2"></i>
-              Fasilitas:
-            </p>
-            <ul id="modalFasilitas" class="mb-3"></ul>
-
-            <button class="btn btn-primary w-100 mt-3">Sewa Sekarang</button>
-          </div>
-
-        </div>
-      </div>
-
-    </div>
-  </div>
-</div>
-
 <!-- SCRIPT -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -188,30 +193,6 @@
   window.addEventListener("scroll", () => {
     navbar.classList.toggle("scrolled", window.scrollY > 50);
   });
-</script>
-
-<script>
-document.querySelectorAll(".detail-trigger").forEach(item => {
-    item.addEventListener("click", function(e) {
-        e.preventDefault();
-
-        document.getElementById("modalNama").textContent = this.dataset.nama;
-        document.getElementById("modalNama2").textContent = this.dataset.nama;
-        document.getElementById("modalGambar").src = this.dataset.gambar;
-
-        let harga = parseInt(this.dataset.harga).toLocaleString("id-ID");
-        document.getElementById("modalHarga").textContent = "Rp " + harga + " / hari";
-
-        document.getElementById("modalKapasitas").textContent = this.dataset.kapasitas + " orang";
-
-        let fasilitas = JSON.parse(this.dataset.fasilitas);
-        let list = document.getElementById("modalFasilitas");
-        list.innerHTML = "";
-        fasilitas.forEach(f => list.innerHTML += `<li>${f}</li>`);
-
-        new bootstrap.Modal(document.getElementById("detailModal")).show();
-    });
-});
 </script>
 
 <script>
@@ -231,6 +212,38 @@ document.querySelectorAll(".filter-chip").forEach(btn => {
             }
         });
 
+    });
+});
+</script>
+
+<script>
+document.querySelectorAll(".detail-trigger").forEach(btn => {
+    btn.addEventListener("click", function () {
+
+        let nama = this.dataset.nama;
+        let gambar = this.dataset.gambar;
+        let harga = this.dataset.harga;
+        let kapasitas = this.dataset.kapasitas;
+        let fasilitas = JSON.parse(this.dataset.fasilitas);
+        let id = this.dataset.id;
+
+        document.getElementById("detailNama").textContent = nama;
+        document.getElementById("detailGambar").src = gambar;
+
+        document.getElementById("detailHarga").textContent =
+            "Rp " + Number(harga).toLocaleString("id-ID") + " / Hari";
+
+        document.getElementById("detailKapasitas").textContent = kapasitas;
+
+        let ul = document.getElementById("detailFasilitas");
+        ul.innerHTML = "";
+        fasilitas.forEach(f => {
+            ul.innerHTML += `<li>${f}</li>`;
+        });
+
+        document.getElementById("btnPesanSekarang").href = "{{ url('/pesan') }}/" + id;
+
+        new bootstrap.Modal(document.getElementById("detailModal")).show();
     });
 });
 </script>

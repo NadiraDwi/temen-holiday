@@ -178,7 +178,6 @@
             <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
           </a>
           <ul class="pc-submenu">
-            <li class="pc-item"><a class="pc-link" href="/wisata/kategori">Kategori Wisata</a></li>
             <li class="pc-item"><a class="pc-link" href="/wisata/paket">Paket Wisata</a></li>
             <li class="pc-item"><a class="pc-link" href="/wisata/opentrip">Open Trip</a></li>
           </ul>

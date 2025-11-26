@@ -16,12 +16,16 @@ use Illuminate\Support\Facades\Route;
 Route::get('/galeri', [GaleriController::class, 'index'])->name('galeri');
 Route::get('/paket', [PaketController::class, 'index'])->name('paket');
 Route::get('/', [HomeController::class, 'index'])->name('/');
+
+//kendaraan-landing
 Route::get('/kendaraan', [KendaraanController::class, 'index'])->name('kendaraan');
+Route::get('/pesan/{id}', [KendaraanController::class, 'pesan'])->name('pesan.kendaraan');
+Route::post('/kendaraan/whatsapp', [KendaraanController::class, 'kirimWhatsApp'])->name('kendaraan.whatsapp');
+
 Route::get('/about', [AboutController::class, 'index'])->name('about');
 Route::get('/testimoni', [TestimoniController::class, 'index'])->name('testimoni');
 Route::post('/testimoni/store', [TestimoniController::class, 'store'])
     ->name('testimoni.store');
-
 
 Route::prefix('admin')->group(function () {
 

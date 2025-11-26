@@ -19,6 +19,9 @@ Route::get('/', [HomeController::class, 'index'])->name('/');
 Route::get('/kendaraan', [KendaraanController::class, 'index'])->name('kendaraan');
 Route::get('/about', [AboutController::class, 'index'])->name('about');
 Route::get('/testimoni', [TestimoniController::class, 'index'])->name('testimoni');
+Route::post('/testimoni/store', [TestimoniController::class, 'store'])
+    ->name('testimoni.store');
+
 
 Route::prefix('admin')->group(function () {
 

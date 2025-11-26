@@ -198,71 +198,27 @@
     <!-- LIST ULASAN -->
     <div class="row g-4">
 
-      <!-- ULASAN 1 -->
-      <div class="col-md-4">
-        <div class="p-4 shadow-sm rounded bg-white h-100">
-          <div class="d-flex align-items-center mb-3">
-            <img src="{{ asset('assets/image/avatar.jpg') }}" class="rounded-circle me-3" width="50" height="50">
-            <div>
-              <h6 class="fw-bold mb-0">Rizky Saputra</h6>
-              <div class="text-warning">
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-half"></i>
-              </div>
-            </div>
-          </div>
-          <p class="text-muted">
-            Pelayanannya ramah dan kendaraan nyaman banget. Perjalanan jadi lebih menyenangkan!
-          </p>
-        </div>
-      </div>
+      @foreach ($testimoni as $t)
+        <div class="col-md-4">
+          <div class="p-4 shadow-sm rounded bg-white h-100">
+            
+            <h5 class="fw-bold mb-2">{{ $t->nama_user }}</h5>
 
-      <!-- ULASAN 2 -->
-      <div class="col-md-4">
-        <div class="p-4 shadow-sm rounded bg-white h-100">
-          <div class="d-flex align-items-center mb-3">
-            <img src="{{ asset('assets/image/avatar.jpg') }}" class="rounded-circle me-3" width="50" height="50">
-            <div>
-              <h6 class="fw-bold mb-0">Dewi Lestari</h6>
-              <div class="text-warning">
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-              </div>
+            <div class="text-warning mb-2">
+                @for ($i = 1; $i <= 5; $i++)
+                    @if ($i <= $t->rating)
+                        <i class="bi bi-star-fill"></i>
+                    @else
+                        <i class="bi bi-star"></i>
+                    @endif
+                @endfor
             </div>
-          </div>
-          <p class="text-muted">
-            Driver profesional dan tepat waktu. Sangat rekomendasi untuk perjalanan keluarga!
-          </p>
-        </div>
-      </div>
 
-      <!-- ULASAN 3 -->
-      <div class="col-md-4">
-        <div class="p-4 shadow-sm rounded bg-white h-100">
-          <div class="d-flex align-items-center mb-3">
-            <img src="{{ asset('assets/image/avatar.jpg') }}" class="rounded-circle me-3" width="50" height="50">
-            <div>
-              <h6 class="fw-bold mb-0">Andi Pratama</h6>
-              <div class="text-warning">
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star"></i>
-              </div>
-            </div>
+            <p class="text-muted">{{ $t->pesan }}</p>
+
           </div>
-          <p class="text-muted">
-            Harga terjangkau dengan kualitas terbaik. Next time pasti order lagi!
-          </p>
         </div>
-      </div>
+      @endforeach
 
     </div>
 

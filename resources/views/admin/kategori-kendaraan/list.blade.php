@@ -29,18 +29,26 @@
     </button>
 </div>
 
-<div class="card">
-    <div class="card-body">
-        <table id="kategori-table" class="table table-striped table-bordered nowrap">
-            <thead>
-                <tr>
-                    <th width="60px" class="text-center">#</th>
-                    <th>Kategori</th>
-                    <th>Keterangan</th>
-                    <th width="200px" class="text-center">Action</th>
-                </tr>
-            </thead>
-        </table>
+<!-- Main Content -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive dt-responsive">
+                    <table id="kategori-table" class="table table-striped table-bordered nowrap">
+                        <thead>
+                            <tr>
+                                <th class="text-center" width="60px">#</th>
+                                <th class="">Kategori</th>
+                                <th class="">Keterangan</th>
+                                <th width="200px" class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+
+            </div>
+        </div>
     </div>
 </div>
 
@@ -113,10 +121,11 @@
 @endsection
 
 @push('custom-js')
-<script src="{{ asset('assets/js/jquery-3.7.0.min.js') }}"></script>
-<script src="{{ asset('assets/js/plugins/jquery.dataTables.min.js') }}"></script>
-<script src="{{ asset('assets/js/plugins/dataTables.bootstrap5.min.js') }}"></script>
-<script src="{{ asset('assets/js/plugins/sweetalert2.all.min.js') }}"></script>
+<script src="{{ asset('assets') }}/js/jquery-3.7.0.min.js"></script>
+<script src="{{ asset('assets') }}/js/plugins/jquery.dataTables.min.js"></script>
+<script src="{{ asset('assets') }}/js/plugins/dataTables.bootstrap5.min.js"></script>
+<script src="{{ asset('assets') }}/js/plugins/sweetalert2.all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <script>
 $('#kategori-table').DataTable({

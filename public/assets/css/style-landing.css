@@ -1,183 +1,233 @@
-/* ========================= GLOBAL ========================= */
-body {
-  font-family: Arial, sans-serif;
-  background-color: #ffffff;
+/* ============== RESET / ROOT ============== */
+:root{
+  --bg: #ffffff;
+  --glass-bg: rgba(255,255,255,0.2);
+  --glass-bg-scrolled: rgba(255,255,255,0.95);
+  --primary: #0d6efd;
+  --accent: #007bff;
+  --muted: #666;
+  --text-dark: #000;
+  --text-light: #fff;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --shadow-soft: 0 4px 12px rgba(0,0,0,0.15);
+  --glass-blur: 10px;
+  --navbar-height: 65px;
+  --transition-fast: 0.25s ease;
+  --transition: 0.3s ease;
+  --max-content-width: 1200px;
+  --container-pad: 1rem;
+  --font-base: 16px;
 }
 
-html {
-  scroll-behavior: smooth;
+*{box-sizing: border-box}
+html{font-size: var(--font-base); scroll-behavior: smooth}
+body{
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: #222;
+  margin: 0;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
 }
 
-/* ========================= NAVBAR (GLASS + SCROLL) ========================= */
-#mainNavbar {
+/* ============== LAYOUT CONTAINERS ============== */
+.container {
+  max-width: var(--max-content-width);
+  margin: 0 auto;
+  padding: 0 var(--container-pad);
+}
+
+/* ============== NAVBAR (GLASS + SCROLL) ============== */
+#mainNavbar{
   position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
   z-index: 9999;
-  height: 65px;
-  padding: 15px 0;
-  background: rgba(255,255,255,0.2);
-  backdrop-filter: blur(10px);
-  transition: 0.3s ease;
+  height: var(--navbar-height);
+  padding: calc(var(--navbar-height) * 0.23) 0;
+  display: flex;
+  align-items: center;
+  transition: all var(--transition);
+  background: var(--bg);
 }
 
-#mainNavbar .nav-link,
-#mainNavbar .navbar-brand {
-  color: #ffffff !important;
+/* brand & links style */
+#mainNavbar .navbar-brand,
+#mainNavbar .nav-link{
+  color: var(--text-dark) !important;
   font-weight: 700;
-  transition: 0.3s ease;
+  transition: color var(--transition);
 }
 
-#mainNavbar .nav-link:hover {
-  color: #0d6efd !important;
-}
+/* hover & active */
+#mainNavbar .nav-link:hover{ color: var(--primary) !important }
+#mainNavbar .nav-link.active{ color: var(--primary) !important }
 
-#mainNavbar.scrolled {
-  background: rgba(255,255,255,0.95) !important;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+/* scrolled state */
+#mainNavbar.scrolled{
+  background: var(--glass-bg-scrolled) !important;
+  box-shadow: var(--shadow-soft);
   padding: 8px 0;
 }
-
 #mainNavbar.scrolled .nav-link,
-#mainNavbar.scrolled .navbar-brand {
-  color: #000000 !important;
+#mainNavbar.scrolled .navbar-brand{
+  color: var(--text-dark) !important;
 }
+#mainNavbar.scrolled .nav-link:hover{ color: var(--primary) !important }
 
-#mainNavbar.scrolled .nav-link:hover {
-  color: #0d6efd !important;
-}
+/* logo */
+.logo-navbar{ height: 50px; width: auto; object-fit: contain; }
 
-#mainNavbar .nav-link.active {
-  color: #0d6efd !important;
-}
-
-/* ========================= HERO (FULL) ========================= */
-.hero {
+/* ============== HERO (FULL) ============== */
+.hero{
   position: relative;
   height: 100vh;
+  min-height: 520px;
   background-size: cover;
   background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Overlay gelap biar teks kontras */
-.hero::before {
+/* dark overlay for contrast */
+.hero::before{
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.45);
+  background: rgba(0,0,0,0.45);
+  pointer-events: none;
 }
 
-.hero-content {
+.hero-content{
   position: relative;
   z-index: 2;
-  color: white;
-  max-width: 750px;
+  color: var(--text-light);
+  max-width: 46rem; /* keeps text readable */
   margin: 0 auto;
   text-align: center;
-  margin-top: 60px; /* ✅ Agar judul tidak kepotong */
+  padding-top: calc(var(--navbar-height) + 0.5rem); /* ensure not cut by navbar */
 }
 
-.hero-title {
-  font-size: 56px;
+.hero-title{
+  font-size: clamp(2rem, 4.5vw, 3.5rem);
+  line-height: 1.02;
   font-weight: 800;
+  margin: 0 0 0.5rem 0;
   text-shadow: 0px 6px 14px rgba(0,0,0,0.9);
 }
 
-/* Slogan elegan */
-.hero-subtitle {
-  font-size: 18px;
-  background: rgba(0, 0, 0, 0.55);
-  padding: 10px 25px;
+.hero-subtitle{
+  font-size: clamp(0.95rem, 1.6vw, 1.125rem);
+  display: inline-block;
+  background: rgba(0,0,0,0.55);
+  padding: 0.5rem 1.25rem;
   border-radius: 30px;
-  margin: 20px 0 35px;
+  margin: 0.9rem 0 1.5rem;
   font-weight: 500;
 }
 
-/* Search bar */
-.hero-search {
+/* search */
+.hero-search{
   width: 100%;
-  max-width: 550px;
+  max-width: 34.5rem;
   margin: 0 auto;
   position: relative;
 }
 
-.search-input {
+.search-input{
   width: 100%;
   border-radius: 30px;
-  padding: 12px 45px 12px 20px;
+  padding: 0.75rem 2.75rem 0.75rem 1.25rem;
   border: none;
+  font-size: 1rem;
+  outline: none;
 }
 
-.search-icon {
+.search-icon{
   position: absolute;
-  right: 18px;
+  right: 0.9rem;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 18px;
-  color: #666;
+  font-size: 1.125rem;
+  color: var(--muted);
   cursor: pointer;
 }
 
-/* ========================= HERO SMALL (TIDAK DIUBAH ✅) ========================= */
-.hero-small {
+/* ============== HERO SMALL ============== */
+.hero-small{
   height: 35vh;
+  min-height: 200px;
   background-size: cover;
   background-position: center;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-light);
+  text-align: center;
+}
+.hero-small::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+}
+.hero-small .hero-text{
+  position: relative;
+  z-index: 2;
+  margin-top: 3.5rem;
+}
+.hero-small .hero-text h1{
+  font-size: clamp(1.5rem, 3.2vw, 2.5rem);
+  font-weight: 700;
+  text-shadow: 0px 4px 10px rgba(0,0,0,0.9);
+  margin: 0;
 }
 
-.hero-small .hero-text h1 {
-  font-size: 3rem;
-  font-weight: bold;
-}
-
-/* ========================= BUTTONS ========================= */
-.btn-primary {
+/* ============== BUTTONS ============== */
+.btn-primary{
   border-radius: 8px;
   font-weight: 600;
-  padding: 8px 18px;
+  padding: 0.5rem 1.125rem;
+  transition: background var(--transition-fast), transform var(--transition-fast);
 }
+.btn-primary:hover{ background-color: #0056d2 !important }
 
-.btn-primary:hover {
-  background-color: #0056d2 !important;
-}
-
-.more-link {
+/* more-link */
+.more-link{
   font-weight: 600;
   font-size: 1.05rem;
-  color: #000 !important;
+  color: var(--text-dark) !important;
   text-decoration: underline;
   cursor: pointer;
-  transition: 0.3s ease;
+  transition: all var(--transition-fast);
 }
+.more-link:hover{ color: #333 !important; text-decoration-color: #333; transform: translateX(4px) }
 
-.more-link:hover {
-  color: #333 !important;
-  text-decoration-color: #333;
-  margin-left: 4px;
-}
-
-/* ========================= GALLERY CARD ========================= */
-.gallery-card {
+/* ============== GALLERY CARD ============== */
+.gallery-card{
   position: relative;
   overflow: hidden;
-  border-radius: 10px;
+  border-radius: var(--radius-md);
   cursor: pointer;
   background: #fff;
+  transition: transform var(--transition);
 }
-
-.gallery-card img {
+.gallery-card img{
   width: 100%;
   height: 220px;
   object-fit: cover;
-  transition: transform .35s ease, filter .35s ease;
+  transition: transform 0.35s ease, filter 0.35s ease;
+  display: block;
 }
+.gallery-card:hover{ transform: translateY(-6px) }
+.gallery-card:hover img{ transform: scale(1.08); filter: brightness(0.6) }
 
-.gallery-card:hover img {
-  transform: scale(1.08);
-  filter: brightness(0.6);
-}
-
-.gallery-card .overlay {
+.gallery-card .overlay{
   position: absolute;
   inset: 0;
   display: flex;
@@ -186,111 +236,40 @@ html {
   padding: 14px;
   background: linear-gradient(to top, rgba(0,0,0,0.45), transparent);
   opacity: 0;
-  transition: opacity .25s ease;
+  transition: opacity 0.25s ease;
 }
-
-.gallery-card:hover .overlay {
-  opacity: 1;
-}
-
-.gallery-card .overlay .title {
-  color: #ffffff;
+.gallery-card:hover .overlay{ opacity: 1 }
+.gallery-card .overlay .title{
+  color: var(--text-light);
   font-weight: 700;
   font-size: 1rem;
   text-shadow: 0 2px 6px rgba(0,0,0,0.6);
   transform: translateY(6px);
   opacity: 0;
-  transition: transform .25s ease, opacity .25s ease;
+  transition: transform 0.25s ease, opacity 0.25s ease;
 }
+.gallery-card:hover .overlay .title{ transform: translateY(0); opacity: 1 }
 
-.gallery-card:hover .overlay .title {
-  transform: translateY(0);
-  opacity: 1;
-}
+/* fixed image style for vehicle card / gallery */
+.card-img-fixed{ width: 100%; height: 230px; object-fit: cover; object-position: center }
 
-/* Kartu kendaraan */
-.card-img-fixed {
-  width: 100%;
-  height: 230px;
-  object-fit: cover;
-  object-position: center;
-}
+/* ============== GALLERY MODAL ============== */
+#galleryModal .modal-content{ border-radius: var(--radius-lg); padding: 1.5rem }
+#galleryModal .modal-header{ display: flex; flex-direction: column; align-items: center; border-bottom: 0; padding-bottom: 0.25rem }
+#galleryModal .btn-close{ position: absolute; right: 0.75rem; top: 0.75rem }
+#galleryModal .title-underline{ width: 80px; height: 4px; background: var(--primary); border-radius: 3px; margin-top: 6px }
+#modalImage{ width: 100%; max-height: 80vh; object-fit: contain; border-radius: 8px; display: block; margin: 0 auto }
 
-/* ========================= GALLERY MODAL ========================= */
-#galleryModal .modal-content {
-  border-radius: 14px;
-  padding: 1.5rem;
-}
+/* ============== DETAIL MODAL ============== */
+.modal-detail-img{ width: 320px; height: auto; object-fit: contain; display:block; margin: 0 auto }
+.modal-title-center{ text-align: center; font-size: 1.375rem; font-weight: 600; margin-bottom: 0.25rem }
+.modal-title-line{ width: 80px; height: 3px; background: var(--accent); margin: 8px auto 18px auto; border-radius: 4px }
+.detail-icon{ width: 20px; margin-right: 6px }
+.detail-list li{ margin-bottom: 6px }
+.section-divider{ border-top: 1px solid #ccc; margin: 15px 0 }
 
-#galleryModal .modal-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border-bottom: 0;
-  padding-bottom: .25rem;
-}
-
-#galleryModal .btn-close {
-  position: absolute;
-  right: 0.75rem;
-  top: 0.75rem;
-}
-
-#galleryModal .title-underline {
-  width: 80px;
-  height: 4px;
-  background: #0d6efd;
-  border-radius: 3px;
-  margin-top: 6px;
-}
-
-#modalImage {
-  width: 100%;
-  max-height: 80vh;
-  object-fit: contain;
-  border-radius: 8px;
-  display: block;
-  margin: 0 auto;
-}
-
-/* ========================= DETAIL MODAL ========================= */
-.modal-detail-img {
-  width: 320px;
-  height: auto;
-  object-fit: contain;
-}
-
-.modal-title-center {
-  text-align: center;
-  font-size: 22px;
-  font-weight: 600;
-  margin-bottom: 5px;
-}
-
-.modal-title-line {
-  width: 80px;
-  height: 3px;
-  background: #007bff;
-  margin: 8px auto 18px auto;
-  border-radius: 4px;
-}
-
-.detail-icon {
-  width: 20px;
-  margin-right: 6px;
-}
-
-.detail-list li {
-  margin-bottom: 6px;
-}
-
-.section-divider {
-  border-top: 1px solid #ccc;
-  margin: 15px 0;
-}
-
-/* ========================= VEHICLE CARD ========================= */
-.vehicle-card {
+/* ============== VEHICLE CARD ============== */
+.vehicle-card{
   height: 260px;
   background-size: cover;
   background-position: center;
@@ -300,302 +279,182 @@ html {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 20px;
-  color: white;
+  padding: 1.25rem;
+  color: var(--text-light);
   overflow: hidden;
-  transition: 0.3s;
+  transition: transform var(--transition);
 }
-
-.vehicle-card::before {
+.vehicle-card::before{
   content: "";
   position: absolute;
   inset: 0;
   background: rgba(0,0,0,0.3);
 }
 
-.vehicle-badge {
+.vehicle-badge{
   position: relative;
-  background: #007bff;
-  padding: 6px 14px;
+  background: var(--accent);
+  padding: 0.4rem 0.875rem;
   border-radius: 20px;
   font-weight: bold;
-  font-size: 14px;
-  color: white;
-  display: inline-block; /* ✅ Biar ngikutin panjang teks */
-  width: auto; /* ✅ Ngepas sesuai teks */
-  max-width: fit-content; /* ✅ Tambahan biar gak melebar */
+  font-size: 0.875rem;
+  color: var(--text-light);
+  display: inline-block;        /* ⬅️ WAJIB */
+  width: fit-content;           /* ⬅️ BIAR NGIKUTI TEKS */
+  max-width: 100%;              /* ⬅️ biar ga jebol */
   z-index: 2;
 }
 
-.vehicle-desc {
-  position: relative;
-  margin-top: 8px;
-  font-size: 14px;
-  z-index: 2;
-}
+.vehicle-desc{ position: relative; margin-top: 0.5rem; font-size: 0.875rem; z-index: 2 }
+.vehicle-card:hover{ transform: scale(1.03); cursor: pointer }
 
-.vehicle-card:hover {
-  transform: scale(1.03);
-  cursor: pointer;
-}
-
-.filter-btn.active {
-  background: #007bff;
-  color: white;
-}
-
-.filter-chip {
+/* filter chips */
+.filter-btn.active{ background: var(--accent); color: white }
+.filter-chip{
   border: 1px solid #d6d6d6;
   background: white;
-  padding: 8px 18px;
+  padding: 0.45rem 1.125rem;
   border-radius: 40px;
-  font-size: 14px;
+  font-size: 0.875rem;
   cursor: pointer;
-  margin: 4px;
+  margin: 0.25rem;
   transition: all 0.25s ease;
   color: #444;
 }
-
-.filter-chip:hover {
-  border-color: #0d6efd;
-  color: #0d6efd;
-  transform: translateY(-2px);
-}
-
-.filter-chip.active {
-  background: #0d6efd;
+.filter-chip:hover{ border-color: var(--primary); color: var(--primary); transform: translateY(-2px) }
+.filter-chip.active{
+  background: var(--primary);
   color: white;
-  border-color: #0d6efd;
-  box-shadow: 0px 4px 10px rgba(13, 110, 253, 0.25);
+  border-color: var(--primary);
+  box-shadow: 0px 4px 10px rgba(13,110,253,0.25);
 }
 
-/* ========================= FOOTER ========================= */
-.footer {
-  background-color: #000000;
-  color: #fff;
+/* ============== FOOTER ============== */
+.footer{ background-color: #000; color: #fff; padding: 2rem 0 }
+.footer-brand{ font-size: 1.125rem; font-weight: 700; letter-spacing: 1px }
+.footer-links{ list-style: none; padding: 0; margin: 0 }
+.footer-links li{ margin-bottom: 8px }
+.footer-links a{ color: #e3e3e3; text-decoration: none; transition: color var(--transition) }
+.footer-links a:hover{ color: var(--primary) }
+.social-icon{
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 38px; height: 38px; background: #ffffff22; border-radius: 50%; font-size: 1.2rem; color: white; transition: all var(--transition)
+}
+.social-icon:hover{ background: var(--primary); color: var(--text-dark) }
+.footer-line{ border-top: 1px solid rgba(255,255,255,0.3); margin-top: 1rem }
+.newsletter-input{ border-radius: 8px; height: 45px; padding: 0 0.75rem }
+
+/* ============== TITLES & SECTION STYLES ============== */
+.section-title{ position: relative; display: inline-block; padding-bottom: 8px }
+.section-title::after{ content: ""; position: absolute; left: 0; bottom: 0; width: 60px; height: 5px; background: var(--accent); border-radius: 2px }
+
+.section-title-center{
+  position: relative; display: inline-block; margin: 0 auto 1rem; padding-bottom: 10px; font-weight: 700; text-align: center;
+}
+.section-title-center::after{
+  content: ""; position: absolute; left: 50%; bottom: 0; transform: translateX(-50%);
+  width: 60px; height: 3px; background: var(--accent); border-radius: 3px;
+}
+.section-title-left{ position: relative; display: inline-block; padding-bottom: 8px; font-weight: 700 }
+.section-title-left::after{ content: ""; position: absolute; left: 0; bottom: 0; width: 50px; height: 3px; background: var(--accent); border-radius: 3px }
+
+/* ============== GALLERY SCROLL / SWIPER ============== */
+.gallery-scroll{
+  display: flex; gap: 1rem; overflow-x: auto; padding-bottom: 0.625rem;
+  scroll-behavior: smooth; -webkit-overflow-scrolling: touch;
+}
+/* scrollbar */
+.gallery-scroll::-webkit-scrollbar{ height: 6px }
+.gallery-scroll::-webkit-scrollbar-thumb{ background: var(--primary); border-radius: 10px }
+.gallery-scroll{ scrollbar-width: thin; scrollbar-color: var(--primary) transparent }
+
+/* swiper controls */
+.swiper-button-prev, .swiper-button-next{ color: #ffffffb6; font-weight: bold }
+.swiper-slide{ cursor: pointer; transition: transform 0.3s }
+.swiper-slide:hover{ transform: scale(1.05) }
+
+.gallery-img-home{ width: 100%; height: 200px; object-fit: cover; border-radius: 12px }
+
+/* about image helper */
+.about-img{ width: 100%; max-width: 550px; height: 400px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto }
+
+/* ============== RESPONSIVE ============== */
+/* Large screens (>=1200px) - default rules already handle */
+@media (max-width: 1200px){
+  .hero-content{ max-width: 42rem }
+  .card-img-fixed{ height: 210px }
 }
 
-.footer-brand {
-  font-size: 1.4rem;
-  font-weight: 700;
-  letter-spacing: 1px;
+/* Medium (<=992px) */
+@media (max-width: 992px){
+  #mainNavbar{ height: 60px; padding: 10px 0 }
+  .hero{ min-height: 440px }
+  .hero-content{ padding-top: calc(var(--navbar-height) * 0.6) }
+  .gallery-card img{ height: 200px }
+  #modalImage{ max-height: 60vh }
+  .modal-detail-img{ width: 280px }
+  .gallery-img-home{ height: 180px }
 }
 
-.footer-links {
-  list-style: none;
-  padding: 0;
+/* Tablet (<=768px) */
+@media (max-width: 768px){
+  :root{ --navbar-height: 58px }
+  .logo-navbar{ height: 38px }
+  .hero{ min-height: 380px }
+  .hero-title{ font-size: clamp(1.6rem, 5.4vw, 2.2rem) }
+  .hero-subtitle{ padding: 0.45rem 1rem }
+  .card-img-fixed{ height: 180px }
+  .vehicle-card{ height: 220px; padding: 1rem }
+  .about-img{ height: 300px }
+  .gallery-img-home{ height: 150px }
+  .filter-chip{ padding: 0.35rem 0.9rem; font-size: 0.8125rem }
+  .modal-detail-img{ width: 220px }
 }
 
-.footer-links li {
-  margin-bottom: 8px;
+/* Mobile (<=576px) */
+@media (max-width: 576px){
+  #mainNavbar{ height: 56px; padding: 8px 0 }
+  .logo-navbar{ height: 38px }
+  .hero{ height: auto; min-height: 260px; padding: 3.5rem 0 2rem }
+  .hero-content{ margin-top: 0; padding-top: 0 }
+  .hero-title{ font-size: 1rem; line-height: 1.1 }
+  .hero-subtitle{ font-size: 0.9rem; padding: 0.4rem 0.8rem }
+  .hero-search{ max-width: 100% }
+  .gallery-card img{ height: 140px }
+  .card-img-fixed{ height: 140px }
+  #modalImage{ max-height: 45vh }
+  .modal-detail-img{ width: 200px }
+  .about-img{ height: 220px; max-width: 100% }
+  .vehicle-card{ height: 200px; padding: 0.9rem }
+  .gallery-img-home{ height: 140px }
+  .section-title-center{ margin-bottom: 10px }
 }
 
-.footer-links a {
-  color: #e3e3e3;
-  text-decoration: none;
-  transition: 0.3s;
-}
+/* ============== UTILITY ============== */
+.text-center{ text-align: center }
+.d-block{ display: block }
+.rounded{ border-radius: var(--radius-md) }
+.mr-1{ margin-right: .25rem }
+.mb-1{ margin-bottom: .5rem }
 
-.footer-links a:hover {
-  color: #0d6efd;
-}
+/* ============== NOTES ==============
+ - If your JS toggles #mainNavbar.scrolled on scroll, keep that as-is.
+ - Avoid inline heights on hero elements in HTML to preserve responsiveness.
+ - To change primary color, edit --primary / --accent in :root.
+===================================== */
 
-.social-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 38px;
-  height: 38px;
-  background: #ffffff22;
-  border-radius: 50%;
-  font-size: 1.2rem;
-  color: white;
-  transition: 0.3s;
-}
-
-.social-icon:hover {
-  background: #0d6efd;
-  color: #000;
-}
-
-.footer-line {
-  border-top: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-.newsletter-input {
-  border-radius: 8px;
-  height: 45px;
-}
-
-/* ========================= RESPONSIVE ========================= */
-@media (max-width: 992px) {
-  .gallery-card img { height: 200px; }
-  #modalImage { max-height: 60vh; }
-}
-
-@media (max-width: 576px) {
-  .gallery-card img { height: 140px; }
-  #modalImage { max-height: 45vh; }
-  .modal-detail-img { width: 240px; }
-}
-
-/* ========================= LOGO NAVBAR ========================= */
-.logo-navbar {
-  height: 55px;
-  width: auto;
-  object-fit: contain;
-}
-
-.hero-small {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  color: #fff;
-  text-align: center;
-}
-
-.hero-small::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.45); /* biar teks lebih jelas */
-}
-
-.hero-small .hero-text {
-  position: relative;
-  z-index: 2;
-  margin-top: 80px;
-}
-
-.hero-small .hero-text h1 {
-  font-size: 3rem;
-  font-weight: 700;
-  text-shadow: 0px 4px 10px rgba(0,0,0,0.9);
-}
-
-.section-title {
-  position: relative;
-  display: inline-block;
-  padding-bottom: 8px;
-}
-
-.section-title::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 60px;
-  height: 5px;
-  background: #007bff; /* biru */
-  border-radius: 2px;
-}
-
-.section-title-center {
-  position: relative;
-  display: inline-block;
-  margin: 0 auto 40px;
-  padding-bottom: 10px;
-  font-weight: 700;
-  text-align: center;
-}
-
-.section-title-center::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  transform: translateX(-50%);
-  width: 50px;   /* panjang garis */
-  height: 3px;   /* ketebalan garis */
-  background: #007bff;
-  border-radius: 3px;
-}
-
-.section-title-center {
-  position: relative;
-  display: inline-block;
-  margin: 0 auto 10px;
-  padding-bottom: 10px;
-  font-weight: 700;
-  text-align: center;
-}
-
-.section-title-center::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 3px;
-  background: #007bff;
-  border-radius: 3px;
-}
-
-.section-title-left {
-  position: relative;
-  display: inline-block;
-  padding-bottom: 8px;
-  font-weight: 700;
-}
-
-.section-title-left::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 50px;
-  height: 3px;
-  background: #007bff;
-  border-radius: 3px;
-}
-
-.gallery-scroll {
-  display: flex;
-  gap: 16px;
-  overflow-x: auto;
-  padding-bottom: 10px;
-  scroll-behavior: smooth;
-}
-
-.gallery-scroll::-webkit-scrollbar {
-  height: 6px;
-}
-
-.gallery-scroll::-webkit-scrollbar-thumb {
-  background: #0d6efd;
-  border-radius: 10px;
-}
-
-.swiper-button-prev,
-.swiper-button-next {
-  color: #ffffffb6;
-  font-weight: bold;
-}
-
-.swiper-slide {
-  cursor: pointer;
-  transition: .3s;
-}
-
-.swiper-slide:hover {
-  transform: scale(1.05);
-}
-
-.gallery-img-home {
-  width: 100%;
-  height: 200px;     /* ✅ Tinggi fix biar tidak panjang */
-  object-fit: cover; /* ✅ Potong gambar dengan rapi */
-  border-radius: 12px;
-}
-
-.about-img {
-  width: 100%;        /* Biar tetap mengikuti lebar kolom */
-  max-width: 550px;   /* ✅ Atur lebar maksimal */
-  height: 400px;      /* ✅ Atur tinggi gambar */
-  object-fit: cover;  /* ✅ Biar gambar tetap rapi & tidak gepeng */
-  border-radius: 12px;
-  display: block;
-  margin: 0 auto;     /* ✅ Biar center di dalam kolom */
+/* _____________
+   FULL WIDTH ON MOBILE
+   ------------ */
+@media (max-width: 991px) {
+    .navbar-collapse {
+        position: absolute;
+        top: 56px;           /* sesuaikan tinggi navbar-mu */
+        left: 0;
+        width: 100%;
+        background: #fff !important;
+        padding: 1.2rem;
+        border-radius: 0 !important;
+        z-index: 9999;
+    }
 }

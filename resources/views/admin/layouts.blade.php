@@ -179,7 +179,7 @@
           </a>
           <ul class="pc-submenu">
             <li class="pc-item"><a class="pc-link" href="/wisata/paket">Paket Wisata</a></li>
-            <li class="pc-item"><a class="pc-link" href="/wisata/opentrip">Open Trip</a></li>
+            <li class="pc-item"><a class="pc-link" href="{{ route('trip.index') }}">Open Trip</a></li>
           </ul>
         </li>
 

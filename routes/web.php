@@ -4,6 +4,9 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\CategoryKendaraanController;
 use App\Http\Controllers\Admin\KendaraanController as AdminKendaraanController;
 use App\Http\Controllers\Admin\GaleriController as AdminGaleriController;
+use App\Http\Controllers\Admin\OpenTripController;
+use App\Http\Controllers\Admin\OpenTripDestinationController;
+use App\Http\Controllers\Admin\OpenTripScheduleController;
 use App\Http\Controllers\Landing\GaleriController;
 use App\Http\Controllers\Landing\HomeController;
 use App\Http\Controllers\Landing\KendaraanController;
@@ -67,6 +70,7 @@ Route::prefix('admin')->group(function () {
             Route::delete('/delete', [CategoryKendaraanController::class, 'delete'])->name('delete');
         });
 
+        //galeri admin
         Route::prefix('galeri')->name('galeri.')->group(function () {
 
             Route::get('/', [AdminGaleriController::class, 'index'])->name('index');
@@ -78,6 +82,41 @@ Route::prefix('admin')->group(function () {
             Route::post('/update/{id}', [AdminGaleriController::class, 'update'])->name('update');
 
             Route::delete('/delete', [AdminGaleriController::class, 'delete'])->name('delete');
+        });
+
+        //open trip admin
+        Route::prefix('trip')->name('trip.')->group(function () {
+
+            Route::get('/', [OpenTripController::class, 'index'])->name('index');
+            Route::get('/list', [OpenTripController::class, 'list'])->name('list');
+            Route::get('/create', [OpenTripController::class, 'create'])->name('create');
+            Route::post('/store', [OpenTripController::class, 'store'])->name('store');
+            
+            Route::get('/{id}/edit', [OpenTripController::class, 'edit'])->name('edit');
+            Route::put('/{id}', [OpenTripController::class, 'update'])->name('update');
+            Route::delete('/delete/{id}', [OpenTripController::class, 'destroy'])->name('destroy');
+            Route::get('/detail/{id}', [OpenTripController::class, 'detail'])->name('detail');
+
+            // Destinasi
+            Route::post('/destinasi/store', [OpenTripDestinationController::class, 'store'])
+                ->name('destinasi.store');
+            Route::delete('/destinasi/delete/{id}', [OpenTripDestinationController::class, 'delete'])
+                ->name('destinasi.delete');
+
+            // Jadwal
+            Route::post('/jadwal/store', [OpenTripScheduleController::class, 'store'])
+                ->name('jadwal.store');
+            Route::delete('/jadwal/delete/{id}', [OpenTripScheduleController::class, 'delete'])
+                ->name('jadwal.delete');
+
+            // ITINERARY
+            Route::post('/itinerary/store', [OpenTripController::class, 'storeItinerary'])->name('itinerary.store');
+            Route::delete('/itinerary/delete/{id}', [OpenTripController::class, 'deleteItinerary'])->name('itinerary.delete');
+
+            // ITINERARY ITEM
+            Route::post('/itinerary-item/store', [OpenTripController::class, 'storeItineraryItem'])->name('itinerary.item.store');
+            Route::delete('/itinerary-item/delete/{id}', [OpenTripController::class, 'deleteItineraryItem'])->name('itinerary.item.delete');
+
         });
 
     });

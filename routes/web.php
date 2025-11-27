@@ -18,6 +18,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/galeri', [GaleriController::class, 'index'])->name('galeri');
 Route::get('/paket', [PaketController::class, 'index'])->name('paket');
+
+// Open Trip Detail
+Route::get('/paket/{id}', [PaketController::class, 'detail'])->name('paket.detail');
+
 Route::get('/', [HomeController::class, 'index'])->name('/');
 
 //kendaraan-landing

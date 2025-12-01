@@ -15,7 +15,7 @@ class PaketController extends Controller
 
     public function detail($id)
     {
-        $trip = OpenTrip::with(['destinations', 'schedules', 'itineraries.items', 'contacts'])
+        $trip = OpenTrip::with(['destinations', 'schedules', 'itineraries.items'])
             ->findOrFail($id);
 
         // fasilitas = kolom include dipisah berdasarkan koma

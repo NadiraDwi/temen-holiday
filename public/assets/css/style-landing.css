@@ -81,80 +81,106 @@ body{
 /* logo */
 .logo-navbar{ height: 50px; width: auto; object-fit: contain; }
 
-/* ============== HERO (FULL) ============== */
-.hero{
+
+/* ===============================
+   HERO SLIDE (ONLY BG SLIDES)
+   TEXT & SEARCH FIXED
+=============================== */
+
+/* Wrapper untuk seluruh hero */
+.hero-wrapper {
   position: relative;
   height: 100vh;
-  min-height: 520px;
+  overflow: hidden;
+}
+
+/* Background slide (gambar saja yang berubah) */
+.hero-bg {
+  height: 100vh;
+  width: 100%;
   background-size: cover;
   background-position: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  filter: brightness(65%);
 }
 
-/* dark overlay for contrast */
-.hero::before{
-  content: "";
+/* Overlay fixed: tetap di tempat meskipun slide berganti */
+.hero-overlay {
   position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.45);
-  pointer-events: none;
-}
-
-.hero-content{
-  position: relative;
-  z-index: 2;
-  color: var(--text-light);
-  max-width: 46rem; /* keeps text readable */
-  margin: 0 auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 900px;
   text-align: center;
-  padding-top: calc(var(--navbar-height) + 0.5rem); /* ensure not cut by navbar */
+  z-index: 10;
+  color: #fff;
+  padding: 0 20px;
 }
 
-.hero-title{
-  font-size: clamp(2rem, 4.5vw, 3.5rem);
-  line-height: 1.02;
+/* Title */
+.hero-title {
+  font-size: clamp(2rem, 5vw, 4rem);
   font-weight: 800;
-  margin: 0 0 0.5rem 0;
-  text-shadow: 0px 6px 14px rgba(0,0,0,0.9);
+  margin-bottom: 10px;
+  text-shadow: 0 4px 12px rgba(0,0,0,0.65);
 }
 
-.hero-subtitle{
-  font-size: clamp(0.95rem, 1.6vw, 1.125rem);
-  display: inline-block;
-  background: rgba(0,0,0,0.55);
-  padding: 0.5rem 1.25rem;
-  border-radius: 30px;
-  margin: 0.9rem 0 1.5rem;
-  font-weight: 500;
+/* Subtitle */
+.hero-subtitle {
+  font-size: 1.1rem;
+  color: #f2f2f2;
+  margin-bottom: 25px;
+  text-shadow: 0 3px 10px rgba(0,0,0,0.6);
 }
 
-/* search */
-.hero-search{
-  width: 100%;
-  max-width: 34.5rem;
-  margin: 0 auto;
+/* Search Container */
+.search-container {
   position: relative;
+  width: 90%;
+  max-width: 650px;
+  margin: 0 auto;
 }
 
-.search-input{
+.search-input {
   width: 100%;
+  padding: 14px 45px 14px 18px;
   border-radius: 30px;
-  padding: 0.75rem 2.75rem 0.75rem 1.25rem;
   border: none;
   font-size: 1rem;
   outline: none;
 }
 
-.search-icon{
+.search-icon {
   position: absolute;
-  right: 0.9rem;
+  right: 18px;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 1.125rem;
-  color: var(--muted);
-  cursor: pointer;
+  font-size: 20px;
+  color: #555;
+}
+
+/* ===============================
+   RESPONSIVE
+=============================== */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: clamp(1.8rem, 6vw, 2.5rem);
+  }
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .hero-wrapper {
+    height: 125vh;
+  }
+  .hero-bg {
+    height: 85vh;
+  }
+  .hero-title {
+    font-size: 1.7rem;
+  }
 }
 
 /* ============== HERO SMALL ============== */
@@ -539,4 +565,76 @@ body{
     height: 260px;
     object-fit: cover;
     border-radius: 10px;
+}
+
+.hero-wrapper {
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+/* =======================
+   WHY SIMPLE SECTION
+========================= */
+
+.why-card-simple {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #eee;
+  transition: 0.25s ease;
+}
+
+.why-card-simple:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 22px rgba(0,0,0,0.08);
+}
+
+.why-icon-simple {
+  font-size: 38px;
+  color: #0d6efd; /* warna biru bootstrap */
+}
+
+/* Responsif di mobile */
+@media (max-width: 576px) {
+  .why-icon-simple {
+    font-size: 32px;
+  }
+  
+  .why-card-simple {
+    padding: 20px;
+  }
+}
+
+/* WhatsApp buttons in footer (right column) */
+.wa-outline-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: 1.5px solid #25D366; /* warna tepi WhatsApp */
+  color: #25D366;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.25s ease;
+}
+
+.wa-outline-btn:hover {
+  background: rgba(37, 211, 102, 0.1);
+  color: #25D366;
+  border-color: #25D366;
+}
+
+.wa-outline-btn i {
+  font-size: 1.2rem;
+}
+
+/* spacing for stacked buttons on smaller screens */
+@media (max-width: 576px) {
+  .wa-btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 12px;
+  }
 }

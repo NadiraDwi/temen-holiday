@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Temen Holiday</title>
 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
   <!-- Bootstrap & Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
@@ -18,41 +20,49 @@
 <!-- NAVBAR -->
 @include('landing.components.header')
 
-<!-- HERO CAROUSEL -->
-<div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
-  <div class="carousel-inner">
+<div class="hero-wrapper">
 
-    <!-- SLIDE 1 -->
-    <div class="carousel-item active">
-      <div class="hero d-flex align-items-center justify-content-center" style="background-image:url('assets/image/home1.jpeg');">
-        <div class="hero-content text-center">
-          <h1 class="hero-title">Welcome to Temen Holiday</h1>
-          <p class="hero-subtitle">"As Close As Friends, As Warm As Family"</p>
+  <!-- SLIDES BG ONLY -->
+  <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
 
-          <div class="hero-search">
-            <input type="text" class="form-control search-input" placeholder="Cari destinasi atau paket tour...">
-            <i class="search-icon bi bi-search"></i>
-          </div>
-        </div>
+      <div class="carousel-item active">
+        <div class="hero-bg" style="background-image:url('assets/image/home1.jpeg');"></div>
       </div>
-    </div>
 
-    <!-- SLIDE 2 -->
-    <div class="carousel-item">
-      <div class="hero d-flex align-items-center justify-content-center" style="background-image:url('assets/image/home2.jpeg');">
-        <div class="hero-content text-center">
-          <h1 class="hero-title">Welcome to Temen Holiday</h1>
-          <p class="hero-subtitle">"As Close As Friends, As Warm As Family"</p>
-
-          <div class="hero-search">
-            <input type="text" class="form-control search-input" placeholder="Cari destinasi atau paket tour...">
-            <i class="search-icon bi bi-search"></i>
-          </div>
-        </div>
+      <div class="carousel-item">
+        <div class="hero-bg" style="background-image:url('assets/image/home2.jpeg');"></div>
       </div>
-    </div>
 
+    </div>
   </div>
+
+  <!-- FIXED CONTENT (tetap di tempat) -->
+  <div class="hero-overlay">
+    <h1 class="hero-title">Welcome to Temen Holiday</h1>
+    <p class="hero-subtitle">"As Close As Friends, As Warm As Family"</p>
+
+    <div class="search-container">
+      <input type="text" class="form-control search-input"
+             placeholder="Cari destinasi atau paket tour...">
+      <i class="bi bi-search search-icon"></i>
+    </div>
+  </div>
+
+</div>
+
+  <!-- OVERLAY TEXT -->
+  <div class="hero-overlay position-absolute top-50 start-50 translate-middle text-center">
+    <h1 class="hero-title">Welcome to Temen Holiday</h1>
+    <p class="hero-subtitle">"As Close As Friends, As Warm As Family"</p>
+
+    <div class="search-container position-relative">
+      <input type="text" class="form-control search-input" placeholder="Cari destinasi atau paket tour...">
+      <i class="search-icon bi bi-search"></i>
+    </div>
+  </div>
+
+</div>
 
   <!-- CONTROL -->
   <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
@@ -62,6 +72,49 @@
     <span class="carousel-control-next-icon"></span>
   </button>
 </div>
+
+
+<!-- Section Why -->
+<section class="why-simple py-5">
+    <div class="container">
+      <h2 class="text-center mb-4 fw-bold">Mengapa Memilih Kami?</h2>
+        <div class="row g-4">
+
+            <div class="col-md-3 col-6">
+                <div class="why-card-simple text-center p-4">
+                    <i class="fas fa-user-friends why-icon-simple"></i>
+                    <h5 class="mt-3 fw-bold">Pendampingan</h5>
+                    <p class="text-muted small">Kami selalu mendampingi perjalanan agar lebih aman.</p>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-6">
+                <div class="why-card-simple text-center p-4">
+                    <i class="fas fa-shield-alt why-icon-simple"></i>
+                    <h5 class="mt-3 fw-bold">Keamanan</h5>
+                    <p class="text-muted small">Rute aman dan dipilih oleh tim berpengalaman.</p>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-6">
+                <div class="why-card-simple text-center p-4">
+                    <i class="fas fa-car why-icon-simple"></i>
+                    <h5 class="mt-3 fw-bold">Armada Nyaman</h5>
+                    <p class="text-muted small">Kendaraan bersih, terbaru, dan terawat.</p>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-6">
+                <div class="why-card-simple text-center p-4">
+                    <i class="fas fa-map-marker-alt why-icon-simple"></i>
+                    <h5 class="mt-3 fw-bold">Banyak Destinasi</h5>
+                    <p class="text-muted small">Banyak pilihan destinasi wisata menarik.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
 
 <!-- KENDARAAN -->
 <section class="py-5 bg-light" id="kendaraan">
@@ -226,59 +279,7 @@
 </section>
 
 <!-- FOOTER -->
-<footer class="footer mt-5 pt-5 pb-4">
-  <div class="container">
-    <div class="row">
-
-      <!-- Contact -->
-      <div class="col-md-4 mb-4">
-        <h4 class="footer-brand">Temen Holiday</h4>
-
-        <p class="mb-1 fw-bold">CALL US</p>
-        <p class="text-light">(021) 23509999</p>
-
-        <p class="mb-1 fw-bold">MAIL US</p>
-        <p class="text-light">hello@temenholiday.com</p>
-
-        <p class="mb-2 fw-bold">FOLLOW US</p>
-        <div class="d-flex gap-3">
-          <a href="#" class="social-icon"><i class="bi bi-facebook"></i></a>
-          <a href="#" class="social-icon"><i class="bi bi-instagram"></i></a>
-          <a href="#" class="social-icon"><i class="bi bi-tiktok"></i></a>
-        </div>
-      </div>
-
-      <!-- Links -->
-      <div class="col-md-4 mb-4">
-        <ul class="footer-links">
-          <li><a href="#">Passport & Visa</a></li>
-          <li><a href="#">Travel Tips</a></li>
-          <li><a href="#">Terms & Conditions</a></li>
-          <li><a href="#">Career</a></li>
-        </ul>
-      </div>
-
-      <!-- Newsletter -->
-      <div class="col-md-4 mb-4">
-        <h5 class="fw-bold mb-3 text-light">SUBSCRIBE OUR NEWSLETTER</h5>
-
-        <form>
-          <input type="email" class="form-control mb-3 newsletter-input" placeholder="Your Email Address" />
-          <button class="btn btn-primary w-100 fw-bold">SUBSCRIBE →</button>
-        </form>
-
-        <small class="text-light d-block mt-2">
-          By subscribing, I confirm that I have read and accept the Privacy Policy.
-        </small>
-      </div>
-
-    </div>
-    <hr class="footer-line">
-    <p class="text-center text-light mt-3 mb-0">
-      © 2025 Temen Holiday. All Rights Reserved.
-    </p>
-  </div>
-</footer>
+@include('landing.components.footer')
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -290,9 +291,9 @@
   });
 </script>
 
+<!-- Wa -->
 <!-- SWIPER JS -->
 <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
-
 <script>
   var swiper = new Swiper(".gallerySwiper", {
     slidesPerView: 3,
@@ -308,6 +309,50 @@
       992: { slidesPerView: 3 }
     }
   });
+</script>
+
+<script>
+function checkForm() {
+  const nama = document.getElementById("nama").value.trim();
+  const pilihan = document.getElementById("pilihan").value;
+  const telp = document.getElementById("telp").value.trim();
+
+  const btn = document.getElementById("submitBtn");
+
+  // Cek semua harus terisi
+  if (nama !== "" && pilihan !== "" && telp !== "") {
+    btn.disabled = false;
+  } else {
+    btn.disabled = true;
+  }
+}
+
+// Jalankan cek tiap input berubah
+document.getElementById("nama").addEventListener("input", checkForm);
+document.getElementById("pilihan").addEventListener("change", checkForm);
+document.getElementById("telp").addEventListener("input", checkForm);
+
+document.getElementById("waForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const nama = document.getElementById("nama").value;
+  const pilihan = document.getElementById("pilihan").value;
+  const telp = document.getElementById("telp").value;
+
+  const nomorTujuan = "6281234567890"; // GANTI nomor WA mitra
+
+  const pesan =
+`Halo kak, saya ingin ${pilihan}.
+
+*Nama:* ${nama}
+*Nomor:* ${telp}
+
+Mohon info lebih lanjut ya kak.`;
+
+  const url = "https://wa.me/" + nomorTujuan + "?text=" + encodeURIComponent(pesan);
+
+  window.open(url, "_blank");
+});
 </script>
 
 </body>

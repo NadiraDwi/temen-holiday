@@ -1,10 +1,9 @@
-
 <!-- FOOTER -->
 <footer class="footer mt-5 pt-5 pb-4">
   <div class="container">
     <div class="row">
 
-      <!-- Contact -->
+      <!-- Contact (KIRI) - TETAP -->
       <div class="col-md-4 mb-4">
         <h4 class="footer-brand">Temen Holiday</h4>
 
@@ -22,31 +21,73 @@
         </div>
       </div>
 
-      <!-- Links -->
+      <!-- Links (TENGAH) - TETAP -->
       <div class="col-md-4 mb-4">
         <ul class="footer-links">
-          <li><a href="#">Passport & Visa</a></li>
-          <li><a href="#">Travel Tips</a></li>
-          <li><a href="#">Terms & Conditions</a></li>
-          <li><a href="#">Career</a></li>
+          <li class="nav-item">
+                    <a class="nav-link {{ Request::is('/') ? 'active' : '' }}" href="{{ url('/') }}">Home</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link {{ Request::is('about') ? 'active' : '' }}" href="{{ url('/about') }}">Tentang Kami</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link {{ Request::is('kendaraan') ? 'active' : '' }}" href="{{ url('/kendaraan') }}">Kendaraan</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link {{ Request::is('paket') ? 'active' : '' }}" href="{{ url('/paket') }}">Paket Wisata</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link {{ Request::is('testimoni') ? 'active' : '' }}" href="{{ url('/testimoni') }}">Ulasan</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link {{ Request::is('galeri') ? 'active' : '' }}" href="{{ url('/galeri') }}">Galeri</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url('/admin/login') }}">Admin</a>
+                </li>
         </ul>
       </div>
 
-      <!-- Newsletter -->
+      <!-- FORM WHATSAPP (KANAN) -->
       <div class="col-md-4 mb-4">
-        <h5 class="fw-bold mb-3 text-light">SUBSCRIBE OUR NEWSLETTER</h5>
+        <h5 class="fw-bold mb-3 text-light">Info Lebih Lanjut</h5>
 
-        <form>
-          <input type="email" class="form-control mb-3 newsletter-input" placeholder="Your Email Address" />
-          <button class="btn btn-primary w-100 fw-bold">SUBSCRIBE →</button>
+        <form id="waForm">
+          <div class="mb-3">
+            <input type="text" class="form-control" id="nama" placeholder="Nama lengkap" required>
+          </div>
+
+          <div class="mb-3">
+            <select class="form-control" id="pilihan" required>
+              <option value="" disabled selected>Pilih Layanan</option>
+              <option value="Sewa Kendaraan">Sewa Kendaraan</option>
+              <option value="Paket Wisata">Paket Wisata</option>
+              <option value="Open Trip">Open Trip</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <input type="text" class="form-control" id="telp" placeholder="Nomor WhatsApp" required>
+          </div>
+
+          <button type="submit" id="submitBtn" class="btn btn-outline-light w-100 fw-bold" disabled>
+            KIRIM VIA WHATSAPP →
+          </button>
         </form>
 
-        <small class="text-light d-block mt-2">
-          By subscribing, I confirm that I have read and accept the Privacy Policy.
+        <small class="text-light d-block mt-3">
+          Isi form dan kami akan mengarahkan Anda ke WhatsApp dengan pesan otomatis.
         </small>
       </div>
 
     </div>
+
     <hr class="footer-line">
     <p class="text-center text-light mt-3 mb-0">
       © 2025 Temen Holiday. All Rights Reserved.

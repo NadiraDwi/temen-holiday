@@ -739,3 +739,19 @@ body{
   }
 }
 
+  .partner-box {
+    transition: 0.25s ease;
+  }
+  .partner-box:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  }
+  .partner-logo {
+    height: 60px;
+    object-fit: contain;
+    filter: grayscale(20%);
+    transition: 0.25s ease;
+  }
+  .partner-box:hover .partner-logo {
+    filter: grayscale(0%);
+  }

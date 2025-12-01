@@ -278,6 +278,57 @@
   </div>
 </section>
 
+<!-- =============== SECTION: PARTNER / KOLABORASI =============== -->
+<section class="py-5 bg-light">
+  <div class="container text-center">
+    <h2 class="fw-bold section-title-center mb-4">Pernah Berkolaborasi Dengan</h2>
+    <p class="text-muted mb-5">
+      Kami dipercaya oleh berbagai perusahaan dan instansi dalam menyediakan layanan perjalanan terbaik.
+    </p>
+
+    <div class="row g-4 justify-content-center">
+      
+      <!-- 6 Partner Loop -->
+      <div class="col-6 col-md-4 col-lg-2">
+        <div class="partner-box shadow-sm p-3 bg-white rounded-3">
+          <img src="assets/partner/partner1.jpg" class="img-fluid partner-logo" alt="Partner">
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-2">
+        <div class="partner-box shadow-sm p-3 bg-white rounded-3">
+          <img src="assets/partner/partner2.jpg" class="img-fluid partner-logo" alt="Partner">
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-2">
+        <div class="partner-box shadow-sm p-3 bg-white rounded-3">
+          <img src="assets/partner/partner3.jpg" class="img-fluid partner-logo" alt="Partner">
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-2">
+        <div class="partner-box shadow-sm p-3 bg-white rounded-3">
+          <img src="assets/partner/partner4.jpg" class="img-fluid partner-logo" alt="Partner">
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-2">
+        <div class="partner-box shadow-sm p-3 bg-white rounded-3">
+          <img src="assets/partner/partner5.jpg" class="img-fluid partner-logo" alt="Partner">
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-2">
+        <div class="partner-box shadow-sm p-3 bg-white rounded-3">
+          <img src="assets/partner/partner6.jpg" class="img-fluid partner-logo" alt="Partner">
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 <!-- FOOTER -->
 @include('landing.components.footer')
 

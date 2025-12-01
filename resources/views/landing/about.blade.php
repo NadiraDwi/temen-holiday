@@ -74,24 +74,87 @@
           <div class="card-body">
             <h4 class="fw-bold mb-3">Visi</h4>
             <p class="text-muted">
-              Menjadi layanan travel terbaik yang memberikan kenyamanan, keamanan, dan pengalaman perjalanan terbaik bagi setiap pelanggan.
+              Menjadi agen perjalanan terkemuka di Indonesia yang menyediakan pengalaman perjalanan yang tak terlupakan dan aman, dengan layanan yang ramah dan profesional, serta menjadi mitra perjalanan yang dipercaya oleh pelanggan.
             </p>
           </div>
         </div>
       </div>
 
       <div class="col-md-6">
-        <div class="card shadow border-0 h-100">
-          <div class="card-body">
-            <h4 class="fw-bold mb-3">Misi</h4>
-            <p class="text-muted">
-              Memberikan pelayanan profesional, menyediakan armada berkualitas, dan menjadi partner perjalanan yang dapat diandalkan kapanpun dan dimanapun.
-            </p>
-          </div>
+      <div class="card shadow border-0 h-100">
+        <div class="card-body">
+          <h4 class="fw-bold mb-3">Misi</h4>
+          <ul class="misi-list text-muted legal-list">
+            <li>Menyediakan layanan perjalanan yang berkualitas dan sesuai dengan kebutuhan pelanggan.</li>
+            <li>Meningkatkan kepuasan pelanggan dengan menyediakan pengalaman perjalanan yang unik dan tak terlupakan.</li>
+            <li>Menjaga kepercayaan pelanggan dengan menyediakan layanan yang transparan, jujur, dan profesional.</li>
+            <li>Berkontribusi pada pengembangan pariwisata lokal dan ekonomi masyarakat sekitar.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ================= SECTION 4: LEGALITAS ================= -->
+<section class="py-5 bg-light">
+  <div class="container">
+
+    <h2 class="fw-bold section-title mb-4">Dokumen Resmi Perusahaan</h2>
+    <p class="text-muted mb-4">
+      Berikut adalah dokumen legalitas resmi dari <strong>CV Tiga Putra Singhasari (Temen Holiday)</strong> yang telah terdaftar dan beroperasi secara sah sesuai peraturan yang berlaku.
+    </p>
+
+    <div class="row g-4">
+
+      <!-- Dokumen 1 -->
+      <div class="col-md-3 col-6">
+        <div class="legal-card text-center shadow-sm p-3 rounded border bg-white">
+          <i class="bi bi-file-earmark-text legal-icon"></i>
+          <h6 class="fw-bold mt-2">Akta Pendirian</h6>
+          <a href="" target="_blank" class="legal-link">
+            Lihat Dokumen →
+          </a>
+        </div>
+      </div>
+
+      <!-- Dokumen 2 -->
+      <div class="col-md-3 col-6">
+        <div class="legal-card text-center shadow-sm p-3 rounded border bg-white">
+          <i class="bi bi-file-earmark-check legal-icon"></i>
+          <h6 class="fw-bold mt-2">NIB (Nomor Induk Berusaha)</h6>
+          <a href="{{ asset('assets/dokumen/NIB.pdf') }}" target="_blank" class="legal-link">
+            Lihat Dokumen →
+          </a>
+        </div>
+      </div>
+
+      <!-- Dokumen 3 -->
+      <div class="col-md-3 col-6">
+        <div class="legal-card text-center shadow-sm p-3 rounded border bg-white">
+          <i class="bi bi-file-earmark-text legal-icon"></i>
+          <h6 class="fw-bold mt-2">SIUP / Izin Usaha</h6>
+          <a href="{{ asset('assets/dokumen/AHU.pdf') }}" target="_blank" class="legal-link">
+            Lihat Dokumen →
+          </a>
+        </div>
+      </div>
+
+      <!-- Dokumen 4 -->
+      <div class="col-md-3 col-6">
+        <div class="legal-card text-center shadow-sm p-3 rounded border bg-white">
+          <i class="bi bi-file-earmark-lock legal-icon"></i>
+          <h6 class="fw-bold mt-2">NPWP Perusahaan</h6>
+          <a href="{{ asset('assets/dokumen/NPWP.pdf') }}" target="_blank" class="legal-link">
+            Lihat Dokumen →
+          </a>
         </div>
       </div>
 
     </div>
+
   </div>
 </section>
 

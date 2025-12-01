@@ -173,7 +173,7 @@ body{
 
 @media (max-width: 576px) {
   .hero-wrapper {
-    height: 125vh;
+    height: 85vh;
   }
   .hero-bg {
     height: 85vh;
@@ -638,3 +638,104 @@ body{
     margin-bottom: 12px;
   }
 }
+
+/* LEGALITAS */
+.legal-card {
+  transition: 0.25s ease;
+}
+
+.legal-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.legal-icon {
+  font-size: 45px;
+  color: #0d6efd;
+}
+
+.legal-link {
+  display: inline-block;
+  font-size: 14px;
+  margin-top: 6px;
+  text-decoration: none;
+  color: #0d6efd;
+  font-weight: 500;
+}
+
+.legal-link:hover {
+  text-decoration: underline;
+}
+
+/* ============================
+   RESPONSIVE LEGALITAS
+   ============================ */
+
+/* Tablet (≤ 992px) */
+@media (max-width: 992px) {
+  .legal-icon {
+    font-size: 40px;
+  }
+  .legal-card h6 {
+    font-size: 15px;
+  }
+  .legal-link {
+    font-size: 13px;
+  }
+}
+
+/* HP Landscape & Small Tablet (≤ 768px) */
+@media (max-width: 768px) {
+  .legal-card {
+    padding: 20px;
+  }
+  .legal-icon {
+    font-size: 38px;
+  }
+  .legal-card h6 {
+    font-size: 14px;
+  }
+}
+
+/* HP (≤ 576px) */
+@media (max-width: 576px) {
+  .legal-card {
+    padding: 15px;
+    border-radius: 10px;
+  }
+  .legal-icon {
+    font-size: 32px;
+  }
+  .legal-card h6 {
+    font-size: 13px;
+  }
+  .legal-link {
+    font-size: 12px;
+  }
+}
+
+.misi-list {
+  text-align: justify;
+  padding-left: 20px; /* biar numbering rapi */
+}
+
+.misi-list li {
+  margin-bottom: 6px;
+  line-height: 1.6;
+}
+
+.legal-list {
+  list-style-type: decimal;      /* angka 1,2,3 */
+  padding-left: 20px;            /* biar rapi */
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .legal-list {
+    font-size: 14px;             /* lebih kecil di HP */
+    padding-left: 18px;
+  }
+}
+

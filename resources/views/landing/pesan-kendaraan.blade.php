@@ -90,6 +90,23 @@
                     </div>
 
                     <div class="mb-3">
+                    <label class="form-label fw-semibold">Tujuan Destinasi</label>
+
+                    <div id="destinasi-wrapper">
+                        <div class="input-group mb-2 destinasi-item">
+                            <input type="text" name="destinasi[]" class="form-control" placeholder="Contoh: Pantai Kuta" required>
+                            <button type="button" class="btn btn-outline-danger remove-dst">
+                                <i class="bi bi-x-lg"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                        <button type="button" id="addDestinasi" class="btn btn-outline-primary btn-sm mt-2">
+                            <i class="bi bi-plus-lg"></i> Tambah Tujuan
+                        </button>
+                    </div>
+
+                    <div class="mb-3">
                         <label class="form-label fw-semibold">Alamat Penjemputan</label>
                         <textarea name="alamat" class="form-control" rows="3" required></textarea>
                     </div>
@@ -129,6 +146,37 @@
       992: { slidesPerView: 3 }
     }
   });
+</script>
+
+<script>
+// =============== TAMBAH / HAPUS TUJUAN ===============
+document.getElementById("addDestinasi").addEventListener("click", function () {
+    const wrapper = document.getElementById("destinasi-wrapper");
+
+    const item = document.createElement("div");
+    item.classList.add("input-group", "mb-2", "destinasi-item");
+
+    item.innerHTML = `
+        <input type="text" name="destinasi[]" class="form-control" placeholder="Tujuan berikutnya" required>
+        <button type="button" class="btn btn-outline-danger remove-dst">
+            <i class="bi bi-x-lg"></i>
+        </button>
+    `;
+
+    wrapper.appendChild(item);
+});
+
+// Hapus tujuan
+document.addEventListener("click", function(e) {
+    if (e.target.closest(".remove-dst")) {
+        const total = document.querySelectorAll(".destinasi-item").length;
+
+        // minimal tersisa 1 input
+        if (total > 1) {
+            e.target.closest(".destinasi-item").remove();
+        }
+    }
+});
 </script>
 
 <script>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\KendaraanController as AdminKendaraanController;
 use App\Http\Controllers\Admin\GaleriController as AdminGaleriController;
 use App\Http\Controllers\Admin\OpenTripController;
 use App\Http\Controllers\Admin\OpenTripDestinationController;
+use App\Http\Controllers\Admin\TestimoniController as AdminTestimoniController; 
 use App\Http\Controllers\Admin\OpenTripScheduleController;
 use App\Http\Controllers\Landing\GaleriController;
 use App\Http\Controllers\Landing\HomeController;
@@ -73,6 +74,12 @@ Route::prefix('admin')->group(function () {
             Route::put('/kategori-kendaraan/update', [CategoryKendaraanController::class, 'update'])->name('update');
 
             Route::delete('/delete', [CategoryKendaraanController::class, 'delete'])->name('delete');
+        });
+
+        Route::prefix('testimoni')->name('testimoni.')->group(function () {
+            Route::get('/', [AdminTestimoniController::class, 'index'])->name('index');
+            Route::post('/reply/{id_testimoni}', [AdminTestimoniController::class, 'reply'])->name('reply');
+            Route::delete('/delete/{id_testimoni}', [AdminTestimoniController::class, 'destroy'])->name('delete');
         });
 
         //galeri admin

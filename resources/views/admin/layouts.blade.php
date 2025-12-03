@@ -192,6 +192,15 @@
             <span class="pc-mtext">Galeri</span>
           </a>
         </li>
+
+        <li class="pc-item">
+          <a href="{{ route('testimoni.index') }}" class="pc-link">
+            <span class="pc-micon">
+              <i class="fas fa-star-half-alt"></i>
+            </span>
+            <span class="pc-mtext">Testimoni</span>
+          </a>
+        </li>
       </ul>
 
     </div>

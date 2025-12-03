@@ -15,11 +15,16 @@ class Testimonial extends Model
     protected $fillable = [
         'nama_user',
         'pesan',
-        'rating',
+        'rating_fasilitas',
+        'rating_harga',
         'reply_admin',
+        'images',
     ];
 
-    // Auto generate UUID
+    protected $casts = [
+        'images' => 'array',
+    ];
+
     protected static function boot()
     {
         parent::boot();

@@ -755,3 +755,18 @@ body{
   .partner-box:hover .partner-logo {
     filter: grayscale(0%);
   }
+
+  .preview-img {
+  width: 100%;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+.star {
+  font-size: 32px;
+  color: #ccc;
+  cursor: pointer;
+}
+.star.hover,
+.star.selected {
+  color: #f4b400;
+}

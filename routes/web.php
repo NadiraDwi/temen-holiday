@@ -31,6 +31,7 @@ Route::post('/kendaraan/whatsapp', [KendaraanController::class, 'kirimWhatsApp']
 
 Route::get('/about', [AboutController::class, 'index'])->name('about');
 Route::get('/testimoni', [TestimoniController::class, 'index'])->name('testimoni');
+Route::get('/testimoni/create', [TestimoniController::class, 'create'])->name('testimoni.create');
 Route::post('/testimoni/store', [TestimoniController::class, 'store'])
     ->name('testimoni.store');
 

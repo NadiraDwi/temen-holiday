@@ -12,6 +12,36 @@
   <!-- CSS -->
   <link rel="stylesheet" href="{{ asset('assets/css/style-landing.css') }}">
 </head>
+<style>
+  /* Agar collapse filter lebih smooth */
+#filterSidebar.collapsing {
+  transition: height 0.25s ease;
+}
+
+/* Jarak lebih lega untuk mobile */
+@media (max-width: 767px) {
+  .vehicle-item {
+    margin-bottom: 20px;
+  }
+
+  .filter-icon-mobile {
+      padding: 6px 8px;
+      border-radius: 10px;
+      background: #f5f5f5;
+      transition: 0.2s;
+  }
+
+  .filter-icon-mobile:active {
+      opacity: 0.6;
+  }
+
+  .filter-icon-mobile:hover {
+      background: #e9e9e9;
+  }
+
+}
+
+</style>
 <body>
 
 <!-- NAVBAR -->
@@ -25,58 +55,107 @@
 </section>
 
   <!-- CARD KENDARAAN -->
-  <div class="container py-5">
+<div class="container py-5">
 
-    <div class="text-center mb-4">
-    <button class="filter-chip active" data-filter="all">
-        Semua
-    </button>
+  <div class="row">
 
-    @foreach($categories as $cat)
-    <button class="filter-chip" data-filter="{{ $cat->id_category }}">
-        {{ $cat->kategori }}
-    </button>
-    @endforeach
+  <!-- ICON FILTER MOBILE (KANAN ATAS) -->
+  <div class="d-md-none mb-2 d-flex justify-content-end">
+    <i class="bi bi-funnel filter-icon-mobile" 
+      data-bs-toggle="collapse" 
+      data-bs-target="#filterSidebar"
+      style="font-size: 26px; color: #8c8c8c; cursor: pointer;">
+    </i>
   </div>
 
-  <div class="row g-4" id="vehicleContainer">
+  <!-- FILTER SIDEBAR -->
+  <div class="col-md-3 mb-4">
+
+    <!-- WRAP DALAM COLLAPSE (MOBILE) -->
+    <div id="filterSidebar" class="collapse d-md-block">
+
+      <div class="card p-3 shadow-sm">
+
+        <h5 class="mb-3">Filter</h5>
+
+        <!-- FILTER KATEGORI -->
+        <p class="fw-semibold">Kategori</p>
+        @foreach($categories as $cat)
+        <div class="form-check mb-1">
+          <input class="form-check-input filter-kategori" type="checkbox" value="{{ $cat->id_category }}">
+          <label class="form-check-label">{{ $cat->kategori }}</label>
+        </div>
+        @endforeach
+
+        <hr>
+
+        <!-- FILTER KAPASITAS -->
+        <p class="fw-semibold">Kapasitas</p>
+
+        <div class="form-check">
+          <input type="radio" name="kapasitas" class="form-check-input filter-kapasitas" value="4">
+          <label class="form-check-label">≤ 4 orang</label>
+        </div>
+
+        <div class="form-check">
+          <input type="radio" name="kapasitas" class="form-check-input filter-kapasitas" value="14">
+          <label class="form-check-label">≤ 14 orang</label>
+        </div>
+
+        <div class="form-check">
+          <input type="radio" name="kapasitas" class="form-check-input filter-kapasitas" value="15">
+          <label class="form-check-label">> 14 orang</label>
+        </div>
+
+        <button id="resetFilter" class="btn btn-secondary btn-sm mt-3">Reset Filter</button>
+
+      </div>
+
+    </div> <!-- END COLLAPSE -->
+  </div> <!-- END COL-MD-3 -->
+
+  <!-- DAFTAR KENDARAAN -->
+  <div class="col-md-9">
+    <div class="row g-4" id="vehicleContainer">
 
       @foreach($vehicles as $v)
-      <div class="col-md-4 vehicle-item" data-category="{{ $v->id_kategori }}">
-          <div class="vehicle-2-card">
+      <div class="col-md-4 vehicle-item" 
+           data-category="{{ $v->id_kategori }}"
+           data-kapasitas="{{ $v->kapasitas }}">
 
-              <div class="vehicle-2-img-wrapper">
-                  <img src="{{ asset('storage/kendaraan/' . $v->gambar) }}" alt="{{ $v->nama_kendaraan }}">
-              </div>
-
-              <div class="vehicle-2-body">
-                  <h5 class="vehicle-2-title">{{ $v->nama_kendaraan }}</h5>
-
-                  <p class="vehicle-2-capacity">
-                      <i class="bi bi-people-fill text-primary me-1"></i>
-                      Kapasitas: {{ $v->kapasitas }} orang
-                  </p>
-
-                  <button 
-                      class="btn btn-primary vehicle-2-btn detail-trigger"
-                      data-nama="{{ $v->nama_kendaraan }}"
-                      data-id="{{ $v->id_vehicle }}"
-                      data-harga="{{ $v->harga }}"
-                      data-kapasitas="{{ $v->kapasitas }}"
-                      data-fasilitas='@json(explode(",", $v->fasilitas))'
-                      data-gambar="{{ asset('storage/kendaraan/' . $v->gambar) }}"
-                  >
-                      Detail
-                  </button>
-
-              </div>
+        <div class="vehicle-2-card">
+          <div class="vehicle-2-img-wrapper">
+            <img src="{{ asset('storage/kendaraan/' . $v->gambar) }}" alt="{{ $v->nama_kendaraan }}">
           </div>
+
+          <div class="vehicle-2-body">
+            <h5 class="vehicle-2-title">{{ $v->nama_kendaraan }}</h5>
+            <p class="vehicle-2-capacity">
+              <i class="bi bi-people-fill text-primary me-1"></i>
+              Kapasitas: {{ $v->kapasitas }} orang
+            </p>
+
+            <button 
+              class="btn btn-primary vehicle-2-btn detail-trigger"
+              data-nama="{{ $v->nama_kendaraan }}"
+              data-id="{{ $v->id_vehicle }}"
+              data-harga="{{ $v->harga }}"
+              data-kapasitas="{{ $v->kapasitas }}"
+              data-fasilitas='@json(explode(",", $v->fasilitas))'
+              data-gambar="{{ asset('storage/kendaraan/' . $v->gambar) }}">
+              Detail
+            </button>
+
+          </div>
+        </div>
       </div>
       @endforeach
 
-  </div> <!-- row -->
-
+    </div>
   </div>
+
+</div>
+
 </div>
 
 <!-- MODAL DETAIL -->
@@ -254,6 +333,64 @@ Mohon info lebih lanjut ya kak.`;
   const url = "https://wa.me/" + nomorTujuan + "?text=" + encodeURIComponent(pesan);
 
   window.open(url, "_blank");
+});
+</script>
+
+<script>
+function applyFilter() {
+    let checkedCategories = Array.from(document.querySelectorAll(".filter-kategori:checked"))
+        .map(el => el.value);
+
+    let kapasitasFilter = document.querySelector(".filter-kapasitas:checked")
+        ? document.querySelector(".filter-kapasitas:checked").value
+        : null;
+
+    document.querySelectorAll(".vehicle-item").forEach(item => {
+        let itemCategory = item.dataset.category;
+        let itemKapasitas = parseInt(item.dataset.kapasitas);
+
+        let showByCategory = 
+            checkedCategories.length === 0 || 
+            checkedCategories.includes(itemCategory);
+
+        let showByKapasitas = true;
+
+        if (kapasitasFilter) {
+            let val = parseInt(kapasitasFilter);
+
+            if (val === 4) {
+                showByKapasitas = itemKapasitas <= 4;
+            } 
+            else if (val === 14) {
+                showByKapasitas = itemKapasitas <= 14;
+            } 
+            else if (val === 15) {
+                showByKapasitas = itemKapasitas > 14;
+            }
+        }
+
+        if (showByCategory && showByKapasitas) {
+            item.style.display = "block";
+        } else {
+            item.style.display = "none";
+        }
+    });
+}
+
+// Event Listener
+document.querySelectorAll(".filter-kategori").forEach(el => {
+    el.addEventListener("change", applyFilter);
+});
+
+document.querySelectorAll(".filter-kapasitas").forEach(el => {
+    el.addEventListener("change", applyFilter);
+});
+
+// Reset Filter
+document.getElementById("resetFilter").addEventListener("click", () => {
+    document.querySelectorAll(".filter-kategori").forEach(el => el.checked = false);
+    document.querySelectorAll(".filter-kapasitas").forEach(el => el.checked = false);
+    applyFilter();
 });
 </script>
 

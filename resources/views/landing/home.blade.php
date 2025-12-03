@@ -661,5 +661,18 @@ Mohon info lebih lanjut ya kak.`;
     });
   </script>
 
+  <script>
+document.addEventListener("scroll", function () {
+    const navbar = document.getElementById("mainNavbar");
+
+    if (window.scrollY > 50) {
+        navbar.classList.add("scrolled");
+    } else {
+        navbar.classList.remove("scrolled");
+    }
+});
+</script>
+
+
 </body>
 </html>

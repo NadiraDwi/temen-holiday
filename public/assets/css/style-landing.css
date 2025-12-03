@@ -770,3 +770,71 @@ body{
 .star.selected {
   color: #f4b400;
 }
+
+@media (max-width: 992px) {
+
+    /* Background panel dropdown */
+    .navbar-collapse {
+        position: absolute;
+        top: var(--navbar-height);
+        left: 0;
+        width: 100%;
+        background: #ffffffee; /* putih soft */
+        backdrop-filter: blur(8px);
+        box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+        padding: 1.2rem 1.5rem;
+        border-radius: 0 0 14px 14px;
+    }
+
+    /* Atur menu agar lebih rapi */
+    .navbar-nav .nav-item {
+        margin-bottom: 10px;
+    }
+
+    .navbar-nav .nav-link {
+        font-size: 1.05rem;
+        font-weight: 600;
+        padding: 10px 5px;
+        border-radius: 8px;
+    }
+
+    /* Highlight active */
+    .navbar-nav .nav-link.active {
+        background: var(--primary);
+        color: #fff !important;
+    }
+
+    /* Hilangkan efek pill biru di mobile */
+.navbar-nav .nav-link.active,
+.navbar-nav .nav-link.show {
+    background-color: transparent !important;
+    color: #ff9800 !important; /* warna highlight aktf */
+    font-weight: 600;
+    border-radius: 0 !important;
+    padding-left: 15px;
+}
+
+/* Biar menu mobile tetap rapi */
+.navbar-nav .nav-link {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+}
+
+.navbar .nav-link.active {
+    color: #ff9800 !important; /* warna highlight */
+    font-weight: 600;
+    position: relative;
+}
+
+.navbar .nav-link.active::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: #ff9800;
+    border-radius: 2px;
+}

@@ -29,10 +29,22 @@
       color: #222;
     }
 
-    .review-stars i {
-      font-size: 17px;
-      margin-right: 2px;
-    }
+    .rating-row {
+          display: flex;
+          align-items: center;
+          margin-top: 6px;
+      }
+
+      .rating-label {
+          width: 90px;   /* semua label fix width → bintangnya sejajar */
+          font-size: 0.85rem;
+          color: #666;
+      }
+
+      .rating-stars i {
+          font-size: 17px;
+          margin-right: 2px;
+      }
 
     .label-small {
       font-size: 0.85rem;
@@ -63,10 +75,57 @@
       border: 1px solid #ddd;
     }
 
-    .modal-slide-img {
-      max-height: 420px;
-      object-fit: cover;
-      border-radius: 8px;
+    /* ========== DESKTOP ========== */
+    @media (min-width: 768px) {
+        .modal-body {
+            max-height: 350px;
+            overflow: hidden;
+        }
+
+        .modal-right-scroll {
+            max-height: 350px;
+            overflow-y: auto;
+            padding-right: 6px;
+        }
+
+        .modal-slide-img {
+            max-height: 400px;
+            object-fit: cover;
+        }
+    }
+
+    /* ========== MOBILE ========== */
+    @media (max-width: 767px) {
+        /* Modal jadi tinggi penuh layar */
+        .modal-dialog {
+            margin: 0;
+            height: 90%;
+            max-width: 100%;
+        }
+
+        .modal-content {
+            height: 90%;
+            border-radius: 0;
+        }
+
+        .modal-body {
+            overflow-y: auto;
+            padding-bottom: 40px;
+        }
+
+        /* Slider lebih kecil di mobile */
+        .modal-slide-img {
+            max-height: 260px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        /* Kolom kanan tidak scroll, biar natural */
+        .modal-right-scroll {
+            max-height: none;
+            overflow: visible;
+            padding-right: 0;
+        }
     }
   </style>
 </head>
@@ -110,20 +169,18 @@
               {{-- NAMA --}}
               <div class="review-name">{{ $t->nama_user }}</div>
 
-              <div class="d-flex justify-content-between align-items-center mt-2">
-                  <div class="label-small text-end flex-grow-1 me-2">Fasilitas</div>
-
-                  <div class="review-stars text-warning">
+              <div class="rating-row">
+                  <div class="rating-label">Fasilitas</div>
+                  <div class="rating-stars text-warning">
                       @for ($i = 1; $i <= 5; $i++)
                           <i class="bi {{ $i <= $t->rating_fasilitas ? 'bi-star-fill' : 'bi-star' }}"></i>
                       @endfor
                   </div>
               </div>
 
-              <div class="d-flex justify-content-between align-items-center mt-2">
-                  <div class="label-small text-end flex-grow-1 me-2">Harga</div>
-
-                  <div class="review-stars text-warning">
+              <div class="rating-row">
+                  <div class="rating-label">Harga</div>
+                  <div class="rating-stars text-warning">
                       @for ($i = 1; $i <= 5; $i++)
                           <i class="bi {{ $i <= $t->rating_harga ? 'bi-star-fill' : 'bi-star' }}"></i>
                       @endfor
@@ -195,21 +252,21 @@
                   </div>
 
                   {{-- RIGHT (DETAIL) --}}
-                  <div class="col-md-7">
+                  <div class="col-md-7 modal-right-scroll">
                     <h5 class="fw-bold mb-1">{{ $t->nama_user }}</h5>
 
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="label-small text-end flex-grow-1 me-2">Fasilitas</div>
-                        <div class="text-warning">
+                    <div class="rating-row">
+                        <div class="rating-label">Fasilitas</div>
+                        <div class="rating-stars text-warning">
                             @for ($i = 1; $i <= 5; $i++)
                                 <i class="bi {{ $i <= $t->rating_fasilitas ? 'bi-star-fill' : 'bi-star' }}"></i>
                             @endfor
                         </div>
                     </div>
 
-                    <div class="d-flex justify-content-between align-items-center mt-2">
-                        <div class="label-small text-end flex-grow-1 me-2">Harga</div>
-                        <div class="text-warning">
+                    <div class="rating-row">
+                        <div class="rating-label">Harga</div>
+                        <div class="rating-stars text-warning">
                             @for ($i = 1; $i <= 5; $i++)
                                 <i class="bi {{ $i <= $t->rating_harga ? 'bi-star-fill' : 'bi-star' }}"></i>
                             @endfor

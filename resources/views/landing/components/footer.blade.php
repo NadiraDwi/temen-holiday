@@ -1,56 +1,64 @@
+<style>
+  /* Semua teks bukan judul (judul pakai .fw-bold) */
+  .footer p:not(.fw-bold),
+  .footer a.text-light p,
+  .footer small {
+    color: #b1aaaaff !important; /* abu-abu terang */
+  }
+</style>
+
 <!-- FOOTER -->
 <footer class="footer mt-5 pt-5 pb-4">
   <div class="container">
     <div class="row">
 
-      <!-- Contact (KIRI) - TETAP -->
-      <div class="col-md-4 mb-4">
-        <h4 class="footer-brand">Temen Holiday</h4>
+      <!-- Contact (KIRI) -->
+      <div class="col-md-4 mb-4">        
+        <p class="mb-1 fw-bold">CV. TIGA PUTRA SINGHASARI</p>
+        <p class="text-light">Jl. Kebonagung Gg. 7, Gondorejo Krajan, Tamanharjo, Kec. Singosari, Kabupaten Malang, Jawa Timur 65153, Indonesia</p>
 
         <p class="mb-1 fw-bold">CALL US</p>
         <p class="text-light">(021) 23509999</p>
 
         <p class="mb-1 fw-bold">MAIL US</p>
-        <p class="text-light">hello@temenholiday.com</p>
+        <a href="https://mail.google.com/mail/?view=cm&fs=1&to={{ env('CONTACT_EMAIL') }}"
+          target="_blank" 
+          class="text-light">
+          <p>{{ env('CONTACT_EMAIL') }}</p>
+        </a>
 
         <p class="mb-2 fw-bold">FOLLOW US</p>
         <div class="d-flex gap-3">
-          <a href="#" class="social-icon"><i class="bi bi-facebook"></i></a>
-          <a href="#" class="social-icon"><i class="bi bi-instagram"></i></a>
-          <a href="#" class="social-icon"><i class="bi bi-tiktok"></i></a>
+          <a href="https://www.facebook.com/share/17czHQ6Son/" target="_blank" class="social-icon"><i class="bi bi-facebook"></i></a>
+          <a href="https://www.instagram.com/temen_holiday?igsh=OWNtY2J0anZ2NnNw" target="_blank" class="social-icon"><i class="bi bi-instagram"></i></a>
+          <a href="https://www.tiktok.com/@temenholiday?_r=1&_t=ZS-91vxshT9v8B" target="_blank" class="social-icon"><i class="bi bi-tiktok"></i></a>
         </div>
       </div>
 
-      <!-- Links (TENGAH) - TETAP -->
+      <!-- Links (TENGAH) -->
       <div class="col-md-4 mb-4">
         <ul class="footer-links">
           <li class="nav-item">
-                    <a class="nav-link {{ Request::is('/') ? 'active' : '' }}" href="{{ url('/') }}">Home</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link {{ Request::is('about') ? 'active' : '' }}" href="{{ url('/about') }}">Tentang Kami</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link {{ Request::is('kendaraan') ? 'active' : '' }}" href="{{ url('/kendaraan') }}">Kendaraan</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link {{ Request::is('paket') ? 'active' : '' }}" href="{{ url('/paket') }}">Paket Wisata</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link {{ Request::is('testimoni') ? 'active' : '' }}" href="{{ url('/testimoni') }}">Ulasan</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link {{ Request::is('galeri') ? 'active' : '' }}" href="{{ url('/galeri') }}">Galeri</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url('/admin/login') }}">Admin</a>
-                </li>
+            <a class="nav-link {{ Request::is('/') ? 'active' : '' }}" href="{{ url('/') }}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {{ Request::is('about') ? 'active' : '' }}" href="{{ url('/about') }}">Tentang Kami</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {{ Request::is('kendaraan') ? 'active' : '' }}" href="{{ url('/kendaraan') }}">Kendaraan</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {{ Request::is('paket') ? 'active' : '' }}" href="{{ url('/paket') }}">Paket Wisata</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {{ Request::is('testimoni') ? 'active' : '' }}" href="{{ url('/testimoni') }}">Ulasan</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {{ Request::is('galeri') ? 'active' : '' }}" href="{{ url('/galeri') }}">Galeri</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url('/admin/login') }}">Admin</a>
+          </li>
         </ul>
       </div>
 

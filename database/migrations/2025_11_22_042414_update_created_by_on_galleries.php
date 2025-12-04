@@ -10,12 +10,18 @@ return new class extends Migration
     {
         Schema::table('galleries', function (Blueprint $table) {
 
-            // Ubah tipe kolom ke unsignedBigInteger
+            // 1. Drop FK lama ke admins (kalau ada)
+            try {
+                $table->dropForeign(['created_by']);
+            } catch (\Exception $e) {}
+
+            // 2. Ubah tipe kolom updated_by agar cocok dengan users.id
             $table->unsignedBigInteger('created_by')->nullable()->change();
 
-            // Tambah FK ke users
+            // 3. Tambahkan foreign key baru ke users
             $table->foreign('created_by')
-                ->references('id')->on('users')
+                ->references('id')
+                ->on('users')
                 ->onDelete('set null');
         });
     }
@@ -23,8 +29,20 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('galleries', function (Blueprint $table) {
-            $table->dropForeign(['created_by']);
+
+            // rollback FK ke users
+            try {
+                $table->dropForeign(['created_by']);
+            } catch (\Exception $e) {}
+
+            // ubah kembali ke char(36)
             $table->char('created_by', 36)->nullable()->change();
+
+            // tambah kembali FK ke admins.id_admin
+            $table->foreign('created_by')
+                ->references('id_admin')
+                ->on('admins')
+                ->onDelete('set null');
         });
     }
 };

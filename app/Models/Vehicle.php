@@ -17,16 +17,17 @@ class Vehicle extends Model
         'kapasitas',
         'fasilitas',
         'harga',
-        'gambar',
         'id_contact',
         'updated_by',
         'id_kategori',
-        'tampilkan_harga', // ✅ ditambahkan
+        'tampilkan_harga',
+        'images',
     ];
 
     // ✅ Casting boolean biar hasilnya true/false
     protected $casts = [
         'tampilkan_harga' => 'boolean',
+        'images' => 'array',
     ];
 
     protected static function boot()

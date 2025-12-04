@@ -17,7 +17,12 @@ class OpenTrip extends Model
         'price',
         'price_label',
         'include',
-        'cover_image'
+        'images',
+    ];
+
+    // ✅ Casting boolean biar hasilnya true/false
+    protected $casts = [
+        'images' => 'array',
     ];
 
     // RELATIONSHIP

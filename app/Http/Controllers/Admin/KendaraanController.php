@@ -10,50 +10,69 @@ use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 
 class KendaraanController extends Controller
 {
     /**
-     * HALAMAN LIST
+     * PAGE LIST KENDARAAN
      */
     public function index()
     {
-        return view('admin.kendaraan.list', [
+        return view('admin.kendaraan.list');
+    }
+
+    /**
+     * PAGE CREATE
+     */
+    public function create()
+    {
+        return view('admin.kendaraan.create', [
             'kategori' => VehicleCategory::orderBy('kategori')->get(),
             'contact'  => Contact::orderBy('nama')->get()
         ]);
     }
 
     /**
-     * DATATABLE AJAX
+     * PAGE EDIT
+     */
+    public function edit($id)
+    {
+        $data = Vehicle::where('id_vehicle', $id)->firstOrFail();
+
+        return view('admin.kendaraan.edit', [
+            'data'     => $data,
+            'kategori' => VehicleCategory::orderBy('kategori')->get(),
+            'contact'  => Contact::orderBy('nama')->get()
+        ]);
+    }
+
+    /**
+     * DATATABLE LIST
      */
     public function list(Request $request)
     {
         if ($request->ajax()) {
 
             $data = Vehicle::with(['contact', 'updatedBy', 'kategori'])
-                        ->orderBy('nama_kendaraan', 'ASC');
+                ->orderBy('nama_kendaraan', 'ASC');
 
             return DataTables::of($data)
                 ->addIndexColumn()
-
-                ->addColumn('kategori', function ($row) {
-                    return $row->kategori ? $row->kategori->kategori : '-';
-                })
-
-                ->editColumn('harga', function ($row) {
-                    return 'Rp ' . number_format($row->harga, 0, ',', '.');
-                })
-
-                ->addColumn('action', function ($row) {
-                    return '
-                        <button class="btn btn-sm btn-info btn-detail" data-id="' . $row->id_vehicle . '">
-                            <i class="fas fa-eye"></i> Detail
-                        </button>
-                    ';
-                })
-
-                ->rawColumns(['harga', 'action'])
+                ->addColumn('kategori', fn($row) =>
+                    $row->kategori?->kategori ?? '-'
+                )
+                ->editColumn('harga', fn($row) =>
+                    'Rp ' . number_format($row->harga, 0, ',', '.')
+                )
+                ->addColumn('action', fn($row) => '
+                    <button class="btn btn-sm btn-info btn-detail" data-id="' . $row->id_vehicle . '">
+                        <i class="fas fa-eye"></i> Detail
+                    </button>
+                ')
+                ->rawColumns(['action'])
                 ->make(true);
         }
 
@@ -61,23 +80,23 @@ class KendaraanController extends Controller
     }
 
     /**
-     * DETAIL DATA
+     * DETAIL UNTUK MODAL / AJAX
      */
     public function detail($id)
     {
-        $data = Vehicle::with(['contact', 'updatedBy', 'kategori'])
-                    ->where('id_vehicle', $id)
-                    ->first();
+        $data = Vehicle::with(['contact', 'kategori'])
+            ->where('id_vehicle', $id)
+            ->firstOrFail();
 
-        if (!$data) {
-            return response()->json(['error' => 'Not Found'], 404);
-        }
+        // KONVERSI PATH Gambar → URL
+        $data->images = collect($data->images ?? [])
+            ->map(fn($img) => asset("storage/" . $img));
 
         return response()->json($data);
     }
 
     /**
-     * STORE DATA
+     * STORE — ADD MULTI IMAGE
      */
     public function store(Request $request)
     {
@@ -86,101 +105,122 @@ class KendaraanController extends Controller
             'kapasitas'      => 'required|numeric',
             'fasilitas'      => 'required',
             'harga'          => 'required|numeric',
-            'gambar'         => 'nullable|image|max:2048',
+            'images.*'       => 'nullable|image|max:4096',
             'id_contact'     => 'required|exists:contacts,id_contact',
             'id_kategori'    => 'required|exists:vehicle_categories,id_category',
-            'tampilkan_harga'=> 'nullable|boolean'
         ]);
 
-        $gambar_name = null;
-        if ($request->hasFile('gambar')) {
-            $gambar_name = time().'_'.$request->gambar->getClientOriginalName();
-            $request->gambar->storeAs('kendaraan', $gambar_name, 'public');
+        $manager = new ImageManager(new Driver());
+        $paths = [];
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $file) {
+
+                $name = Str::uuid() . '.webp';
+                $path = "kendaraan/$name";
+
+                $img = $manager->read($file)->toWebp(75);
+                Storage::disk('public')->put($path, $img);
+
+                $paths[] = $path;
+            }
         }
 
         Vehicle::create([
-            'nama_kendaraan'  => $request->nama_kendaraan,
-            'kapasitas'       => $request->kapasitas,
-            'fasilitas'       => $request->fasilitas,
-            'harga'           => $request->harga,
-            'gambar'          => $gambar_name,
-            'id_contact'      => $request->id_contact,
-            'id_kategori'     => $request->id_kategori,
-            'tampilkan_harga' => $request->has('tampilkan_harga'),
-            'updated_by'      => Auth::id(),
+            'nama_kendaraan' => $request->nama_kendaraan,
+            'kapasitas'      => $request->kapasitas,
+            'fasilitas'      => $request->fasilitas,
+            'harga'          => $request->harga,
+            'images'         => $paths,
+            'id_contact'     => $request->id_contact,
+            'id_kategori'    => $request->id_kategori,
+            'tampilkan_harga'=> $request->tampilkan_harga ? 1 : 0,
+            'updated_by'     => Auth::id()
         ]);
 
         return response()->json(['success' => true]);
     }
 
     /**
-     * UPDATE DATA
+     * UPDATE — MULTI IMAGE
      */
     public function update(Request $request, $id)
     {
-        $kendaraan = Vehicle::where('id_vehicle', $id)->first();
-
-        if (!$kendaraan) {
-            return response()->json(['error' => 'Data tidak ditemukan'], 404);
-        }
+        $kendaraan = Vehicle::where('id_vehicle', $id)->firstOrFail();
 
         $request->validate([
             'nama_kendaraan' => 'required',
             'kapasitas'      => 'required|numeric',
             'fasilitas'      => 'required',
             'harga'          => 'required|numeric',
-            'gambar'         => 'nullable|image|max:2048',
+            'images.*'       => 'nullable|image|max:4096',
+            'hapus_images'   => 'nullable', // <= FIX
             'id_contact'     => 'required|exists:contacts,id_contact',
-            'id_kategori'   => 'required|exists:vehicle_categories,id_category',
-            'hapus_gambar'   => 'nullable|boolean',
-            'tampilkan_harga'=> 'nullable|boolean'
+            'id_kategori'    => 'required|exists:vehicle_categories,id_category',
         ]);
 
-        // Hapus gambar jika user klik tombol remove
-        if ($request->hapus_gambar && $kendaraan->gambar) {
-            Storage::disk('public')->delete('kendaraan/' . $kendaraan->gambar);
-            $kendaraan->gambar = null;
-        }
+        $manager = new ImageManager(new Driver());
+        $list = $kendaraan->images ?? [];
 
-        // Upload gambar baru
-        if ($request->hasFile('gambar')) {
-            if ($kendaraan->gambar) {
-                Storage::disk('public')->delete('kendaraan/' . $kendaraan->gambar);
+        // ===============================
+        //  FIX: DECODE JSON
+        // ===============================
+        $hapus = json_decode($request->hapus_images, true) ?? [];
+
+        // ===============================
+        //  HAPUS GAMBAR
+        // ===============================
+        if (!empty($hapus)) {
+            foreach ($hapus as $file) {
+                Storage::disk('public')->delete($file);
+                $list = array_values(array_diff($list, [$file]));
             }
-
-            $gambar_name = time().'_'.$request->gambar->getClientOriginalName();
-            $request->gambar->storeAs('kendaraan', $gambar_name, 'public');
-            $kendaraan->gambar = $gambar_name;
         }
 
-        // Update field lain
+        // ===============================
+        //  TAMBAH GAMBAR BARU
+        // ===============================
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $file) {
+                $name = Str::uuid() . '.webp';
+                $path = "kendaraan/$name";
+
+                $img = $manager->read($file)->toWebp(75);
+                Storage::disk('public')->put($path, $img);
+
+                $list[] = $path;
+            }
+        }
+
+        // ===============================
+        //  UPDATE DATA
+        // ===============================
         $kendaraan->update([
-            'nama_kendaraan'  => $request->nama_kendaraan,
-            'kapasitas'       => $request->kapasitas,
-            'fasilitas'       => $request->fasilitas,
-            'harga'           => $request->harga,
-            'id_contact'      => $request->id_contact,
-            'id_kategori'     => $request->id_kategori,
-            'tampilkan_harga' => $request->has('tampilkan_harga'),
-            'updated_by'      => Auth::id(),
+            'nama_kendaraan' => $request->nama_kendaraan,
+            'kapasitas'      => $request->kapasitas,
+            'fasilitas'      => $request->fasilitas,
+            'harga'          => $request->harga,
+            'images'         => $list,
+            'id_contact'     => $request->id_contact,
+            'id_kategori'    => $request->id_kategori,
+            'tampilkan_harga'=> $request->tampilkan_harga ? 1 : 0,
+            'updated_by'     => Auth::id(),
         ]);
 
         return response()->json(['success' => true]);
     }
 
     /**
-     * DELETE DATA (SUDAH JALAN)
+     * DELETE
      */
-    public function delete(Request $request)
+    public function delete($id)
     {
-        $kendaraan = Vehicle::find($request->id);
+        $kendaraan = Vehicle::where('id_vehicle', $id)->firstOrFail();
 
-        if (!$kendaraan) {
-            return response()->json(['error' => 'Data tidak ditemukan'], 404);
-        }
-
-        if ($kendaraan->gambar) {
-            Storage::disk('public')->delete('kendaraan/' . $kendaraan->gambar);
+        if ($kendaraan->images) {
+            foreach ($kendaraan->images as $img) {
+                Storage::disk('public')->delete($img);
+            }
         }
 
         $kendaraan->delete();
@@ -188,13 +228,15 @@ class KendaraanController extends Controller
         return response()->json(['success' => true]);
     }
 
+    /**
+     * UPDATE STATUS TAMPILKAN HARGA
+     */
     public function updateTampilkanHarga(Request $request)
     {
-        $data = Vehicle::findOrFail($request->id);
-        $data->tampilkan_harga = $request->tampilkan_harga;
-        $data->save();
+        $kendaraan = Vehicle::where('id_vehicle', $request->id)->firstOrFail();
+        $kendaraan->tampilkan_harga = $request->tampilkan_harga ? 1 : 0;
+        $kendaraan->save();
 
         return response()->json(['success' => true]);
     }
-
 }

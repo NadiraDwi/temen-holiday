@@ -5,7 +5,8 @@ use App\Http\Controllers\Admin\CategoryKendaraanController;
 use App\Http\Controllers\Admin\KendaraanController as AdminKendaraanController;
 use App\Http\Controllers\Admin\GaleriController as AdminGaleriController;
 use App\Http\Controllers\Admin\WisataController as AdminWisataController;
-    use App\Http\Controllers\Admin\ContactController as AdminContactController;
+use App\Http\Controllers\Admin\ContactController as AdminContactController;
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\OpenTripController;
 use App\Http\Controllers\Admin\OpenTripDestinationController;
 use App\Http\Controllers\Admin\TestimoniController as AdminTestimoniController; 
@@ -156,6 +157,13 @@ Route::prefix('admin')->group(function () {
 
         });
 
+        Route::middleware(['superadmin'])->group(function () {
+            Route::get('/admin/admins', [AdminController::class, 'index'])->name('admin.index');
+            Route::post('/admin/admins', [AdminController::class, 'store'])->name('admin.store');
+            Route::get('/admin/admins/{id}/edit', [AdminController::class, 'edit'])->name('admin.edit');
+            Route::put('/admin/admins/{id}', [AdminController::class, 'update'])->name('admin.update');
+            Route::delete('/admin/admins/{id}', [AdminController::class, 'destroy'])->name('admin.destroy');
+        });
     });
 
 });

@@ -108,10 +108,11 @@
             </div>
             <div class="flex-grow-1 ms-3 me-2">
               <h6 class="mb-0">
-                {{ Auth::guard('admin')->user()->username }}
+                {{ Auth::guard('admin')->user()->name }}
+                
             </h6>
               <small>
-                {{ Auth::guard('admin')->user()->name }}
+                {{ Auth::guard('admin')->user()->role }}
               </small>
             </div>
             <a class="btn btn-icon btn-link-secondary avtar" data-bs-toggle="collapse" href="#pc_sidebar_userlink">
@@ -191,6 +192,17 @@
                 <span class="pc-mtext">Kelola Kontak</span>
             </a>
         </li>
+
+        @if(Auth::guard('admin')->check() && Auth::guard('admin')->user()->role === 'superadmin')
+        <li class="pc-item">
+            <a href="{{ route('admin.index') }}" class="pc-link">
+                <span class="pc-micon">
+                    <i class="fas fa-user-cog"></i>
+                </span>
+                <span class="pc-mtext">Kelola Admin</span>
+            </a>
+        </li>
+        @endif
 
         <!-- Galeri -->
         <li class="pc-item">

@@ -17,6 +17,7 @@ class AdminSeeder extends Seeder
             'name' => 'Super Admin',
             'email' => 'admin@temenholiday.com',
             'password' => Hash::make('password123'), // password
+            'role' => 'superadmin', // set role sebagai admin
         ]);
     }
 }

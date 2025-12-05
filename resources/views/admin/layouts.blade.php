@@ -43,25 +43,7 @@
 
   gtag('config', 'G-14K1GBX9FG');
 </script>
-<!-- WiserNotify -->
-<script>
-  !(function () {
-    if (window.t4hto4) console.log('WiserNotify pixel installed multiple time in this page');
-    else {
-      window.t4hto4 = !0;
-      var t = document,
-        e = window,
-        n = function () {
-          var e = t.createElement('script');
-          (e.type = 'text/javascript'),
-            (e.async = !0),
-            (e.src = '../../pt.wisernotify.com/pixel6d4c.js?ti=1jclj6jkfc4hhry'),
-            document.body.appendChild(e);
-        };
-      'complete' === t.readyState ? n() : window.attachEvent ? e.attachEvent('onload', n) : e.addEventListener('load', n, !1);
-    }
-  })();
-</script>
+
 <!-- Microsoft clarity -->
 <script type="text/javascript">
   (function (c, l, a, r, i, t, y) {
@@ -94,7 +76,7 @@
 <nav class="pc-sidebar">
   <div class="navbar-wrapper">
     <div class="m-header logo-container">
-      <a href="#" class="b-brand text-primary">
+      <a href="{{route('admin.dashboard')}}" class="b-brand text-primary">
         <img src="{{asset('assets')}}/image/loho-67.png" class="logo-header" />
       </a>
     </div>
@@ -123,7 +105,7 @@
           </div>
           <div class="collapse pc-user-links" id="pc_sidebar_userlink">
             <div class="pt-3">
-              <a href="#!">
+              <a href="{{route('admin.profile')}}">
                 <i class="ti ti-user"></i>
                 <span>My Account</span>
               </a>
@@ -144,7 +126,7 @@
 
         <!-- Beranda -->
         <li class="pc-item">
-          <a href="/dashboard" class="pc-link">
+          <a href="{{route('admin.dashboard')}}" class="pc-link">
             <span class="pc-micon">
               <i class="fas fa-home"></i>
             </span>

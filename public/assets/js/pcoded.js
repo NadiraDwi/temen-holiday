@@ -495,26 +495,33 @@ function layout_change(layout) {
   }
 }
 function change_box_container(value) {
-  if (document.querySelector('.pc-content')) {
-    if (value == 'true') {
-      document.querySelector('.pc-content').classList.add('container');
-      document.querySelector('.footer-wrapper').classList.add('container');
-      document.querySelector('.footer-wrapper').classList.remove('container-fluid');
+  const content = document.querySelector('.pc-content');
+  const footer = document.querySelector('.footer-wrapper');
 
-      var control = document.querySelector('.theme-container .btn.active');
-      if (control) {
-        document.querySelector('.theme-container .btn.active').classList.remove('active');
-        document.querySelector(".theme-container .btn[data-value='true']").classList.add('active');
-      }
-    } else {
-      document.querySelector('.pc-content').classList.remove('container');
-      document.querySelector('.footer-wrapper').classList.remove('container');
-      document.querySelector('.footer-wrapper').classList.add('container-fluid');
-      var control = document.querySelector('.theme-container .btn.active');
-      if (control) {
-        document.querySelector('.theme-container .btn.active').classList.remove('active');
-        document.querySelector(".theme-container .btn[data-value='false']").classList.add('active');
-      }
+  if (!content || !footer) {
+    // kalau salah satu tidak ada, jangan lakukan apa2 biar gak error
+    return;
+  }
+
+  if (value == 'true') {
+    content.classList.add('container');
+    footer.classList.add('container');
+    footer.classList.remove('container-fluid');
+
+    const control = document.querySelector('.theme-container .btn.active');
+    if (control) {
+      control.classList.remove('active');
+      document.querySelector(".theme-container .btn[data-value='true']")?.classList.add('active');
+    }
+  } else {
+    content.classList.remove('container');
+    footer.classList.remove('container');
+    footer.classList.add('container-fluid');
+
+    const control = document.querySelector('.theme-container .btn.active');
+    if (control) {
+      control.classList.remove('active');
+      document.querySelector(".theme-container .btn[data-value='false']")?.classList.add('active');
     }
   }
 }

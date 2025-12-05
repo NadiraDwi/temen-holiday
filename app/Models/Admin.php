@@ -10,6 +10,7 @@ class Admin extends Authenticatable
     use Notifiable;
 
     protected $table = 'users'; // Karena memakai tabel users
+    protected $primaryKey = 'id';
 
     protected $fillable = [
         'name',

@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\GaleriController as AdminGaleriController;
 use App\Http\Controllers\Admin\WisataController as AdminWisataController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\OpenTripController;
 use App\Http\Controllers\Admin\OpenTripDestinationController;
 use App\Http\Controllers\Admin\TestimoniController as AdminTestimoniController; 
@@ -164,6 +165,19 @@ Route::prefix('admin')->group(function () {
             Route::put('/admin/admins/{id}', [AdminController::class, 'update'])->name('admin.update');
             Route::delete('/admin/admins/{id}', [AdminController::class, 'destroy'])->name('admin.destroy');
         });
+
+        // Halaman Profil
+        Route::get('/profile', [ProfileController::class, 'index'])->name('admin.profile');
+
+        // Update Profil (nama, email, avatar)
+        Route::post('/profile/update', [ProfileController::class, 'updateProfile'])->name('admin.profile.update');
+
+        // Page Ubah Password
+        Route::get('/profile/password', [ProfileController::class, 'passwordPage'])->name('admin.profile.password');
+
+        // Proses Ubah Password
+        Route::post('/profile/password/update', [ProfileController::class, 'updatePassword'])->name('admin.profile.password.update');
+
     });
 
 });

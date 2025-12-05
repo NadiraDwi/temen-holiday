@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\CategoryKendaraanController;
 use App\Http\Controllers\Admin\KendaraanController as AdminKendaraanController;
 use App\Http\Controllers\Admin\GaleriController as AdminGaleriController;
 use App\Http\Controllers\Admin\WisataController as AdminWisataController;
+    use App\Http\Controllers\Admin\ContactController as AdminContactController;
 use App\Http\Controllers\Admin\OpenTripController;
 use App\Http\Controllers\Admin\OpenTripDestinationController;
 use App\Http\Controllers\Admin\TestimoniController as AdminTestimoniController; 
@@ -38,6 +39,8 @@ Route::post('/testimoni/store', [TestimoniController::class, 'store'])
     ->name('testimoni.store');
 
 Route::prefix('admin')->group(function () {
+
+    Route::resource('kontak', AdminContactController::class)->except(['create', 'edit', 'show']);
 
     // ==== AUTH ====
     Route::get('/login', [AdminAuthController::class, 'login'])->name('admin.login');

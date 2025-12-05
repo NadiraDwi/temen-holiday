@@ -183,6 +183,15 @@
           </ul>
         </li>
 
+        <li class="pc-item {{ request()->routeIs('kontak.*') ? 'active' : '' }}">
+            <a href="{{ route('kontak.index') }}" class="pc-link">
+                <span class="pc-micon">
+                    <i class="fas fa-address-book"></i>
+                </span>
+                <span class="pc-mtext">Kelola Kontak</span>
+            </a>
+        </li>
+
         <!-- Galeri -->
         <li class="pc-item">
           <a href="{{ route('galeri.index') }}" class="pc-link">

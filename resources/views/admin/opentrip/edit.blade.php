@@ -20,40 +20,46 @@
         @csrf
         @method('PUT')
 
-        <!-- Upload Gambar -->
-        <div class="mb-3 text-center">
+        <!-- MULTI IMAGE UPLOAD -->
+        <div class="mb-3">
             <label class="form-label fw-bold">Gambar Open Trip</label>
 
-            <div id="upload-area" class="upload-box">
-                <div class="upload-placeholder {{ $trip->cover_image ? 'd-none' : '' }}">
-                    <i class="fas fa-cloud-upload-alt fa-2x mb-2 text-primary"></i>
-                    <p>Browse Files to upload</p>
-                </div>
+            <!-- EXISTING IMAGES -->
+            <div class="row" id="existing-images">
+                @php
+                    $images = is_array($trip->images) ? $trip->images : json_decode($trip->images, true);
+                    $images = $images ?? [];
+                @endphp
 
-                <img id="preview-image"
-                     class="preview-img {{ $trip->cover_image ? '' : 'd-none' }}"
-                     src="{{ $trip->cover_image ? asset('storage/opentrip/'.$trip->cover_image) : '' }}"
-                     alt="Preview">
+                @foreach ($images as $img)
+                    <div class="col-4 mb-3 position-relative image-wrapper">
+                        <img src="{{ asset('storage/' . $img) }}"
+                             class="img-fluid rounded border preview-small">
+
+                        <button type="button" class="btn btn-danger btn-sm delete-image-btn"
+                            data-image="{{ $img }}"
+                            style="position:absolute; top:5px; right:10px; z-index:10">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                @endforeach
             </div>
 
-            <input type="file" name="cover_image" id="gambar-input" class="d-none" accept="image/*">
+            <!-- NEW IMAGE INPUT -->
+            <input type="file" name="images[]" id="new-images"
+                   class="form-control mt-2" multiple accept="image/*">
 
-            <div class="d-flex justify-content-between mt-2">
-                <span id="file-name" class="small text-muted">
-                    {{ $trip->cover_image ? basename($trip->cover_image) : 'No selected file' }}
-                </span>
+            <!-- PREVIEW NEW IMAGES -->
+            <div id="preview-new" class="row mt-3"></div>
 
-                <button type="button"
-                        id="btn-remove"
-                        class="btn btn-sm btn-outline-danger {{ $trip->cover_image ? '' : 'd-none' }}">
-                    <i class="fas fa-trash"></i>
-                </button>
-            </div>
+            <!-- HIDDEN FIELD -->
+            <input type="hidden" name="deleted_images" id="deleted_images">
         </div>
 
         <div class="mb-3">
             <label class="form-label">Nama Trip</label>
-            <input type="text" name="title" class="form-control" value="{{ $trip->title }}" required>
+            <input type="text" name="title" class="form-control"
+                   value="{{ $trip->title }}" required>
         </div>
 
         <div class="mb-3">
@@ -63,7 +69,8 @@
 
         <div class="mb-3">
             <label class="form-label">Harga</label>
-            <input type="number" name="price" class="form-control" value="{{ $trip->price }}" required>
+            <input type="number" name="price" class="form-control"
+                   value="{{ $trip->price }}" required>
         </div>
 
         <div class="mb-3">
@@ -74,7 +81,8 @@
 
         <div class="mb-3">
             <label class="form-label">Meeting Point</label>
-            <input type="text" name="meeting_point" class="form-control" value="{{ $trip->meeting_point }}">
+            <input type="text" name="meeting_point" class="form-control"
+                   value="{{ $trip->meeting_point }}">
         </div>
 
         <div class="mb-3">
@@ -104,40 +112,58 @@
 
 @endsection
 
+@push('custom-css')
+<style>
+.preview-small {
+    width: 120px;
+    height: 90px;
+    object-fit: cover;
+}
+</style>
+@endpush
+
 @push('custom-js')
 <script>
-// =========================
-// EDIT IMAGE HANDLER
-// =========================
-const uploadArea   = document.getElementById('upload-area');
-const fileInput    = document.getElementById('gambar-input');
-const previewImg   = document.getElementById('preview-image');
-const fileName     = document.getElementById('file-name');
-const removeBtn    = document.getElementById('btn-remove');
-const placeholder  = uploadArea.querySelector('.upload-placeholder');
+let deletedList = [];
+let selectedFiles = []; // ⬅️ SIMPAN SEMUA FILE BARU
 
-uploadArea.addEventListener('click', () => fileInput.click());
+// DELETE OLD IMAGES
+document.querySelectorAll('.delete-image-btn').forEach(btn => {
+    btn.addEventListener('click', function () {
+        const filename = this.dataset.image;
+        deletedList.push(filename);
 
-fileInput.addEventListener('change', function () {
-    const file = this.files[0];
-    if (file) {
-        const url = URL.createObjectURL(file);
-        previewImg.src = url;
-        previewImg.classList.remove('d-none');
-        placeholder.classList.add('d-none');
-        fileName.textContent = file.name;
-        removeBtn.classList.remove('d-none');
-    }
+        document.getElementById('deleted_images').value = JSON.stringify(deletedList);
+        this.closest('.image-wrapper').remove();
+    });
 });
 
-// tombol hapus gambar (reset)
-removeBtn.addEventListener('click', function () {
-    fileInput.value = '';
-    previewImg.src = '';
-    previewImg.classList.add('d-none');
-    placeholder.classList.remove('d-none');
-    fileName.textContent = "No selected file";
-    removeBtn.classList.add('d-none');
+// PREVIEW NEW IMAGES (TIDAK MENGHAPUS YANG LAMA)
+document.getElementById('new-images').addEventListener('change', function () {
+    const preview = document.getElementById('preview-new');
+
+    // Tambah file baru ke array
+    Array.from(this.files).forEach(file => {
+        selectedFiles.push(file);
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const col = document.createElement('div');
+            col.classList.add('col-4', 'mb-3');
+            col.innerHTML = `
+                <img src="${e.target.result}" 
+                     class="img-fluid rounded border preview-small">
+            `;
+            preview.appendChild(col);
+        };
+        reader.readAsDataURL(file);
+    });
+
+    // SIMPAN ULANG FILES KE INPUT (karena tidak bisa edit langsung)
+    const dataTransfer = new DataTransfer();
+    selectedFiles.forEach(f => dataTransfer.items.add(f));
+    this.files = dataTransfer.files; // set ulang isi input
 });
 </script>
+
 @endpush

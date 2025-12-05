@@ -12,7 +12,7 @@ class OpenTrip extends Model
     protected $fillable = [
         'title',
         'meeting_point',
-        'contact',
+        'id_contact',
         'description',
         'price',
         'price_label',

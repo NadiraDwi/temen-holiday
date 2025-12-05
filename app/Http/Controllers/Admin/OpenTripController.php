@@ -9,6 +9,10 @@ use App\Models\OpenTripItinerary;
 use App\Models\OpenTripItineraryItem;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 
 class OpenTripController extends Controller
 {
@@ -17,17 +21,15 @@ class OpenTripController extends Controller
         return view('admin.opentrip.index');
     }
 
-    // JSON list untuk DataTables
     public function list(Request $request)
     {
         $data = OpenTrip::query();
 
         return DataTables::of($data)
-            ->addIndexColumn()   // <–– wajib kalau ingin DT_RowIndex muncul di JSON
+            ->addIndexColumn()
             ->make(true);
     }
 
-    // Detail page
     public function detail($id)
     {
         $trip = OpenTrip::with(['contact', 'destinations', 'schedules'])->findOrFail($id);
@@ -35,43 +37,55 @@ class OpenTripController extends Controller
         return view('admin.opentrip.detail', compact('trip'));
     }
 
-    // PAGE CREATE
     public function create()
     {
-        $contacts = Contact::all();
+        $contacts = Contact::orderBy('nama')->get();
         return view('admin.opentrip.create', compact('contacts'));
     }
 
-    // STORE DATA
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required',
-            'description' => 'nullable',
-            'price' => 'required|integer',
-            'include' => 'nullable',
-            'meeting_point' => 'nullable',
-            'cover_image' => 'nullable|mimes:jpg,jpeg,png',
+            'title'          => 'required',
+            'description'    => 'nullable',
+            'price'          => 'required|numeric',
+            'include'        => 'nullable',
+            'meeting_point'  => 'nullable',
+            'price_label'    => 'nullable',
+            'images.*'       => 'nullable|image|max:4096',
+            'id_contact'     => 'nullable|uuid',
         ]);
 
-        // upload file
-        $filename = null;
-        if ($request->hasFile('cover_image')) {
-            $filename = time().'_'.$request->cover_image->getClientOriginalName();
-            $request->cover_image->storeAs('opentrip', $filename, 'public');
+        $manager = new ImageManager(new Driver());
+        $paths = [];
+
+        // ---------- SIMPAN WEBP ----------
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $file) {
+
+                $name = Str::uuid() . '.webp';
+                $path = "opentrip/$name";
+
+                $img = $manager->read($file)->toWebp(80);
+                Storage::disk('public')->put($path, $img);
+
+                $paths[] = $path;
+            }
         }
 
         OpenTrip::create([
-            'title' => $request->title,
-            'description' => $request->description,
-            'price' => $request->price,
-            'price_label' => $request->price_label,
+            'title'         => $request->title,
+            'description'   => $request->description,
+            'price'         => $request->price,
+            'price_label'   => $request->price_label,
             'meeting_point' => $request->meeting_point,
-            'include' => $request->include,
-            'cover_image' => $filename,
+            'include'       => $request->include,
+            'id_contact'    => $request->id_contact,
+            'images'        => $paths,
         ]);
 
-        return redirect()->route('trip.index')->with('success', 'Open Trip berhasil ditambahkan');
+        return redirect()->route('trip.index')
+            ->with('success', 'Open Trip berhasil ditambahkan');
     }
 
     public function storeItinerary(Request $request)
@@ -83,7 +97,7 @@ class OpenTripController extends Controller
 
         OpenTripItinerary::create([
             'open_trip_id' => $request->open_trip_id,
-            'day_title' => $request->day_title
+            'day_title'    => $request->day_title
         ]);
 
         return back()->with('success', 'Hari itinerary berhasil ditambahkan');
@@ -93,13 +107,13 @@ class OpenTripController extends Controller
     {
         $request->validate([
             'itinerary_id' => 'required',
-            'activity' => 'required',
+            'activity'     => 'required',
         ]);
 
         OpenTripItineraryItem::create([
             'itinerary_id' => $request->itinerary_id,
-            'time' => $request->time,
-            'activity' => $request->activity
+            'time'         => $request->time,
+            'activity'     => $request->activity
         ]);
 
         return back()->with('success', 'Aktivitas berhasil ditambahkan');
@@ -120,7 +134,7 @@ class OpenTripController extends Controller
     public function edit($id)
     {
         $trip = OpenTrip::findOrFail($id);
-        $contacts = Contact::all();
+        $contacts = Contact::orderBy('nama')->get();
         return view('admin.opentrip.edit', compact('trip', 'contacts'));
     }
 
@@ -135,36 +149,57 @@ class OpenTripController extends Controller
             'price_label'    => 'nullable|string|max:255',
             'meeting_point'  => 'nullable|string|max:255',
             'include'        => 'nullable|string',
-            'cover_image'    => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048'
+            'images.*'       => 'nullable|image|max:4096',
+            'hapus_images'   => 'nullable',
+            'id_contact'     => 'nullable|uuid',
         ]);
 
-        // UPLOAD GAMBAR
-        if ($request->hasFile('cover_image')) {
+        $manager = new ImageManager(new Driver());
 
-            // hapus gambar lama kalau ada
-            if ($trip->cover_image && file_exists(storage_path('app/public/opentrip/' . $trip->cover_image))) {
-                unlink(storage_path('app/public/opentrip/' . $trip->cover_image));
+        $list = $trip->images ?? [];
+
+        // ------------------------------
+        //  DELETE OLD IMAGES
+        // ------------------------------
+        $hapus = json_decode($request->hapus_images, true) ?? [];
+
+        if (!empty($hapus)) {
+            foreach ($hapus as $file) {
+                Storage::disk('public')->delete($file);
+                $list = array_values(array_diff($list, [$file]));
             }
-
-            $file = $request->file('cover_image');
-            $fileName = time() . '_' . $file->getClientOriginalName();
-
-            // simpan ke storage/public/opentrip seperti CREATE
-            $file->storeAs('opentrip', $fileName, 'public');
-
-            $trip->cover_image = $fileName;
         }
 
-        // UPDATE DATA
-        $trip->title         = $request->title;
-        $trip->description   = $request->description;
-        $trip->price         = $request->price;
-        $trip->price_label   = $request->price_label;
-        $trip->meeting_point = $request->meeting_point;
-        $trip->include       = $request->include;
-        $trip->id_contact    = $request->id_contact;
+        // ------------------------------
+        //  ADD NEW WEBP IMAGES
+        // ------------------------------
+        if ($request->hasFile('images')) {
 
-        $trip->save();
+            foreach ($request->file('images') as $file) {
+
+                $name = Str::uuid() . '.webp';
+                $path = "opentrip/$name";
+
+                $img = $manager->read($file)->toWebp(80);
+                Storage::disk('public')->put($path, $img);
+
+                $list[] = $path;
+            }
+        }
+
+        // ------------------------------
+        // UPDATE TRIP
+        // ------------------------------
+        $trip->update([
+            'title'         => $request->title,
+            'description'   => $request->description,
+            'price'         => $request->price,
+            'price_label'   => $request->price_label,
+            'meeting_point' => $request->meeting_point,
+            'include'       => $request->include,
+            'id_contact'    => $request->id_contact,
+            'images'        => $list,
+        ]);
 
         return redirect()->route('trip.detail', $trip->id)
             ->with('success', 'Trip berhasil diperbarui.');
@@ -174,15 +209,18 @@ class OpenTripController extends Controller
     {
         $trip = OpenTrip::findOrFail($id);
 
-        // hapus destinasi / jadwal jika terkait
+        if ($trip->images) {
+            foreach ($trip->images as $img) {
+                Storage::disk('public')->delete($img);
+            }
+        }
+
         $trip->destinations()->delete();
         $trip->schedules()->delete();
         $trip->itineraries()->delete();
-
         $trip->delete();
 
         return redirect()->route('trip.index')
             ->with('success', 'Trip berhasil dihapus.');
     }
-
 }

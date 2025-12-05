@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\CategoryKendaraanController;
 use App\Http\Controllers\Admin\KendaraanController as AdminKendaraanController;
 use App\Http\Controllers\Admin\GaleriController as AdminGaleriController;
+use App\Http\Controllers\Admin\WisataController as AdminWisataController;
 use App\Http\Controllers\Admin\OpenTripController;
 use App\Http\Controllers\Admin\OpenTripDestinationController;
 use App\Http\Controllers\Admin\TestimoniController as AdminTestimoniController; 
@@ -104,6 +105,17 @@ Route::prefix('admin')->group(function () {
             Route::post('/update/{id}', [AdminGaleriController::class, 'update'])->name('update');
 
             Route::delete('/delete', [AdminGaleriController::class, 'delete'])->name('delete');
+        });
+
+        Route::prefix('wisata')->name('wisata.')->group(function () {
+            Route::get('/', [AdminWisataController::class, 'index'])->name('index');
+            Route::get('/list', [AdminWisataController::class, 'list'])->name('list');
+            Route::get('/create', [AdminWisataController::class, 'create'])->name('create');
+            Route::post('/store', [AdminWisataController::class, 'store'])->name('store');
+            Route::get('/detail/{id}', [AdminWisataController::class, 'detail'])->name('detail'); // FIXED
+            Route::get('/edit/{id}', [AdminWisataController::class, 'edit'])->name('edit'); // tambahkan edit route
+            Route::put('/update/{id}', [AdminWisataController::class, 'update'])->name('update');
+            Route::delete('/delete/{id}', [AdminWisataController::class, 'delete'])->name('delete');
         });
 
         //open trip admin

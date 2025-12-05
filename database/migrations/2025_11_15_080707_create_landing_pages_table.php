@@ -19,11 +19,6 @@ return new class extends Migration
             $table->string('kontak')->nullable();
             $table->string('gambar_header')->nullable();
             $table->text('embed_maps')->nullable();
-            
-            $table->char('updated_by', 36)->nullable(); 
-            $table->foreign('updated_by')->references('id_admin')->on('admins')
-                ->onDelete('set null');
-
             $table->timestamps();
         });
     }

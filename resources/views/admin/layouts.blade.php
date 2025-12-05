@@ -178,7 +178,7 @@
             <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
           </a>
           <ul class="pc-submenu">
-            <li class="pc-item"><a class="pc-link" href="/wisata/paket">Paket Wisata</a></li>
+            <li class="pc-item"><a class="pc-link" href="{{ route('wisata.index') }}">Wisata</a></li>
             <li class="pc-item"><a class="pc-link" href="{{ route('trip.index') }}">Open Trip</a></li>
           </ul>
         </li>

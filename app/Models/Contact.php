@@ -39,4 +39,10 @@ class Contact extends Model
     {
         return $this->hasMany(Vehicle::class, 'id_contact', 'id_contact');
     }
+
+    public function wisata()
+    {
+        return $this->hasMany(Wisata::class, 'id_contact', 'id_contact');
+    }
+
 }

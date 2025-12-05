@@ -25,7 +25,8 @@ Route::get('/galeri', [GaleriController::class, 'index'])->name('galeri');
 Route::get('/paket', [PaketController::class, 'index'])->name('paket');
 
 // Open Trip Detail
-Route::get('/paket/{id}', [PaketController::class, 'detail'])->name('paket.detail');
+Route::get('/opentrip/{id}', [PaketController::class, 'detailOpenTrip'])->name('opentrip.detail');
+Route::get('/wisata/user/{id}', [PaketController::class, 'detailWisata'])->name('wisata.user.detail');
 
 Route::get('/', [HomeController::class, 'index'])->name('/');
 

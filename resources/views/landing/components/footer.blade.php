@@ -18,7 +18,7 @@
         <p class="text-light">Jl. Kebonagung Gg. 7, Gondorejo Krajan, Tamanharjo, Kec. Singosari, Kabupaten Malang, Jawa Timur 65153, Indonesia</p>
 
         <p class="mb-1 fw-bold">CALL US</p>
-        <p class="text-light">(021) 23509999</p>
+        <p class="text-light">+62 813-3511-5008</p>
 
         <p class="mb-1 fw-bold">MAIL US</p>
         <a href="https://mail.google.com/mail/?view=cm&fs=1&to={{ env('CONTACT_EMAIL') }}"

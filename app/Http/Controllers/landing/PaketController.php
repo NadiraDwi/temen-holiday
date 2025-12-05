@@ -4,24 +4,79 @@ namespace App\Http\Controllers\Landing;
 
 use App\Http\Controllers\Controller;
 use App\Models\OpenTrip;
+use App\Models\Wisata;
+use App\Helpers\FormatHelper;
 
 class PaketController extends Controller
 {
     public function index()
     {
-        $trips = OpenTrip::with(['destinations', 'schedules'])->get(); // ambil semua open trip
-        return view('landing.paket', compact('trips'));
+        // OpenTrip 3 item
+        $openTrip = OpenTrip::take(3)->get()->map(function ($item) {
+            return (object)[
+                'id'     => $item->id,
+                'title'  => $item->title,
+                'price'  => $item->price,
+                'images' => $item->images,
+                'type'   => 'opentrip',
+            ];
+        });
+
+        // Wisata 3 item
+        $wisata = Wisata::take(3)->get()->map(function ($item) {
+            return (object)[
+                'id'     => $item->id,
+                'title'  => $item->title,
+                'price'  => $item->price,
+                'images' => $item->images,
+                'type'   => 'wisata',
+            ];
+        });
+
+        $paket = $openTrip->merge($wisata);
+
+        return view('landing.paket', compact('paket'));
     }
 
-    public function detail($id)
+    // ==========================
+    // DETAIL OPEN TRIP
+    // ==========================
+    public function detailOpenTrip($id)
     {
-        $trip = OpenTrip::with(['destinations', 'schedules', 'itineraries.items'])
+        $trip = OpenTrip::with([
+                'contact',
+                'destinations',
+                'schedules',
+                'itineraries.items'
+            ])
             ->findOrFail($id);
 
-        // fasilitas = kolom include dipisah berdasarkan koma
-        $fasilitas = array_filter(array_map('trim', explode(',', $trip->include ?? '')));
+        $fasilitas = array_filter(
+            array_map('trim', explode(',', $trip->include ?? ''))
+        );
 
-        return view('landing.paket-detail', compact('trip', 'fasilitas'));
+        // nomor WA diformat
+        $wa_number = FormatHelper::normalizePhone($trip->contact->no_hp ?? '');
+
+        return view('landing.paket-detail', [
+            'trip'        => $trip,
+            'fasilitas'   => $fasilitas,
+            'nomorAdmin'  => $wa_number,
+        ]);
     }
 
+    // ==========================
+    // DETAIL WISATA
+    // ==========================
+    public function detailWisata($id)
+    {
+        $wisata = Wisata::with(['contact'])->findOrFail($id);
+
+        $wa_number = FormatHelper::normalizePhone($wisata->contact->no_hp ?? '');
+
+        return view('landing.wisata-detail', [
+            'wisata'      => $wisata,
+            'nomorAdmin'  => $wa_number,
+        ]);
+    }
 }

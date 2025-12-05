@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\VehicleCategory;
 use App\Models\Gallery;
 use App\Models\Testimonial;
+use App\Models\OpenTrip;
+use App\Models\Wisata;
 
 class HomeController extends Controller
 {
@@ -18,6 +20,28 @@ class HomeController extends Controller
         $galeri = Gallery::latest()->get();
         $testimoni = Testimonial::latest()->take(3)->get();
 
-        return view('landing.home', compact('categories', 'galeri', 'testimoni'));
+        $openTrip = OpenTrip::take(3)->get()->map(function ($item) {
+            return (object)[
+                'id'     => $item->id,
+                'title'  => $item->title,
+                'price'  => $item->price,
+                'images' => $item->images,
+                'type'   => 'opentrip',
+            ];
+        });
+
+        $wisata = Wisata::take(3)->get()->map(function ($item) {
+            return (object)[
+                'id'     => $item->id,
+                'title'  => $item->title,
+                'price'  => $item->price,
+                'images' => $item->images,
+                'type'   => 'wisata',
+            ];
+        });
+
+        $paket = $openTrip->merge($wisata);
+
+        return view('landing.home', compact('categories', 'galeri', 'testimoni', 'paket'));
     }
 }

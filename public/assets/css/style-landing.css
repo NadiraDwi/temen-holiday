@@ -45,7 +45,7 @@ body{
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 9999;
+  z-index: 20;
   height: var(--navbar-height);
   padding: calc(var(--navbar-height) * 0.23) 0;
   display: flex;
@@ -481,7 +481,7 @@ body{
         background: #fff !important;
         padding: 1.2rem;
         border-radius: 0 !important;
-        z-index: 9999;
+        z-index: 20;
     }
 }
 

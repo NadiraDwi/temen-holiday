@@ -14,7 +14,7 @@
 
 @include('landing.components.header')
 
-<section class="hero hero-small" style="background-image: url('assets/image/home1.jpeg');">
+<section class="hero hero-small" style="background-image: url('{{ asset('assets/image/home1.jpeg') }}');">
   <div class="hero-text">
     <h1>Paket Wisata</h1>
   </div>
@@ -24,23 +24,38 @@
 
   <div class="row g-4">
 
-    @foreach ($trips as $trip)
+    @foreach ($paket as $item)
     <div class="col-md-4">
       <div class="card shadow-sm">
 
-        <img src="{{ asset('storage/opentrip/' . $trip->cover_image) }}" 
-             class="card-img-top card-img-fixed" alt="Gambar Trip">
+        {{-- GAMBAR COVER --}}
+        <img 
+          src="{{ asset('storage/' . $item->images[0]) }}" 
+          class="card-img-top card-img-fixed"
+          alt="Gambar Paket">
 
         <div class="card-body">
-          <h5 class="card-title fw-bold">{{ $trip->title }}</h5>
 
+          {{-- TITLE --}}
+          <h5 class="card-title fw-bold">{{ $item->title }}</h5>
+
+          {{-- HARGA --}}
           <p class="text-muted">
-            Harga: 
-            {{ $trip->price_label ? $trip->price_label : 'Rp ' . number_format($trip->price) }}
+            Harga:
+            Rp {{ number_format($item->price, 0, ',', '.') }}
           </p>
 
-          {{-- BUTTON ARAH KE HALAMAN DETAIL BARU --}}
-          <a href="{{ route('paket.detail', $trip->id) }}" class="more-link">
+          {{-- BADGE JENIS PAKET --}}
+          <span class="badge bg-primary mb-2">
+            {{ strtoupper($item->type) }}
+          </span>
+
+          {{-- BUTTON DETAIL OTOMATIS --}}
+          <a 
+            href="{{ $item->type === 'opentrip'
+                    ? route('opentrip.detail', $item->id)
+                    : route('wisata.user.detail', $item->id) }}"
+            class="more-link d-block mt-2">
             Detail
           </a>
 
@@ -50,14 +65,14 @@
     @endforeach
 
   </div>
+
 </div>
 
 @include('landing.components.footer')
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- Wa -->
-<!-- SWIPER JS -->
+<!-- Swiper -->
 <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 <script>
   var swiper = new Swiper(".gallerySwiper", {
@@ -74,50 +89,6 @@
       992: { slidesPerView: 3 }
     }
   });
-</script>
-
-<script>
-function checkForm() {
-  const nama = document.getElementById("nama").value.trim();
-  const pilihan = document.getElementById("pilihan").value;
-  const telp = document.getElementById("telp").value.trim();
-
-  const btn = document.getElementById("submitBtn");
-
-  // Cek semua harus terisi
-  if (nama !== "" && pilihan !== "" && telp !== "") {
-    btn.disabled = false;
-  } else {
-    btn.disabled = true;
-  }
-}
-
-// Jalankan cek tiap input berubah
-document.getElementById("nama").addEventListener("input", checkForm);
-document.getElementById("pilihan").addEventListener("change", checkForm);
-document.getElementById("telp").addEventListener("input", checkForm);
-
-document.getElementById("waForm").addEventListener("submit", function(e) {
-  e.preventDefault();
-
-  const nama = document.getElementById("nama").value;
-  const pilihan = document.getElementById("pilihan").value;
-  const telp = document.getElementById("telp").value;
-
-  const nomorTujuan = "6281234567890"; // GANTI nomor WA mitra
-
-  const pesan =
-`Halo kak, saya ingin ${pilihan}.
-
-*Nama:* ${nama}
-*Nomor:* ${telp}
-
-Mohon info lebih lanjut ya kak.`;
-
-  const url = "https://wa.me/" + nomorTujuan + "?text=" + encodeURIComponent(pesan);
-
-  window.open(url, "_blank");
-});
 </script>
 
 </body>

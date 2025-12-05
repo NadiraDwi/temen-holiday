@@ -43,7 +43,7 @@
 
 <div class="container py-5">
 
-    <div class="card shadow-sm p-4 border-0 mb-0 text-center">
+    <div class="card shadow-sm p-4 border-0 mb-4 mt-2 text-center">
         <h3 class="fw-bold mb-0">Tulis Testimonimu</h3>
     </div>
 
@@ -57,7 +57,6 @@
                 <h5 class="mb-3">Upload Foto</h5>
 
                 <div class="upload-btn text-center" onclick="document.getElementById('imageInput').click()">
-                    <i class="bi bi-image fs-3"></i><br>
                     <span>Pilih Foto</span>
                 </div>
 

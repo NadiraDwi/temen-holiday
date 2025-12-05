@@ -59,4 +59,12 @@ class Vehicle extends Model
     {
         return $this->belongsTo(\App\Models\User::class, 'updated_by', 'id');
     }
+
+    public function getGambarPertamaAttribute()
+    {
+        return is_array($this->images) && count($this->images) > 0
+            ? $this->images[0]
+            : null;
+    }
+
 }

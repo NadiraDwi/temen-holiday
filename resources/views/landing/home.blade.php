@@ -239,7 +239,7 @@
 <!-- KENDARAAN -->
 <section class="py-5 bg-light" id="kendaraan">
   <div class="container">
-    <h2 class="text-center mb-4 fw-bold">Kendaraan Kami</h2>
+    <h2 class="text-center mb-4 fw-bold">Layanan Kendaraan</h2>
 
     <div class="row g-4">
 
@@ -251,9 +251,10 @@
         <div class="col-md-4">
           <a href="{{ url('/kendaraan?kategori=' . $cat->id_category) }}" class="text-decoration-none">
             <div class="vehicle-card"
-              style="background-image: url('{{ $vehicle ? asset('storage/kendaraan/' . $vehicle->gambar) : asset('assets/image/mobil1.jpeg') }}');">
-              
-              <span class="vehicle-badge">{{ $cat->kategori }}</span>
+              style="background-image: url('{{ $vehicle && $vehicle->gambar_pertama 
+                  ? asset('storage/' . $vehicle->gambar_pertama) 
+                  : asset('assets/image/mobil1.jpeg') }}');"
+               <span class="vehicle-badge">{{ $cat->kategori }}</span>
               <p class="vehicle-desc">
                 {{ $cat->keterangan ?? 'Kendaraan nyaman untuk berbagai kebutuhan.' }}
               </p>
@@ -274,56 +275,48 @@
   </div>
 </section>
 
-<!-- PAKET WISATA -->
 <section class="py-5" id="paket">
-  <div class="container">
-    <h2 class="text-center mb-4 fw-bold">Paket Wisata</h2>
+    <div class="container">
+        <h2 class="text-center mb-4 fw-bold">Layanan Wisata</h2>
 
-    <div class="row g-4">
-      <div class="col-md-4">
-        <a href="{{ url('/paket') }}" class="text-decoration-none">
-          <div class="card h-100 shadow-sm card-hover">
-            <img src="{{ asset('assets/image/wisata1.jpeg') }}" class="card-img-top card-img-fixed">
-            <div class="card-body">
-              <h5 class="fw-bold text-dark">Paket 1 - Bandung</h5>
-              <p class="text-muted">Rp 1.500.000</p>
-            </div>
-          </div>
-        </a>
-      </div>
+        <div class="row g-4">
 
-      <div class="col-md-4">
-        <a href="{{ url('/paket') }}" class="text-decoration-none">
-          <div class="card h-100 shadow-sm card-hover">
-            <img src="{{ asset('assets/image/wisata2.jpeg') }}" class="card-img-top card-img-fixed">
-            <div class="card-body">
-              <h5 class="fw-bold text-dark">Paket 2 - Bali</h5>
-              <p class="text-muted">Rp 3.200.000</p>
-            </div>
-          </div>
-        </a>
-      </div>
+            @foreach ($paket as $item)
+                <div class="col-md-4">
+                    <a href="{{ $item->type === 'opentrip' ? url('/opentrip/' . $item->id) : url('/wisata/' . $item->id) }}"
+                       class="text-decoration-none">
 
-      <div class="col-md-4">
-        <a href="{{ url('/paket') }}" class="text-decoration-none">
-          <div class="card h-100 shadow-sm card-hover">
-            <img src="{{ asset('assets/image/wisata3.jpeg') }}" class="card-img-top card-img-fixed">
-            <div class="card-body">
-              <h5 class="fw-bold text-dark">Paket 3 - Lombok</h5>
-              <p class="text-muted">Rp 2.800.000</p>
-            </div>
-          </div>
-        </a>
-      </div>
+                        <div class="card h-100 shadow-sm card-hover">
+
+                            {{-- tampilkan gambar pertama --}}
+                            <div class="position-relative">
+                                <img src="{{ asset('storage/' . $item->images[0]) }}"
+                                     class="card-img-top card-img-fixed">
+
+                                {{-- LABEL TIPE --}}
+                                <span class="badge bg-primary position-absolute top-0 start-0 m-2">
+                                    {{ strtoupper($item->type) }}
+                                </span>
+                            </div>
+
+                            <div class="card-body">
+                                <h5 class="fw-bold text-dark">{{ $item->title }}</h5>
+                                <p class="text-muted">Rp {{ number_format($item->price, 0, ',', '.') }}</p>
+                            </div>
+
+                        </div>
+                    </a>
+                </div>
+            @endforeach
+
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="{{ url('/paket') }}" class="more-link">
+                Selengkapnya <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
     </div>
-
-    <div class="text-center mt-4">
-      <a href="{{ url('/paket') }}" class="more-link">
-        Selengkapnya <i class="bi bi-arrow-right"></i>
-      </a>
-    </div>
-
-  </div>
 </section>
 
 <!-- GALERI -->

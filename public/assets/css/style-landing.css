@@ -768,7 +768,7 @@ body{
 }
 .star.hover,
 .star.selected {
-  color: #f4b400;
+  color: #0056d2;
 }
 
 @media (max-width: 992px) {
@@ -808,7 +808,7 @@ body{
 .navbar-nav .nav-link.active,
 .navbar-nav .nav-link.show {
     background-color: transparent !important;
-    color: #ff9800 !important; /* warna highlight aktf */
+    color: #0056d2 !important; /* warna highlight aktf */
     font-weight: 600;
     border-radius: 0 !important;
     padding-left: 15px;
@@ -823,7 +823,7 @@ body{
 }
 
 .navbar .nav-link.active {
-    color: #ff9800 !important; /* warna highlight */
+    color: #0056d2 !important; /* warna highlight */
     font-weight: 600;
     position: relative;
 }
@@ -835,6 +835,6 @@ body{
     left: 0;
     width: 100%;
     height: 3px;
-    background-color: #ff9800;
+    background-color: #0056d2;
     border-radius: 2px;
 }

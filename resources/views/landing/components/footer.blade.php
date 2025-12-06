@@ -102,3 +102,64 @@
     </p>
   </div>
 </footer>
+<style>
+    .footer-links .nav-link {
+        color: #b1aaaaff;
+        transition: 0.2s;
+    }
+
+    /* Warna biru saat active */
+    .footer-links .nav-link.active {
+        color: #0056d2 !important;
+        font-weight: 600;
+    }
+
+    /* Hover tetap konsisten */
+    .footer-links .nav-link:hover {
+        color: #0056d2;
+    }
+</style>
+
+<script>
+function checkForm() {
+  const nama = document.getElementById("nama").value.trim();
+  const pilihan = document.getElementById("pilihan").value;
+  const telp = document.getElementById("telp").value.trim();
+
+  const btn = document.getElementById("submitBtn");
+
+  // Cek semua harus terisi
+  if (nama !== "" && pilihan !== "" && telp !== "") {
+    btn.disabled = false;
+  } else {
+    btn.disabled = true;
+  }
+}
+
+// Jalankan cek tiap input berubah
+document.getElementById("nama").addEventListener("input", checkForm);
+document.getElementById("pilihan").addEventListener("change", checkForm);
+document.getElementById("telp").addEventListener("input", checkForm);
+
+document.getElementById("waForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const nama = document.getElementById("nama").value;
+  const pilihan = document.getElementById("pilihan").value;
+  const telp = document.getElementById("telp").value;
+
+  const nomorTujuan = "6281335115008"; // GANTI nomor WA mitra
+
+  const pesan =
+`Halo kak, saya ingin ${pilihan}.
+
+*Nama:* ${nama}
+*Nomor:* ${telp}
+
+Mohon info lebih lanjut ya kak.`;
+
+  const url = "https://wa.me/" + nomorTujuan + "?text=" + encodeURIComponent(pesan);
+
+  window.open(url, "_blank");
+});
+</script>

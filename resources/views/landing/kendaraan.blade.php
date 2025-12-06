@@ -13,6 +13,13 @@
   <link rel="stylesheet" href="{{ asset('assets/css/style-landing.css') }}">
 </head>
 <style>
+  #detailCarousel .carousel-item img {
+    height: 300px;            /* fixed height */
+    width: 100%;
+    object-fit: cover;        /* biar rapi tidak gepeng */
+    border-radius: 10px;
+}
+
   /* Agar collapse filter lebih smooth */
 #filterSidebar.collapsing {
   transition: height 0.25s ease;
@@ -125,7 +132,10 @@
 
         <div class="vehicle-2-card">
           <div class="vehicle-2-img-wrapper">
-            <img src="{{ asset('storage/kendaraan/' . $v->gambar) }}" alt="{{ $v->nama_kendaraan }}">
+            <img 
+              src="{{ asset('storage/' . $v->images[0]) }}" 
+              class="card-img-top card-img-fixed"
+              alt="Gambar Kendaraan">
           </div>
 
           <div class="vehicle-2-body">
@@ -136,14 +146,14 @@
             </p>
 
             <button 
-              class="btn btn-primary vehicle-2-btn detail-trigger"
-              data-nama="{{ $v->nama_kendaraan }}"
-              data-id="{{ $v->id_vehicle }}"
-              data-harga="{{ $v->harga }}"
-              data-kapasitas="{{ $v->kapasitas }}"
-              data-fasilitas='@json(explode(",", $v->fasilitas))'
-              data-gambar="{{ asset('storage/kendaraan/' . $v->gambar) }}">
-              Detail
+                class="btn btn-primary vehicle-2-btn detail-trigger"
+                data-nama="{{ $v->nama_kendaraan }}"
+                data-id="{{ $v->id_vehicle }}"
+                data-harga="{{ $v->harga }}"
+                data-kapasitas="{{ $v->kapasitas }}"
+                data-fasilitas='@json(explode(",", $v->fasilitas))'
+                data-gambar='@json(array_map(fn($img) => asset("storage/" . $img), $v->images))'>
+                Detail
             </button>
 
           </div>
@@ -172,7 +182,26 @@
 
         <div class="row">
           <div class="col-md-5">
-            <img id="detailGambar" class="img-fluid rounded" alt="">
+
+            <!-- CAROUSEL -->
+            <div id="detailCarousel" class="carousel slide" data-bs-ride="carousel">
+
+              <div class="carousel-indicators" id="detailIndicators"></div>
+
+              <div class="carousel-inner shadow rounded" id="detailCarouselInner"></div>
+
+              <button class="carousel-control-prev" type="button"
+                      data-bs-target="#detailCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+              </button>
+
+              <button class="carousel-control-next" type="button"
+                      data-bs-target="#detailCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+              </button>
+
+            </div>
+
           </div>
 
           <div class="col-md-7">
@@ -245,28 +274,65 @@ document.querySelectorAll(".detail-trigger").forEach(btn => {
     btn.addEventListener("click", function () {
 
         let nama = this.dataset.nama;
-        let gambar = this.dataset.gambar;
+        let images = JSON.parse(this.dataset.gambar); // ← ARRAY GAMBAR
         let harga = this.dataset.harga;
         let kapasitas = this.dataset.kapasitas;
         let fasilitas = JSON.parse(this.dataset.fasilitas);
         let id = this.dataset.id;
 
         document.getElementById("detailNama").textContent = nama;
-        document.getElementById("detailGambar").src = gambar;
 
         document.getElementById("detailHarga").textContent =
             "Rp " + Number(harga).toLocaleString("id-ID") + " / Hari";
 
         document.getElementById("detailKapasitas").textContent = kapasitas;
 
+        // =========================
+        // CAROUSEL DINAMIS
+        // =========================
+        let indicators = document.getElementById("detailIndicators");
+        let carouselInner = document.getElementById("detailCarouselInner");
+
+        indicators.innerHTML = "";
+        carouselInner.innerHTML = "";
+
+        images.forEach((img, i) => {
+
+            // Indicators
+            indicators.innerHTML += `
+                <button type="button"
+                        data-bs-target="#detailCarousel"
+                        data-bs-slide-to="${i}"
+                        class="${i === 0 ? 'active' : ''}">
+                </button>
+            `;
+
+            // Carousel item
+            carouselInner.innerHTML += `
+                <div class="carousel-item ${i === 0 ? 'active' : ''}">
+                    <img src="${img}" class="d-block w-100 trip-image-fixed">
+                </div>
+            `;
+        });
+
+        // =========================
+        // FASILITAS
+        // =========================
         let ul = document.getElementById("detailFasilitas");
         ul.innerHTML = "";
         fasilitas.forEach(f => {
             ul.innerHTML += `<li>${f}</li>`;
         });
 
-        document.getElementById("btnPesanSekarang").href = "{{ url('/pesan') }}/" + id;
+        // =========================
+        // LINK PESAN
+        // =========================
+        document.getElementById("btnPesanSekarang").href =
+            "{{ url('/pesan') }}/" + id;
 
+        // =========================
+        // BUKA MODAL
+        // =========================
         new bootstrap.Modal(document.getElementById("detailModal")).show();
     });
 });
@@ -290,50 +356,6 @@ document.querySelectorAll(".detail-trigger").forEach(btn => {
       992: { slidesPerView: 3 }
     }
   });
-</script>
-
-<script>
-function checkForm() {
-  const nama = document.getElementById("nama").value.trim();
-  const pilihan = document.getElementById("pilihan").value;
-  const telp = document.getElementById("telp").value.trim();
-
-  const btn = document.getElementById("submitBtn");
-
-  // Cek semua harus terisi
-  if (nama !== "" && pilihan !== "" && telp !== "") {
-    btn.disabled = false;
-  } else {
-    btn.disabled = true;
-  }
-}
-
-// Jalankan cek tiap input berubah
-document.getElementById("nama").addEventListener("input", checkForm);
-document.getElementById("pilihan").addEventListener("change", checkForm);
-document.getElementById("telp").addEventListener("input", checkForm);
-
-document.getElementById("waForm").addEventListener("submit", function(e) {
-  e.preventDefault();
-
-  const nama = document.getElementById("nama").value;
-  const pilihan = document.getElementById("pilihan").value;
-  const telp = document.getElementById("telp").value;
-
-  const nomorTujuan = "6281234567890"; // GANTI nomor WA mitra
-
-  const pesan =
-`Halo kak, saya ingin ${pilihan}.
-
-*Nama:* ${nama}
-*Nomor:* ${telp}
-
-Mohon info lebih lanjut ya kak.`;
-
-  const url = "https://wa.me/" + nomorTujuan + "?text=" + encodeURIComponent(pesan);
-
-  window.open(url, "_blank");
-});
 </script>
 
 <script>

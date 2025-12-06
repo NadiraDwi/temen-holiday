@@ -134,6 +134,37 @@
         }
     }
   </style>
+  <style>
+    /* Efek hover untuk card */
+    .card-hover {
+        transition: 0.25s ease;
+        overflow: hidden;
+    }
+    .card-hover:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    /* Gambar di-zoom saat hover */
+    .card-hover img {
+        transition: 0.4s ease;
+    }
+    .card-hover:hover img {
+        transform: scale(1.05);
+    }
+
+    /* Optional: badge ikut sedikit naik */
+    .card-hover:hover .badge {
+        transform: scale(1.1);
+        transition: 0.2s;
+    }
+
+    /* Biar gambar selalu tinggi sama */
+    .card-img-fixed {
+        height: 220px;
+        object-fit: cover;
+    }
+</style>
 </head>
 <body>
 
@@ -253,7 +284,7 @@
             <div class="vehicle-card"
               style="background-image: url('{{ $vehicle && $vehicle->gambar_pertama 
                   ? asset('storage/' . $vehicle->gambar_pertama) 
-                  : asset('assets/image/mobil1.jpeg') }}');"
+                  : asset('assets/image/mobil1.jpeg') }}');">
                <span class="vehicle-badge">{{ $cat->kategori }}</span>
               <p class="vehicle-desc">
                 {{ $cat->keterangan ?? 'Kendaraan nyaman untuk berbagai kebutuhan.' }}
@@ -283,7 +314,7 @@
 
             @foreach ($paket as $item)
                 <div class="col-md-4">
-                    <a href="{{ $item->type === 'opentrip' ? url('/opentrip/' . $item->id) : url('/wisata/' . $item->id) }}"
+                    <a href="{{ $item->type === 'opentrip' ? url('/opentrip/' . $item->id) : url('/wisata/user/' . $item->id) }}"
                        class="text-decoration-none">
 
                         <div class="card h-100 shadow-sm card-hover">
@@ -595,50 +626,6 @@
       992: { slidesPerView: 3 }
     }
   });
-</script>
-
-<script>
-function checkForm() {
-  const nama = document.getElementById("nama").value.trim();
-  const pilihan = document.getElementById("pilihan").value;
-  const telp = document.getElementById("telp").value.trim();
-
-  const btn = document.getElementById("submitBtn");
-
-  // Cek semua harus terisi
-  if (nama !== "" && pilihan !== "" && telp !== "") {
-    btn.disabled = false;
-  } else {
-    btn.disabled = true;
-  }
-}
-
-// Jalankan cek tiap input berubah
-document.getElementById("nama").addEventListener("input", checkForm);
-document.getElementById("pilihan").addEventListener("change", checkForm);
-document.getElementById("telp").addEventListener("input", checkForm);
-
-document.getElementById("waForm").addEventListener("submit", function(e) {
-  e.preventDefault();
-
-  const nama = document.getElementById("nama").value;
-  const pilihan = document.getElementById("pilihan").value;
-  const telp = document.getElementById("telp").value;
-
-  const nomorTujuan = "6281234567890"; // GANTI nomor WA mitra
-
-  const pesan =
-`Halo kak, saya ingin ${pilihan}.
-
-*Nama:* ${nama}
-*Nomor:* ${telp}
-
-Mohon info lebih lanjut ya kak.`;
-
-  const url = "https://wa.me/" + nomorTujuan + "?text=" + encodeURIComponent(pesan);
-
-  window.open(url, "_blank");
-});
 </script>
 
 <script>

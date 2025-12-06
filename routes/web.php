@@ -25,14 +25,14 @@ Route::get('/galeri', [GaleriController::class, 'index'])->name('galeri');
 Route::get('/paket', [PaketController::class, 'index'])->name('paket');
 
 // Open Trip Detail
-Route::get('/opentrip/{id}', [PaketController::class, 'detailOpenTrip'])->name('opentrip.detail');
-Route::get('/wisata/user/{id}', [PaketController::class, 'detailWisata'])->name('wisata.user.detail');
+Route::get('/paket/opentrip/{id}', [PaketController::class, 'detailOpenTrip'])->name('opentrip.detail');
+Route::get('/paket/wisata/user/{id}', [PaketController::class, 'detailWisata'])->name('wisata.user.detail');
 
 Route::get('/', [HomeController::class, 'index'])->name('/');
 
 //kendaraan-landing
 Route::get('/kendaraan', [KendaraanController::class, 'index'])->name('kendaraan');
-Route::get('/pesan/{id}', [KendaraanController::class, 'pesan'])->name('pesan.kendaraan');
+Route::get('/kendaraan/pesan/{id}', [KendaraanController::class, 'pesan'])->name('pesan.kendaraan');
 Route::post('/kendaraan/whatsapp', [KendaraanController::class, 'kirimWhatsApp'])->name('kendaraan.whatsapp');
 
 Route::get('/about', [AboutController::class, 'index'])->name('about');

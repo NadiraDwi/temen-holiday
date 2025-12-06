@@ -328,7 +328,7 @@ document.querySelectorAll(".detail-trigger").forEach(btn => {
         // LINK PESAN
         // =========================
         document.getElementById("btnPesanSekarang").href =
-            "{{ url('/pesan') }}/" + id;
+            "{{ url('/kendaraan/pesan') }}/" + id;
 
         // =========================
         // BUKA MODAL

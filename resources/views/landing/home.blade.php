@@ -314,7 +314,7 @@
 
             @foreach ($paket as $item)
                 <div class="col-md-4">
-                    <a href="{{ $item->type === 'opentrip' ? url('/opentrip/' . $item->id) : url('/wisata/user/' . $item->id) }}"
+                    <a href="{{ $item->type === 'opentrip' ? url('/paket/opentrip/' . $item->id) : url('/paket/wisata/user/' . $item->id) }}"
                        class="text-decoration-none">
 
                         <div class="card h-100 shadow-sm card-hover">

@@ -107,21 +107,9 @@
       Berikut adalah dokumen legalitas resmi dari <strong>CV Tiga Putra Singhasari (Temen Holiday)</strong> yang telah terdaftar dan beroperasi secara sah sesuai peraturan yang berlaku.
     </p>
 
-    <div class="row g-4">
-
-      <!-- Dokumen 1 -->
-      <div class="col-md-3 col-6">
-        <div class="legal-card text-center shadow-sm p-3 rounded border bg-white">
-          <i class="bi bi-file-earmark-text legal-icon"></i>
-          <h6 class="fw-bold mt-2">Akta Pendirian</h6>
-          <a href="" target="_blank" class="legal-link">
-            Lihat Dokumen →
-          </a>
-        </div>
-      </div>
-
+    <div class="row g-3">
       <!-- Dokumen 2 -->
-      <div class="col-md-3 col-6">
+      <div class="col-md-4 col-6">
         <div class="legal-card text-center shadow-sm p-3 rounded border bg-white">
           <i class="bi bi-file-earmark-check legal-icon"></i>
           <h6 class="fw-bold mt-2">NIB (Nomor Induk Berusaha)</h6>
@@ -132,10 +120,10 @@
       </div>
 
       <!-- Dokumen 3 -->
-      <div class="col-md-3 col-6">
+      <div class="col-md-4 col-6">
         <div class="legal-card text-center shadow-sm p-3 rounded border bg-white">
           <i class="bi bi-file-earmark-text legal-icon"></i>
-          <h6 class="fw-bold mt-2">SIUP / Izin Usaha</h6>
+          <h6 class="fw-bold mt-2">AHU / Administrasi Hukum Umum</h6>
           <a href="{{ asset('assets/dokumen/AHU.pdf') }}" target="_blank" class="legal-link">
             Lihat Dokumen →
           </a>
@@ -143,7 +131,7 @@
       </div>
 
       <!-- Dokumen 4 -->
-      <div class="col-md-3 col-6">
+      <div class="col-md-4 col-6">
         <div class="legal-card text-center shadow-sm p-3 rounded border bg-white">
           <i class="bi bi-file-earmark-lock legal-icon"></i>
           <h6 class="fw-bold mt-2">NPWP Perusahaan</h6>

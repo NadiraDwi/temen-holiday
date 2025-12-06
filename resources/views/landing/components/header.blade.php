@@ -16,23 +16,23 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link {{ Request::is('about') ? 'active' : '' }}" href="{{ url('/about') }}">Tentang Kami</a>
+                    <a class="nav-link {{ Request::is('about', 'about/*') ? 'active' : '' }}" href="{{ url('/about') }}">Tentang Kami</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link {{ Request::is('kendaraan') ? 'active' : '' }}" href="{{ url('/kendaraan') }}">Kendaraan</a>
+                    <a class="nav-link {{ Request::is('kendaraan', 'kendaraan/*') ? 'active' : '' }}" href="{{ url('/kendaraan') }}">Kendaraan</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link {{ Request::is('paket') ? 'active' : '' }}" href="{{ url('/paket') }}">Wisata</a>
+                    <a class="nav-link {{ Request::is('paket', 'paket/*') ? 'active' : '' }}" href="{{ url('/paket') }}">Wisata</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link {{ Request::is('testimoni') ? 'active' : '' }}" href="{{ url('/testimoni') }}">Ulasan</a>
+                    <a class="nav-link {{ Request::is('testimoni', 'testimoni/*') ? 'active' : '' }}" href="{{ url('/testimoni') }}">Ulasan</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link {{ Request::is('galeri') ? 'active' : '' }}" href="{{ url('/galeri') }}">Galeri</a>
+                    <a class="nav-link {{ Request::is('galeri', 'galeri/*') ? 'active' : '' }}" href="{{ url('/galeri') }}">Galeri</a>
                 </li>
 
                 <li class="nav-item">

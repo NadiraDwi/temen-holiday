@@ -838,3 +838,19 @@ body{
     background-color: #0056d2;
     border-radius: 2px;
 }
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* default hidden */
+.scroll-anim {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.8s ease-out;
+}
+
+.scroll-anim.active {
+  opacity: 1;
+  transform: translateY(0);
+}

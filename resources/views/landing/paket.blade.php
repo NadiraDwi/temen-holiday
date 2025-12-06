@@ -90,6 +90,38 @@
     }
   });
 </script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const autoAnimate = document.querySelectorAll(
+        "section, .container, .row, .card, footer, header"
+    );
+
+    // Tambahkan class scroll-anim, kecuali elemen yang memiliki .no-anim
+    autoAnimate.forEach(el => {
+        if (!el.classList.contains("no-anim")) {
+            el.classList.add("scroll-anim");
+        }
+    });
+
+    function revealElements() {
+        autoAnimate.forEach(el => {
+            if (el.classList.contains("no-anim")) return;
+
+            const elementTop = el.getBoundingClientRect().top;
+            const windowHeight = window.innerHeight;
+
+            if (elementTop < windowHeight - 80) {
+                el.classList.add("active");
+            }
+        });
+    }
+
+    window.addEventListener("scroll", revealElements);
+    revealElements(); // reveal elemen yang sudah terlihat saat load
+});
+</script>
+
 
 </body>
 </html>

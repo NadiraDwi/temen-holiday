@@ -194,24 +194,15 @@
     <p class="hero-subtitle">"As Close As Friends, As Warm As Family"</p>
 
     <div class="search-container">
-      <input type="text" class="form-control search-input"
-             placeholder="Cari destinasi atau paket tour...">
-      <i class="bi bi-search search-icon"></i>
+      <form action="{{ route('search') }}" method="GET" class="search-container">
+        <input type="text" name="q" class="form-control search-input"
+              placeholder="Cari destinasi atau paket tour..." required>
+        <i class="bi bi-search search-icon"></i>
+      </form>
     </div>
   </div>
 
 </div>
-
-  <!-- OVERLAY TEXT -->
-  <div class="hero-overlay position-absolute top-50 start-50 translate-middle text-center">
-    <h1 class="hero-title">Welcome to Temen Holiday</h1>
-    <p class="hero-subtitle">"As Close As Friends, As Warm As Family"</p>
-
-    <div class="search-container position-relative">
-      <input type="text" class="form-control search-input" placeholder="Cari destinasi atau paket tour...">
-      <i class="search-icon bi bi-search"></i>
-    </div>
-  </div>
 
 </div>
 
@@ -652,6 +643,38 @@ document.addEventListener("scroll", function () {
     }
 });
 </script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const autoAnimate = document.querySelectorAll(
+        "section, .container, .row, .card, footer, header"
+    );
+
+    // Tambahkan class scroll-anim, kecuali elemen yang memiliki .no-anim
+    autoAnimate.forEach(el => {
+        if (!el.classList.contains("no-anim")) {
+            el.classList.add("scroll-anim");
+        }
+    });
+
+    function revealElements() {
+        autoAnimate.forEach(el => {
+            if (el.classList.contains("no-anim")) return;
+
+            const elementTop = el.getBoundingClientRect().top;
+            const windowHeight = window.innerHeight;
+
+            if (elementTop < windowHeight - 80) {
+                el.classList.add("active");
+            }
+        });
+    }
+
+    window.addEventListener("scroll", revealElements);
+    revealElements(); // reveal elemen yang sudah terlihat saat load
+});
+</script>
+
 
 
 </body>

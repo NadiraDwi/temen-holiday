@@ -24,6 +24,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/galeri', [GaleriController::class, 'index'])->name('galeri');
 Route::get('/paket', [PaketController::class, 'index'])->name('paket');
 
+Route::get('/search', [HomeController::class, 'search'])->name('search');
+
 // Open Trip Detail
 Route::get('/paket/opentrip/{id}', [PaketController::class, 'detailOpenTrip'])->name('opentrip.detail');
 Route::get('/paket/wisata/user/{id}', [PaketController::class, 'detailWisata'])->name('wisata.user.detail');

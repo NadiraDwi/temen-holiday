@@ -44,49 +44,63 @@ class OpenTripController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'title'          => 'required',
-            'description'    => 'nullable',
-            'price'          => 'required|numeric',
-            'include'        => 'nullable',
-            'meeting_point'  => 'nullable',
-            'price_label'    => 'nullable',
-            'images.*'       => 'nullable|image|max:4096',
-            'id_contact'     => 'nullable|uuid',
-        ]);
+{
+    $request->validate([
+        'title'          => 'required|string|max:255',
+        'description'    => 'required|string',
+        'price'          => 'required|numeric|min:0',
+        'price_label'    => 'nullable|string|max:255',
+        'meeting_point'  => 'required|string|max:255',
+        'include'        => 'required|string',
+        'id_contact'     => 'nullable|uuid',
 
-        $manager = new ImageManager(new Driver());
-        $paths = [];
+        // gambar
+        'images'         => 'required',
+        'images.*'       => 'image|mimes:jpg,jpeg,png,webp|max:4096',
+    ], [
+        'title.required'         => 'Nama trip wajib diisi.',
+        'description.required'   => 'Deskripsi wajib diisi.',
+        'price.required'         => 'Harga wajib diisi.',
+        'price.numeric'          => 'Harga harus berupa angka.',
+        'meeting_point.required' => 'Meeting point wajib diisi.',
+        'include.required'       => 'Fasilitas / include wajib diisi.',
 
-        // ---------- SIMPAN WEBP ----------
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $file) {
+        'images.required'        => 'Minimal upload 1 gambar.',
+        'images.*.image'         => 'File harus berupa gambar.',
+        'images.*.mimes'         => 'Gambar harus berformat JPG, JPEG, PNG, atau WEBP.',
+        'images.*.max'           => 'Ukuran maksimal gambar adalah 4 MB.',
+    ]);
 
-                $name = Str::uuid() . '.webp';
-                $path = "opentrip/$name";
+    // PROSES SIMPAN GAMBAR
+    $manager = new ImageManager(new Driver());
+    $paths = [];
 
-                $img = $manager->read($file)->toWebp(80);
-                Storage::disk('public')->put($path, $img);
+    if ($request->hasFile('images')) {
+        foreach ($request->file('images') as $file) {
+            $name = Str::uuid() . '.webp';
+            $path = "opentrip/$name";
 
-                $paths[] = $path;
-            }
+            $img = $manager->read($file)->toWebp(80);
+            Storage::disk('public')->put($path, $img);
+
+            $paths[] = $path;
         }
-
-        OpenTrip::create([
-            'title'         => $request->title,
-            'description'   => $request->description,
-            'price'         => $request->price,
-            'price_label'   => $request->price_label,
-            'meeting_point' => $request->meeting_point,
-            'include'       => $request->include,
-            'id_contact'    => $request->id_contact,
-            'images'        => $paths,
-        ]);
-
-        return redirect()->route('trip.index')
-            ->with('success', 'Open Trip berhasil ditambahkan');
     }
+
+    OpenTrip::create([
+        'title'         => $request->title,
+        'description'   => $request->description,
+        'price'         => $request->price,
+        'price_label'   => $request->price_label,
+        'meeting_point' => $request->meeting_point,
+        'include'       => $request->include,
+        'id_contact'    => $request->id_contact,
+        'images'        => $paths,
+    ]);
+
+    return redirect()->route('trip.index')
+        ->with('success', 'Open Trip berhasil ditambahkan');
+}
 
     public function storeItinerary(Request $request)
     {
@@ -139,71 +153,61 @@ class OpenTripController extends Controller
     }
 
     public function update(Request $request, $id)
-    {
-        $trip = OpenTrip::findOrFail($id);
+{
+    $trip = OpenTrip::findOrFail($id);
 
-        $request->validate([
-            'title'          => 'required|string|max:255',
-            'description'    => 'nullable|string',
-            'price'          => 'required|numeric',
-            'price_label'    => 'nullable|string|max:255',
-            'meeting_point'  => 'nullable|string|max:255',
-            'include'        => 'nullable|string',
-            'images.*'       => 'nullable|image|max:4096',
-            'hapus_images'   => 'nullable',
-            'id_contact'     => 'nullable|uuid',
-        ]);
+    $request->validate([
+        'title'          => 'required|string|max:255',
+        'description'    => 'nullable|string',
+        'price'          => 'required|numeric',
+        'price_label'    => 'nullable|string|max:255',
+        'meeting_point'  => 'nullable|string|max:255',
+        'include'        => 'nullable|string',
+        'id_contact'     => 'nullable|uuid',
+        'images.*'       => 'nullable|image|max:4096',
+        'deleted_images' => 'nullable|string',
+    ]);
 
-        $manager = new ImageManager(new Driver());
+    $manager = new ImageManager(new Driver());
+    $list = $trip->images ?? [];
 
-        $list = $trip->images ?? [];
+    // HAPUS GAMBAR LAMA
+    $hapus = json_decode($request->deleted_images, true) ?? [];
 
-        // ------------------------------
-        //  DELETE OLD IMAGES
-        // ------------------------------
-        $hapus = json_decode($request->hapus_images, true) ?? [];
-
-        if (!empty($hapus)) {
-            foreach ($hapus as $file) {
-                Storage::disk('public')->delete($file);
-                $list = array_values(array_diff($list, [$file]));
-            }
-        }
-
-        // ------------------------------
-        //  ADD NEW WEBP IMAGES
-        // ------------------------------
-        if ($request->hasFile('images')) {
-
-            foreach ($request->file('images') as $file) {
-
-                $name = Str::uuid() . '.webp';
-                $path = "opentrip/$name";
-
-                $img = $manager->read($file)->toWebp(80);
-                Storage::disk('public')->put($path, $img);
-
-                $list[] = $path;
-            }
-        }
-
-        // ------------------------------
-        // UPDATE TRIP
-        // ------------------------------
-        $trip->update([
-            'title'         => $request->title,
-            'description'   => $request->description,
-            'price'         => $request->price,
-            'price_label'   => $request->price_label,
-            'meeting_point' => $request->meeting_point,
-            'include'       => $request->include,
-            'id_contact'    => $request->id_contact,
-            'images'        => $list,
-        ]);
-
-        return redirect()->route('trip.detail', $trip->id)
-            ->with('success', 'Trip berhasil diperbarui.');
+    foreach ($hapus as $file) {
+        Storage::disk('public')->delete($file);
+        $list = array_values(array_diff($list, [$file]));
     }
+
+    // TAMBAH GAMBAR BARU
+    if ($request->hasFile('images')) {
+        foreach ($request->file('images') as $file) {
+
+            $name = Str::uuid() . '.webp';
+            $path = "opentrip/$name";
+
+            $img = $manager->read($file)->toWebp(80);
+            Storage::disk('public')->put($path, $img);
+
+            $list[] = $path;
+        }
+    }
+
+    // UPDATE DATA
+    $trip->update([
+        'title'         => $request->title,
+        'description'   => $request->description,
+        'price'         => $request->price,
+        'price_label'   => $request->price_label,
+        'meeting_point' => $request->meeting_point,
+        'include'       => $request->include,
+        'id_contact'    => $request->id_contact,
+        'images'        => $list,
+    ]);
+
+    return redirect()->route('trip.detail', $trip->id)
+        ->with('success', 'Trip berhasil diperbarui.');
+}
 
     public function destroy($id)
     {

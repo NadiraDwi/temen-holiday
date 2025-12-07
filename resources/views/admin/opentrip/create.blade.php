@@ -25,10 +25,15 @@
 
             <div class="multi-upload-wrapper">
 
-                <!-- Preview Container -->
                 <div id="preview-container" class="d-flex flex-wrap gap-2 mb-2"></div>
 
-                <!-- Upload Box -->
+                @error('images')
+                    <small class="text-danger d-block">{{ $message }}</small>
+                @enderror
+                @error('images.*')
+                    <small class="text-danger d-block">{{ $message }}</small>
+                @enderror
+
                 <div id="upload-box" class="upload-box text-center">
                     <i class="fas fa-cloud-upload-alt fa-2x mb-2 text-primary"></i>
                     <p>Browse files to upload</p>
@@ -41,32 +46,50 @@
 
         <div class="mb-3">
             <label class="form-label">Nama Trip</label>
-            <input type="text" name="title" class="form-control" required>
+            <input type="text" name="title" value="{{ old('title') }}" class="form-control">
+            @error('title')
+                <small class="text-danger">{{ $message }}</small>
+            @enderror
         </div>
 
         <div class="mb-3">
             <label class="form-label">Deskripsi</label>
-            <textarea name="description" class="form-control" rows="3"></textarea>
+            <textarea name="description" class="form-control" rows="3">{{ old('description') }}</textarea>
+            @error('description')
+                <small class="text-danger">{{ $message }}</small>
+            @enderror
         </div>
 
         <div class="mb-3">
             <label class="form-label">Harga</label>
-            <input type="number" name="price" class="form-control" required>
+            <input type="number" name="price" value="{{ old('price') }}" class="form-control">
+            @error('price')
+                <small class="text-danger">{{ $message }}</small>
+            @enderror
         </div>
 
         <div class="mb-3">
             <label class="form-label">Price Label (opsional)</label>
-            <input type="text" name="price_label" class="form-control" placeholder="Contoh: 685K / pax">
+            <input type="text" name="price_label" value="{{ old('price_label') }}" class="form-control" placeholder="Contoh: 685K / pax">
+            @error('price_label')
+                <small class="text-danger">{{ $message }}</small>
+            @enderror
         </div>
 
         <div class="mb-3">
             <label class="form-label">Meeting Point</label>
-            <input type="text" name="meeting_point" class="form-control">
+            <input type="text" name="meeting_point" value="{{ old('meeting_point') }}" class="form-control" placeholder="Contoh: Malang, Surabaya...">
+            @error('meeting_point')
+                <small class="text-danger">{{ $message }}</small>
+            @enderror
         </div>
 
         <div class="mb-3">
             <label class="form-label">Include (Fasilitas)</label>
-            <textarea name="include" class="form-control" rows="3" placeholder="Contoh: Transportasi, makan, tiket wisata..."></textarea>
+            <textarea name="include" class="form-control" rows="3" placeholder="Contoh: Transportasi, makan, tiket wisata...">{{ old('include') }}</textarea>
+            @error('include')
+                <small class="text-danger">{{ $message }}</small>
+            @enderror
         </div>
 
         <div class="mb-3">
@@ -74,9 +97,15 @@
             <select name="id_contact" class="form-control">
                 <option value="">-- Pilih Kontak --</option>
                 @foreach ($contacts as $c)
-                    <option value="{{ $c->id_contact }}">{{ $c->nama }} - {{ $c->no_hp }}</option>
+                    <option value="{{ $c->id_contact }}" {{ old('id_contact') == $c->id_contact ? 'selected' : '' }}>
+                        {{ $c->nama }} - {{ $c->no_hp }}
+                    </option>
                 @endforeach
             </select>
+
+            @error('id_contact')
+                <small class="text-danger">{{ $message }}</small>
+            @enderror
         </div>
 
         <button class="btn btn-primary px-4">Simpan</button>
@@ -133,7 +162,6 @@ const uploadBox = document.getElementById('upload-box');
 const fileInput = document.getElementById('gambar-input');
 const previewContainer = document.getElementById('preview-container');
 
-// menampung file-file yang dipilih
 let selectedFiles = [];
 
 // klik area upload
@@ -141,7 +169,6 @@ uploadBox.addEventListener('click', () => fileInput.click());
 
 // ketika memilih file baru
 fileInput.addEventListener('change', function () {
-
     [...this.files].forEach((file) => {
         selectedFiles.push(file);
 
@@ -154,9 +181,8 @@ fileInput.addEventListener('change', function () {
     rebuildFileList();
 });
 
-// Tambah preview di layar
+// Tambah preview
 function addPreview(imgUrl, index) {
-
     const div = document.createElement('div');
     div.className = "preview-item";
     div.dataset.index = index;
@@ -171,9 +197,9 @@ function addPreview(imgUrl, index) {
     previewContainer.appendChild(div);
 }
 
-// Hapus gambar dari daftar dan dari tampilan
+// Hapus gambar
 function removeImage(index) {
-    selectedFiles[index] = null; // tandai null
+    selectedFiles[index] = null;
 
     const item = document.querySelector(`.preview-item[data-index="${index}"]`);
     if (item) item.remove();
@@ -181,7 +207,7 @@ function removeImage(index) {
     rebuildFileList();
 }
 
-// rebuild FileList agar hanya file valid yang terkirim
+// rebuild FileList
 function rebuildFileList() {
     const dt = new DataTransfer();
 

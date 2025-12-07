@@ -475,7 +475,7 @@ body{
 @media (max-width: 991px) {
     .navbar-collapse {
         position: absolute;
-        top: 66px;           /* sesuaikan tinggi navbar-mu */
+        top: 53px;           /* sesuaikan tinggi navbar-mu */
         left: 0;
         width: 100%;
         background: #fff !important;
@@ -870,7 +870,7 @@ html {
 
 @media(max-width: 991px){
   .navbar-collapse{
-      top: 60px !important; 
+      top: 53px !important; 
   }
 }
 

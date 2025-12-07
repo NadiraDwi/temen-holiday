@@ -44,25 +44,6 @@ body {
 @include('landing.components.header')
 
 <div class="container py-5">
-    @if ($errors->any())
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong>Terjadi kesalahan:</strong>
-        <ul class="mt-2 mb-1">
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-    @endif
-
-    @if (session('error'))
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong>Error!</strong> {{ session('error') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-    @endif
-
     <!-- TITLE -->
     <div class="card shadow-sm p-4 border-0 mb-4">
         <h3 class="fw-bold mb-0">Pesan Kendaraan</h3>
@@ -154,65 +135,92 @@ body {
             <div class="card shadow-sm p-4 border-0">
 
                 <form action="{{ route('kendaraan.whatsapp') }}" method="POST">
-                    @csrf
+    @csrf
 
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Nama Lengkap</label>
-                        <input type="text" name="nama" class="form-control @error('nama') is-invalid @enderror"
-       value="{{ old('nama') }}">
-                    </div>
+    <!-- NAMA -->
+    <div class="mb-3">
+        <label class="form-label fw-semibold">Nama Lengkap</label>
+        <input type="text" name="nama"
+            class="form-control @error('nama') is-invalid @enderror"
+            value="{{ old('nama') }}"
+            
+            minlength="3"
+            pattern="[A-Za-z ]+"
+            title="Nama hanya boleh huruf dan spasi">
+    </div>
 
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Nomor Telepon</label>
-                        <input type="text" name="telepon" class="form-control @error('telepon') is-invalid @enderror"
-       value="{{ old('telepon') }}">
-                    </div>
+    <!-- TELEPON -->
+    <div class="mb-3">
+        <label class="form-label fw-semibold">Nomor Telepon</label>
+        <input type="tel" name="telepon"
+            class="form-control @error('telepon') is-invalid @enderror"
+            value="{{ old('telepon') }}"
+            
+            pattern="[0-9]{10,15}"
+            title="Nomor telepon harus 10-15 digit angka">
+    </div>
 
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label fw-semibold">Tanggal Mulai</label>
-                            <input type="date" name="mulai" class="form-control @error('mulai') is-invalid @enderror"
-       value="{{ old('mulai') }}">
-                        </div>
+    <!-- TANGGAL -->
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label class="form-label fw-semibold">Tanggal Mulai</label>
+            <input type="date" name="mulai"
+                class="form-control @error('mulai') is-invalid @enderror"
+                value="{{ old('mulai') }}"
+                
+                min="{{ date('Y-m-d') }}">
+        </div>
 
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label fw-semibold">Tanggal Selesai</label>
-                            <input type="date" name="selesai" class="form-control @error('selesai') is-invalid @enderror"
-       value="{{ old('selesai') }}">
-                        </div>
-                    </div>
+        <div class="col-md-6 mb-3">
+            <label class="form-label fw-semibold">Tanggal Selesai</label>
+            <input type="date" name="selesai"
+                class="form-control @error('selesai') is-invalid @enderror"
+                value="{{ old('selesai') }}"
+                
+                min="{{ date('Y-m-d') }}">
+        </div>
+    </div>
 
-                    <!-- Destinasi -->
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Tujuan Destinasi</label>
+    <!-- DESTINASI -->
+    <div class="mb-3">
+        <label class="form-label fw-semibold">Tujuan Destinasi</label>
 
-                        <div id="destinasi-wrapper">
-                            <div class="input-group mb-2 destinasi-item">
-                                <input type="text" name="destinasi[]" class="form-control" placeholder="Contoh: Pantai Kuta" required>
-                                <button type="button" class="btn btn-outline-danger remove-dst">
-                                    <i class="bi bi-x-lg"></i>
-                                </button>
-                            </div>
-                        </div>
+        <div id="destinasi-wrapper">
+            <div class="input-group mb-2 destinasi-item">
+                <input type="text" name="destinasi[]" class="form-control"
+                    placeholder="Contoh: Pantai Kuta"
+                    
+                    minlength="3">
+                <button type="button" class="btn btn-outline-danger remove-dst">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+        </div>
 
-                        <button type="button" id="addDestinasi" class="btn btn-outline-primary btn-sm mt-2">
-                            <i class="bi bi-plus-lg"></i> Tambah Tujuan
-                        </button>
-                    </div>
+        <button type="button" id="addDestinasi" class="btn btn-outline-primary btn-sm mt-2">
+            <i class="bi bi-plus-lg"></i> Tambah Tujuan
+        </button>
+    </div>
 
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Alamat Penjemputan</label>
-                        <textarea name="alamat" class="form-control @error('alamat') is-invalid @enderror"
-       value="{{ old('alamat') }}" rows="3"></textarea>
-                    </div>
+    <!-- ALAMAT -->
+    <div class="mb-3">
+        <label class="form-label fw-semibold">Alamat Penjemputan</label>
+        <textarea name="alamat"
+            class="form-control @error('alamat') is-invalid @enderror"
+            rows="3"
+            
+            minlength="5"
+            placeholder="Masukkan alamat penjemputan lengkap">{{ old('alamat') }}</textarea>
+    </div>
 
-                    <input type="hidden" name="id_kendaraan" value="{{ $kendaraan->id_vehicle }}">
+    <input type="hidden" name="id_kendaraan" value="{{ $kendaraan->id_vehicle }}">
 
-                    <button type="submit" class="btn btn-primary w-100 fw-bold">
-                        Lanjutkan Pemesanan
-                    </button>
+    <button type="submit" class="btn btn-primary w-100 fw-bold">
+        Lanjutkan Pemesanan
+    </button>
 
-                </form>
+</form>
+
 
             </div>
         </div>
@@ -234,7 +242,7 @@ document.getElementById("addDestinasi").addEventListener("click", function () {
     item.classList.add("input-group", "mb-2", "destinasi-item");
 
     item.innerHTML = `
-        <input type="text" name="destinasi[]" class="form-control" placeholder="Tujuan berikutnya" required>
+        <input type="text" name="destinasi[]" class="form-control" placeholder="Tujuan berikutnya" >
         <button type="button" class="btn btn-outline-danger remove-dst">
             <i class="bi bi-x-lg"></i>
         </button>
@@ -327,5 +335,14 @@ function changeLang(lang) {
     sessionStorage.setItem("googtrans", `/id/${lang}`);
 }
 </script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const today = new Date().toISOString().split("T")[0];
+
+    document.querySelector('input[name="mulai"]').setAttribute("min", today);
+    document.querySelector('input[name="selesai"]').setAttribute("min", today);
+});
+</script>
+
 </body>
 </html>

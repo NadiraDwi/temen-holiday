@@ -60,106 +60,139 @@ body {
   @include('landing.components.header')
 
 <div class="container py-5">
-    {{-- ALERT ERROR VALIDASI --}}
-    @if ($errors->any())
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <strong>Ups! Ada kesalahan pada inputan:</strong>
-            <ul class="mt-2 mb-1">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    @endif
-
-    {{-- ALERT SUCCESS --}}
-    @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <strong>Berhasil!</strong> {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    @endif
 
     <div class="card shadow-sm p-4 border-0 mb-4 mt-2 text-center">
         <h3 class="fw-bold mb-0">Tulis Testimonimu</h3>
     </div>
 
     <form id="testimoniForm" action="{{ route('testimoni.store') }}" method="POST" enctype="multipart/form-data">
-        @csrf
+    @csrf
 
-        <div class="row g-4">
+    <div class="row g-4">
 
-            <!-- LEFT Upload Foto -->
-            <div class="col-md-4">
-                <h5 class="mb-3">Upload Foto</h5>
+        <!-- LEFT UPLOAD FOTO -->
+        <div class="col-md-4">
+            <h5 class="mb-3">Upload Foto</h5>
 
-                <div class="upload-btn text-center" onclick="document.getElementById('imageInput').click()">
-                    <span>Pilih Foto</span>
-                </div>
-
-                <input type="file" hidden id="imageInput" accept="image/*" multiple>
-
-                <div id="previewContainer" class="d-flex flex-wrap mt-3"></div>
-
-                <!-- tempat hidden input file -->
-                <div id="imagesContainer"></div>
+            <div class="upload-btn text-center" onclick="document.getElementById('imageInput').click()">
+                <span>Pilih Foto</span>
             </div>
 
-            <!-- RIGHT Form -->
-            <div class="col-md-8">
+            <div id="imagesContainer"></div>
 
-                <!-- Fasilitas -->
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <span class="fw-semibold">Fasilitas</span>
-                    <div class="rating-group" data-target="ratingFasilitasInput">
-                        <i class="bi bi-star star" data-value="1"></i>
-                        <i class="bi bi-star star" data-value="2"></i>
-                        <i class="bi bi-star star" data-value="3"></i>
-                        <i class="bi bi-star star" data-value="4"></i>
-                        <i class="bi bi-star star" data-value="5"></i>
-                    </div>
-                </div>
-                <input type="hidden" name="rating_fasilitas" id="ratingFasilitasInput">
+            <input type="file"
+                   id="imageInput"
+                   hidden
+                   name="images[]"
+                   accept="image/*"
+                   multiple>
 
-                <!-- Harga -->
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <span class="fw-semibold">Harga</span>
-                    <div class="rating-group" data-target="ratingHargaInput">
-                        <i class="bi bi-star star" data-value="1"></i>
-                        <i class="bi bi-star star" data-value="2"></i>
-                        <i class="bi bi-star star" data-value="3"></i>
-                        <i class="bi bi-star star" data-value="4"></i>
-                        <i class="bi bi-star star" data-value="5"></i>
-                    </div>
-                </div>
-                <input type="hidden" name="rating_harga" id="ratingHargaInput">
+            <div id="previewContainer" class="d-flex flex-wrap mt-3"></div>
 
-                <!-- Nama + Switch -->
-                <div class="d-flex justify-content-between align-items-center">
-                    <label class="fw-semibold">Nama</label>
-
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" id="switchAnonim">
-                        <label class="form-check-label">Anonim</label>
-                    </div>
-                </div>
-
-                <input type="text" id="namaInput" name="nama_user" class="form-control mb-3" placeholder="Nama kamu" required>
-
-                <!-- Ulasan -->
-                <label class="fw-semibold">Ulasan</label>
-                <textarea class="form-control" name="pesan" rows="5" placeholder="Tulis pengalamanmu..." required></textarea>
-
-                <div class="text-end mt-4">
-                    <button class="btn btn-primary px-4">Kirim</button>
-                </div>
-
-            </div>
-
+            <!-- ERROR FOTO -->
+            @error('images')
+                <small class="text-danger d-block mt-2">{{ $message }}</small>
+            @enderror
+            @error('images.*')
+                <small class="text-danger d-block mt-2">{{ $message }}</small>
+            @enderror
         </div>
 
-    </form>
+
+        <!-- RIGHT FORM -->
+        <div class="col-md-8">
+
+            <!-- FASILITAS -->
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="fw-semibold">Fasilitas</span>
+                <div class="rating-group" data-target="ratingFasilitasInput">
+                    <i class="bi bi-star star" data-value="1"></i>
+                    <i class="bi bi-star star" data-value="2"></i>
+                    <i class="bi bi-star star" data-value="3"></i>
+                    <i class="bi bi-star star" data-value="4"></i>
+                    <i class="bi bi-star star" data-value="5"></i>
+                </div>
+            </div>
+
+            <input type="hidden"
+                   name="rating_fasilitas"
+                   id="ratingFasilitasInput"
+                   value="{{ old('rating_fasilitas') }}">
+
+            <!-- ERROR FASILITAS -->
+            @error('rating_fasilitas')
+                <small class="text-danger d-block mb-3">{{ $message }}</small>
+            @enderror
+
+
+            <!-- HARGA -->
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="fw-semibold">Harga</span>
+                <div class="rating-group" data-target="ratingHargaInput">
+                    <i class="bi bi-star star" data-value="1"></i>
+                    <i class="bi bi-star star" data-value="2"></i>
+                    <i class="bi bi-star star" data-value="3"></i>
+                    <i class="bi bi-star star" data-value="4"></i>
+                    <i class="bi bi-star star" data-value="5"></i>
+                </div>
+            </div>
+
+            <input type="hidden"
+                   name="rating_harga"
+                   id="ratingHargaInput"
+                   value="{{ old('rating_harga') }}">
+
+            <!-- ERROR HARGA -->
+            @error('rating_harga')
+                <small class="text-danger d-block mb-3">{{ $message }}</small>
+            @enderror
+
+
+            <!-- NAMA + SWITCH -->
+            <div class="d-flex justify-content-between align-items-center">
+                <label class="fw-semibold">Nama</label>
+
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="switchAnonim">
+                    <label class="form-check-label">Anonim</label>
+                </div>
+            </div>
+
+            <input type="text"
+                   id="namaInput"
+                   name="nama_user"
+                   class="form-control mb-2"
+                   placeholder="Nama kamu"
+                   value="{{ old('nama_user') }}">
+
+            <!-- ERROR NAMA -->
+            @error('nama_user')
+                <small class="text-danger d-block mb-3">{{ $message }}</small>
+            @enderror
+
+
+            <!-- ULASAN -->
+            <label class="fw-semibold">Ulasan</label>
+            <textarea class="form-control"
+                      name="pesan"
+                      rows="5"
+                      placeholder="Tulis pengalamanmu...">{{ old('pesan') }}</textarea>
+
+            <!-- ERROR ULASAN -->
+            @error('pesan')
+                <small class="text-danger d-block">{{ $message }}</small>
+            @enderror
+
+
+            <div class="text-end mt-4">
+                <button class="btn btn-primary px-4">Kirim</button>
+            </div>
+        </div>
+
+    </div>
+</form>
+
+
 </div>
 
   @include('landing.components.footer')
@@ -274,12 +307,6 @@ document.getElementById("switchAnonim").addEventListener("change", function () {
 </script>
 
 <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-    document.getElementById("btnID").addEventListener("click", () => changeLang("id"));
-    document.getElementById("btnEN").addEventListener("click", () => changeLang("en"));
-});
-</script>
 
 <!-- =================== BUTTON CONTROL =================== -->
 <script>

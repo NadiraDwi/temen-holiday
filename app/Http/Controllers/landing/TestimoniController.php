@@ -24,48 +24,49 @@ class TestimoniController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'nama_user'         => 'required|string|max:255',
-            'pesan'             => 'required|string',
-            'rating_fasilitas'  => 'required|integer|min:1|max:5',
-            'rating_harga'      => 'required|integer|min:1|max:5',
-            'images'            => 'nullable',
-            'images.*'          => 'image|mimes:jpg,jpeg,png,webp|max:4096'
-        ]);
+{
+    // VALIDASI
+    $request->validate([
+        'nama_user'         => 'required|string|max:255',
+        'pesan'             => 'required|string|min:5',
+        'rating_fasilitas'  => 'required|integer|min:1|max:5',
+        'rating_harga'      => 'required|integer|min:1|max:5',
+        'images'            => 'nullable',
+        'images.*'          => 'image|mimes:jpg,jpeg,png,webp|max:4096'
+    ]);
 
-        $manager = new ImageManager(new Driver());
-        $imagePaths = [];
+    $imageManager = new ImageManager(new Driver());
+    $imagePaths = [];
 
-        // Jika ada file di-upload
-        if ($request->hasFile('images')) {
-            
-            foreach ($request->file('images') as $img) {
+    // HANDLE GAMBAR MULTIPLE
+    if ($request->hasFile('images')) {
 
-                // Generate nama file WebP
-                $fileName = Str::uuid() . '.webp';
-                $path = 'testimoni/' . $fileName;
+        foreach ($request->file('images') as $img) {
 
-                // Convert ke WebP
-                $image = $manager->read($img)->toWebp(75);
+            $fileName = Str::uuid() . '.webp';
+            $path = 'testimoni/' . $fileName;
 
-                // Simpan ke storage
-                Storage::disk('public')->put($path, $image);
+            // convert ke webp (quality 75)
+            $webp = $imageManager->read($img)->toWebp(75);
 
-                // Simpan ke array
-                $imagePaths[] = $path;
-            }
+            Storage::disk('public')->put($path, $webp);
+
+            $imagePaths[] = $path;
         }
-
-        // Simpan testimoni
-        Testimonial::create([
-            'nama_user'        => $request->nama_user,
-            'pesan'            => $request->pesan,
-            'rating_fasilitas' => $request->rating_fasilitas,
-            'rating_harga'     => $request->rating_harga,
-            'images'           => $imagePaths,
-        ]);
-
-        return redirect()->route('testimoni');
     }
+
+    // SIMPAN DATA
+    Testimonial::create([
+        'nama_user'         => $request->nama_user,
+        'pesan'             => $request->pesan,
+        'rating_fasilitas'  => $request->rating_fasilitas,
+        'rating_harga'      => $request->rating_harga,
+        'images'            => $imagePaths, // langsung array
+    ]);
+
+    return redirect()
+        ->route('testimoni')
+        ->with('success', 'Terima kasih! Testimoni kamu berhasil dikirim.');
+}
+
 }

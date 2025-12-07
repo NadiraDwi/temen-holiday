@@ -126,8 +126,9 @@ body {
     </p>
 
     <div class="row g-3">
-      <!-- Dokumen 2 -->
-      <div class="col-md-4 col-6">
+
+      <!-- Dokumen 1 -->
+      <div class="col-12 col-sm-6 col-md-4">
         <div class="legal-card text-center shadow-sm p-3 rounded border bg-white">
           <i class="bi bi-file-earmark-check legal-icon"></i>
           <h6 class="fw-bold mt-2">NIB (Nomor Induk Berusaha)</h6>
@@ -137,8 +138,8 @@ body {
         </div>
       </div>
 
-      <!-- Dokumen 3 -->
-      <div class="col-md-4 col-6">
+      <!-- Dokumen 2 -->
+      <div class="col-12 col-sm-6 col-md-4">
         <div class="legal-card text-center shadow-sm p-3 rounded border bg-white">
           <i class="bi bi-file-earmark-text legal-icon"></i>
           <h6 class="fw-bold mt-2">AHU / Administrasi Hukum Umum</h6>
@@ -148,8 +149,8 @@ body {
         </div>
       </div>
 
-      <!-- Dokumen 4 -->
-      <div class="col-md-4 col-6">
+      <!-- Dokumen 3 -->
+      <div class="col-12 col-sm-6 col-md-4">
         <div class="legal-card text-center shadow-sm p-3 rounded border bg-white">
           <i class="bi bi-file-earmark-lock legal-icon"></i>
           <h6 class="fw-bold mt-2">NPWP Perusahaan</h6>

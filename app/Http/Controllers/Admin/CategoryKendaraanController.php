@@ -52,14 +52,19 @@ class CategoryKendaraanController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'kategori' => 'required'
+        $validated = $request->validate([
+        'kategori' => 'required|max:100',
+        'keterangan' => 'nullable|max:255'
+        ], [
+            'kategori.required' => 'Nama kategori wajib diisi.',
+            'kategori.max' => 'Nama kategori maksimal 100 karakter.',
+            'keterangan.max' => 'Keterangan maksimal 255 karakter.'
         ]);
 
         VehicleCategory::create([
             'id_category' => Str::uuid(),
-            'kategori' => $request->kategori,
-            'keterangan' => $request->keterangan
+            'kategori' => $validated['kategori'],
+            'keterangan' => $validated['keterangan'] ?? null
         ]);
 
         return response()->json(['success' => true]);
@@ -72,18 +77,25 @@ class CategoryKendaraanController extends Controller
     }
 
     public function update(Request $request)
-    {
-        $request->validate([
-            'kategori' => 'required'
-        ]);
+{
+    $validated = $request->validate([
+        'kategori' => 'required|min:3|max:100',
+        'keterangan' => 'nullable|max:255'
+    ], [
+        'kategori.required' => 'Nama kategori wajib diisi.',
+        'kategori.min' => 'Nama kategori minimal 3 karakter.',
+        'kategori.max' => 'Nama kategori maksimal 100 karakter.',
+        'keterangan.max' => 'Keterangan maksimal 255 karakter.'
+    ]);
 
-        VehicleCategory::where('id_category', $request->id)->update([
-            'kategori' => $request->kategori,
-            'keterangan' => $request->keterangan
-        ]);
+    VehicleCategory::where('id_category', $request->id)->update([
+        'kategori' => $validated['kategori'],
+        'keterangan' => $validated['keterangan'] ?? null
+    ]);
 
-        return response()->json(['success' => true]);
-    }
+    return response()->json(['success' => true]);
+}
+
 
     public function delete(Request $request)
     {

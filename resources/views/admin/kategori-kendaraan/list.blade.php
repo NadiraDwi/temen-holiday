@@ -70,7 +70,7 @@
 
                     <div class="mb-3">
                         <label class="form-label">Nama Kategori <span class="text-danger">*</span></label>
-                        <input type="text" name="kategori" class="form-control" required>
+                        <input type="text" name="kategori" class="form-control">
                     </div>
 
                     <div class="mb-3">
@@ -182,10 +182,27 @@ $('#form-create').on('submit', function(e) {
             $('#kategori-table').DataTable().ajax.reload();
         },
         error: function(xhr) {
-            Swal.fire("Gagal", "Pastikan data sudah diisi dengan benar", "error");
+            if (xhr.status === 422) {
+                let errors = xhr.responseJSON.errors;
+                let message = "";
+
+                Object.keys(errors).forEach(key => {
+                    message += errors[key][0] + "<br>";
+                });
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Validasi Gagal',
+                    html: message
+                });
+            } else {
+                Swal.fire("Error", "Terjadi kesalahan server.", "error");
+            }
         }
     });
 });
+
+// ======================= EDIT =========================
 
 function editData(id) {
     $.ajax({
@@ -202,6 +219,8 @@ function editData(id) {
     });
 }
 
+// ======================= UPDATE =======================
+
 function updateData() {
     $.ajax({
         url: "{{ route('kategori-kendaraan.update') }}",
@@ -216,9 +235,27 @@ function updateData() {
             $('#editModal').modal('hide');
             $('#kategori-table').DataTable().ajax.reload();
             Swal.fire("Berhasil", "Data berhasil diperbarui", "success");
+        },
+        error: function(xhr) {
+            if (xhr.status === 422) {
+                let errors = xhr.responseJSON.errors;
+                let message = "";
+
+                Object.keys(errors).forEach(key => {
+                    message += errors[key][0] + "<br>";
+                });
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Validasi Gagal',
+                    html: message
+                });
+            } else {
+                Swal.fire("Error", "Terjadi kesalahan server.", "error");
+            }
         }
     });
 }
-
 </script>
+
 @endpush

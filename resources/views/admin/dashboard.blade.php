@@ -139,7 +139,7 @@
                 <li class="list-group-item">
                     <strong>{{ $user->nama_admin }}</strong> login pada:
                     <br>
-                    {{ now()->format('d M Y - H:i') }}
+                    {{ now()->format('d M Y') }}
                 </li>
             </ul>
         </div>

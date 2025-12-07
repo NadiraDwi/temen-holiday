@@ -231,40 +231,6 @@
 <!-- [Mobile Media Block end] -->
 <div class="ms-auto">
   <ul class="list-unstyled">
-    <li class="dropdown pc-h-item">
-      <a
-        class="pc-head-link dropdown-toggle arrow-none me-0"
-        data-bs-toggle="dropdown"
-        href="#"
-        role="button"
-        aria-haspopup="false"
-        aria-expanded="false"
-      >
-        <svg class="pc-icon">
-          <use xlink:href="#custom-sun-1"></use>
-        </svg>
-      </a>
-      <div class="dropdown-menu dropdown-menu-end pc-h-dropdown">
-        <a href="#!" class="dropdown-item" onclick="layout_change('dark')">
-          <svg class="pc-icon">
-            <use xlink:href="#custom-moon"></use>
-          </svg>
-          <span>Dark</span>
-        </a>
-        <a href="#!" class="dropdown-item" onclick="layout_change('light')">
-          <svg class="pc-icon">
-            <use xlink:href="#custom-sun-1"></use>
-          </svg>
-          <span>Light</span>
-        </a>
-        <a href="#!" class="dropdown-item" onclick="layout_change_default()">
-          <svg class="pc-icon">
-            <use xlink:href="#custom-setting-2"></use>
-          </svg>
-          <span>Default</span>
-        </a>
-      </div>
-    </li>
     <li class="dropdown pc-h-item header-user-profile">
       <a
         class="pc-head-link dropdown-toggle arrow-none me-0"
@@ -288,10 +254,14 @@
                 <img src="{{ asset('assets') }}/images/user/avatar-2.jpg" alt="user-image" class="user-avtar wid-35" />
               </div>
               <div class="flex-grow-1 ms-3">
-                <h6 class="mb-1"></h6>
-                <span></span>
+                <h6 class="mb-1">{{ Auth::guard('admin')->user()->name }}</h6>
+                <span>{{ Auth::guard('admin')->user()->role }}</span>
               </div>
             </div>
+            <a href="{{ route('admin.logout') }}" class="btn btn-primary w-100 mt-3 d-flex align-items-center justify-content-center gap-2">
+                <i class="ti ti-power"></i>
+                <span>Logout</span>
+            </a>
           </div>
         </div>
       </div>

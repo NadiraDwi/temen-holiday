@@ -26,6 +26,24 @@
 @include('landing.components.header')
 
 <div class="container py-5">
+    @if ($errors->any())
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Terjadi kesalahan:</strong>
+        <ul class="mt-2 mb-1">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    @endif
+
+    @if (session('error'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Error!</strong> {{ session('error') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    @endif
 
     <!-- TITLE -->
     <div class="card shadow-sm p-4 border-0 mb-4">
@@ -122,23 +140,27 @@
 
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Nama Lengkap</label>
-                        <input type="text" name="nama" class="form-control" required>
+                        <input type="text" name="nama" class="form-control @error('nama') is-invalid @enderror"
+       value="{{ old('nama') }}">
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Nomor Telepon</label>
-                        <input type="text" name="telepon" class="form-control" required>
+                        <input type="text" name="telepon" class="form-control @error('telepon') is-invalid @enderror"
+       value="{{ old('telepon') }}">
                     </div>
 
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-semibold">Tanggal Mulai</label>
-                            <input type="date" name="mulai" class="form-control" required>
+                            <input type="date" name="mulai" class="form-control @error('mulai') is-invalid @enderror"
+       value="{{ old('mulai') }}">
                         </div>
 
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-semibold">Tanggal Selesai</label>
-                            <input type="date" name="selesai" class="form-control" required>
+                            <input type="date" name="selesai" class="form-control @error('selesai') is-invalid @enderror"
+       value="{{ old('selesai') }}">
                         </div>
                     </div>
 
@@ -162,7 +184,8 @@
 
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Alamat Penjemputan</label>
-                        <textarea name="alamat" class="form-control" rows="3" required></textarea>
+                        <textarea name="alamat" class="form-control @error('alamat') is-invalid @enderror"
+       value="{{ old('alamat') }}" rows="3"></textarea>
                     </div>
 
                     <input type="hidden" name="id_kendaraan" value="{{ $kendaraan->id_vehicle }}">

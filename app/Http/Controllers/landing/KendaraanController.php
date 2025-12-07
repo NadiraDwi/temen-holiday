@@ -26,6 +26,25 @@ class KendaraanController extends Controller
 
     public function kirimWhatsApp(Request $request)
 {
+    $request->validate([
+        'nama'      => 'required|string|max:255',
+        'telepon'   => 'required|string|max:20',
+        'mulai'     => 'required|date',
+        'selesai'   => 'required|date|after_or_equal:mulai',
+        'alamat'    => 'required|string|max:500',
+        'destinasi' => 'required|array|min:1',
+        'destinasi.*' => 'required|string|max:255',
+    ], [
+        'nama.required' => 'Nama wajib diisi.',
+        'telepon.required' => 'Nomor telepon wajib diisi.',
+        'mulai.required' => 'Tanggal mulai wajib diisi.',
+        'selesai.required' => 'Tanggal selesai wajib diisi.',
+        'selesai.after_or_equal' => 'Tanggal selesai harus setelah tanggal mulai.',
+        'alamat.required' => 'Alamat penjemputan wajib diisi.',
+        'destinasi.required' => 'Minimal harus ada satu tujuan destinasi.',
+        'destinasi.*.required' => 'Tujuan destinasi tidak boleh kosong.',
+    ]);
+    
     $kendaraan = Vehicle::where('id_vehicle', $request->id_kendaraan)
                 ->with('contact')
                 ->firstOrFail();

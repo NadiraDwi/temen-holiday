@@ -475,7 +475,7 @@ body{
 @media (max-width: 991px) {
     .navbar-collapse {
         position: absolute;
-        top: 56px;           /* sesuaikan tinggi navbar-mu */
+        top: 66px;           /* sesuaikan tinggi navbar-mu */
         left: 0;
         width: 100%;
         background: #fff !important;
@@ -853,4 +853,23 @@ html {
 .scroll-anim.active {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* FIX NAVBAR MOBILE BIAR TIDAK BERUBAH UKURAN */
+@media (max-width: 576px){
+  #mainNavbar{
+    height: 60px !important;
+    padding: 6px 0 !important;
+  }
+
+  #mainNavbar.scrolled{
+    height: 60px !important;
+    padding: 6px 0 !important;
+  }
+}
+
+@media(max-width: 991px){
+  .navbar-collapse{
+      top: 60px !important; 
+  }
 }

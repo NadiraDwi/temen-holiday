@@ -11,122 +11,171 @@
   <link rel="stylesheet" href="{{ asset('assets/css/style-landing.css') }}">
 
   <style>
-    .review-card {
-      background: #fff;
-      padding: 18px;
-      border-radius: 12px;
-      border: 1px solid #eee;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+/* ====================== REVIEW CARD ====================== */
+.review-card {
+    background: #fff;
+    padding: 18px;
+    border-radius: 12px;
+    border: 1px solid #eee;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.review-name {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #222;
+}
+
+.rating-row {
+    display: flex;
+    align-items: center;
+    margin-top: 6px;
+}
+
+.rating-label {
+    width: 90px;
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.rating-stars i {
+    font-size: 17px;
+    margin-right: 2px;
+}
+
+.label-small {
+    font-size: 0.85rem;
+    color: #666;
+    margin-bottom: 2px;
+    width: 80px;
+}
+
+.review-text {
+    color: #444;
+    margin-top: 8px;
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.review-images {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.review-images img {
+    width: 95px;
+    height: 95px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+/* ====================== DESKTOP ====================== */
+@media (min-width: 768px) {
+
+    .modal-body {
+        max-height: 80vh;
+        overflow-y: auto;
+        padding-right: 6px;
     }
 
-    .review-name {
-      font-weight: 600;
-      font-size: 1.1rem;
-      color: #222;
+    .modal-right-scroll {
+        max-height: none;
+        overflow: visible;
     }
 
-    .rating-row {
-          display: flex;
-          align-items: center;
-          margin-top: 6px;
-      }
+    .modal-slide-img {
+        max-height: 400px;
+        object-fit: cover;
+    }
+}
 
-      .rating-label {
-          width: 90px;   /* semua label fix width → bintangnya sejajar */
-          font-size: 0.85rem;
-          color: #666;
-      }
+/* ====================== MOBILE ====================== */
+@media (max-width: 767px) {
 
-      .rating-stars i {
-          font-size: 17px;
-          margin-right: 2px;
-      }
-
-    .label-small {
-      font-size: 0.85rem;
-      color: #666;
-      margin-bottom: 2px;
-      width: 80px;
+    /* Header Testimoni → Judul & Button jadi bertumpuk */
+    .mobile-stack {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 12px !important;
     }
 
-    .review-text {
-      color: #444;
-      margin-top: 8px;
-      margin-bottom: 10px;
-      line-height: 1.5;
+    .mobile-stack a {
+        width: 100%;
     }
 
-    .review-images {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-top: 10px;
+    /* Modal full-height */
+    .modal-dialog {
+        margin: 0;
+        height: 90%;
+        max-width: 100%;
     }
 
-    .review-images img {
-      width: 95px;
-      height: 95px;
-      object-fit: cover;
-      border-radius: 8px;
-      border: 1px solid #ddd;
+    .modal-content {
+        height: 90%;
+        border-radius: 0;
     }
 
-    /* ========== DESKTOP ========== */
-    @media (min-width: 768px) {
-        .modal-body {
-            max-height: 350px;
-            overflow: hidden;
-        }
-
-        .modal-right-scroll {
-            max-height: 350px;
-            overflow-y: auto;
-            padding-right: 6px;
-        }
-
-        .modal-slide-img {
-            max-height: 400px;
-            object-fit: cover;
-        }
+    .modal-body {
+        overflow-y: auto;
+        padding-bottom: 40px;
     }
 
-    /* ========== MOBILE ========== */
-    @media (max-width: 767px) {
-        /* Modal jadi tinggi penuh layar */
-        .modal-dialog {
-            margin: 0;
-            height: 90%;
-            max-width: 100%;
-        }
-
-        .modal-content {
-            height: 90%;
-            border-radius: 0;
-        }
-
-        .modal-body {
-            overflow-y: auto;
-            padding-bottom: 40px;
-        }
-
-        /* Slider lebih kecil di mobile */
-        .modal-slide-img {
-            max-height: 260px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-
-        /* Kolom kanan tidak scroll, biar natural */
-        .modal-right-scroll {
-            max-height: none;
-            overflow: visible;
-            padding-right: 0;
-        }
+    /* Slider lebih kecil */
+    .modal-slide-img {
+        max-height: 260px;
+        object-fit: cover;
+        border-radius: 8px;
     }
+
+    /* Kolom kanan jangan scroll */
+    .modal-right-scroll {
+        max-height: none;
+        overflow: visible;
+        padding-right: 0;
+    }
+}
+
+/* ====================== MOBILE BUTTON STYLE ====================== */
+@media (max-width: 767px) {
+
+    /* Semua tombol mobile */
+    .btn {
+        font-size: 1rem !important;
+        padding: 12px 16px !important;
+        border-radius: 10px !important;
+        width: 100% !important;
+    }
+
+    /* Tombol dalam card review */
+    .review-card .btn {
+        margin-top: 8px;
+    }
+
+    /* Tombol di header testimoni (Berikan Ulasanmu) */
+    .mobile-stack a.btn {
+        width: 100% !important;
+    }
+
+    /* Tombol di modal footer */
+    .modal-footer .btn {
+        width: 100% !important;
+        margin: 0 !important;
+    }
+
+    /* Footer modal jadi rapi */
+    .modal-footer {
+        padding: 12px;
+        display: block !important;
+    }
+}
+
   </style>
 </head>
 
@@ -143,7 +192,7 @@
 
   <div class="container py-5">
 
-    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2 mobile-stack">
       <h2 class="section-title-left mb-0">Apa Kata Mereka?</h2>
 
       <a href="{{ route('testimoni.create') }}" class="btn btn-primary px-4">
@@ -155,11 +204,20 @@
 
       @foreach ($testimoni as $t)
         @php
-          $images = is_array($t->images)
-              ? $t->images
-              : (json_decode($t->images, true) ?: []);
+            // pastikan images selalu berupa array
+            $raw = $t->images;
 
-          $uid = $t->id_testimoni ?? $t->getKey();
+            if (is_string($raw)) {
+                $decoded = json_decode($raw, true);
+                $images = is_array($decoded) ? $decoded : [];
+            } elseif (is_array($raw)) {
+                $images = $raw;
+            } else {
+                $images = [];
+            }
+
+            // unique id modal
+            $uid = $t->id_testimoni ?? $t->getKey();
         @endphp
 
         <div class="col-md-6 col-lg-4">
@@ -213,10 +271,21 @@
         </div>
 
         {{-- ================= MODAL ================= --}}
+        @php
+            $raw2 = $t->images;
+
+            if (is_string($raw2)) {
+                $decoded2 = json_decode($raw2, true);
+                $images = is_array($decoded2) ? $decoded2 : [];
+            } elseif (is_array($raw2)) {
+                $images = $raw2;
+            } else {
+                $images = [];
+            }
+        @endphp
         <div class="modal fade" id="detailTesti{{ $uid }}" tabindex="-1" aria-hidden="true">
           <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
-
               <div class="modal-header">
                 <h5 class="modal-title">Detail Testimoni</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -316,38 +385,5 @@
       });
     });
   </script>
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-
-    const autoAnimate = document.querySelectorAll(
-        "section, .container, .row, .card, footer, header"
-    );
-
-    // Tambahkan class scroll-anim, kecuali elemen yang memiliki .no-anim
-    autoAnimate.forEach(el => {
-        if (!el.classList.contains("no-anim")) {
-            el.classList.add("scroll-anim");
-        }
-    });
-
-    function revealElements() {
-        autoAnimate.forEach(el => {
-            if (el.classList.contains("no-anim")) return;
-
-            const elementTop = el.getBoundingClientRect().top;
-            const windowHeight = window.innerHeight;
-
-            if (elementTop < windowHeight - 80) {
-                el.classList.add("active");
-            }
-        });
-    }
-
-    window.addEventListener("scroll", revealElements);
-    revealElements(); // reveal elemen yang sudah terlihat saat load
-});
-</script>
-
-
 </body>
 </html>

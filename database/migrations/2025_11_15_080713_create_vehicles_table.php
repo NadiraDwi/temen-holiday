@@ -22,8 +22,10 @@ return new class extends Migration
             $table->char('id_contact', 36);
             $table->foreign('id_contact')->references('id_contact')->on('contacts');
 
-            $table->char('updated_by', 36)->nullable();
-            $table->foreign('updated_by')->references('id_admin')->on('admins')
+            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->foreign('updated_by')
+                ->references('id')
+                ->on('users')
                 ->onDelete('set null');
 
             $table->timestamps();

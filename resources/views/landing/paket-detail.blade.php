@@ -23,6 +23,18 @@
         object-fit: cover; /* Crop rapi */
         border-radius: 12px;
     }
+
+    .is-invalid {
+      border-color: #dc3545 !important;
+  }
+  .invalid-feedback {
+      display: none;
+      color: #dc3545;
+      font-size: 0.9rem;
+  }
+  .is-invalid + .invalid-feedback {
+      display: block;
+  }
   </style>
   
 </head>
@@ -217,23 +229,27 @@
 
           <div class="mb-3">
             <label class="form-label">Nama Lengkap</label>
-            <input type="text" class="form-control" id="nama" required>
-          </div>
+            <input type="text" class="form-control" id="nama">
+            <div class="invalid-feedback">Nama wajib diisi.</div>
+        </div>
 
-          <div class="mb-3">
+        <div class="mb-3">
             <label class="form-label">Nomor WhatsApp</label>
-            <input type="text" class="form-control" id="telp" required>
-          </div>
+            <input type="text" class="form-control" id="telp">
+            <div class="invalid-feedback">Nomor WhatsApp wajib diisi.</div>
+        </div>
 
-          <div class="mb-3">
+        <div class="mb-3">
             <label class="form-label">Jumlah Pax</label>
-            <input type="number" class="form-control" id="jumlah" min="1" value="1" required>
-          </div>
+            <input type="number" class="form-control" id="jumlah" min="1" value="1">
+            <div class="invalid-feedback">Jumlah minimal 1 orang.</div>
+        </div>
 
-          <div class="mb-3">
+        <div class="mb-3">
             <label class="form-label">Catatan Tambahan</label>
             <textarea class="form-control" id="catatan" rows="2"></textarea>
-          </div>
+            <div class="invalid-feedback">Catatan tidak valid.</div>
+        </div>
 
         </form>
       </div>
@@ -271,43 +287,66 @@
   });
 </script>
 
-
 <script>
 function kirimWhatsapp() {
-    const nama = document.getElementById("nama").value.trim();
-    const telp = document.getElementById("telp").value.trim();
-    const jumlah = document.getElementById("jumlah").value;
-    const catatan = document.getElementById("catatan").value.trim();
 
-    if (!nama || !telp || jumlah < 1) {
-        alert("Harap isi data dengan lengkap.");
+    // Ambil elemen input
+    const nama = document.getElementById("nama");
+    const telp = document.getElementById("telp");
+    const jumlah = document.getElementById("jumlah");
+    const catatan = document.getElementById("catatan");
+
+    let adaError = false;
+
+    // Reset semua dulu
+    [nama, telp, jumlah].forEach(input => input.classList.remove("is-invalid"));
+
+    // Validasi Nama
+    if (nama.value.trim() === "") {
+        nama.classList.add("is-invalid");
+        adaError = true;
+    }
+
+    // Validasi WA (boleh tambah regex nanti kalau mau)
+    if (telp.value.trim() === "") {
+        telp.classList.add("is-invalid");
+        adaError = true;
+    }
+
+    // Validasi Pax
+    if (jumlah.value < 1) {
+        jumlah.classList.add("is-invalid");
+        adaError = true;
+    }
+
+    // Jika error → highlight & stop proses
+    if (adaError) {
+        const firstInvalid = document.querySelector(".is-invalid");
+        firstInvalid.scrollIntoView({ behavior: "smooth", block: "center" });
         return;
     }
+
+    // -----------------------------
+    // Jika lolos validasi → Kirim WA
+    // -----------------------------
 
     const trip = "{{ $trip->title }}";
-    const nomorTujuan = "{{ $nomorAdmin }}"; // → sudah diformat dari helper
-
-    if (!nomorTujuan) {
-        alert("Nomor WhatsApp admin tidak ditemukan.");
-        return;
-    }
+    const nomorTujuan = "{{ $nomorAdmin }}";
 
     const pesan = 
 `Halo kak, saya ingin memesan trip:
 
 *Trip:* ${trip}
-*Jumlah Pax:* ${jumlah}
-*Nama:* ${nama}
-*Nomor:* ${telp}
+*Jumlah Pax:* ${jumlah.value}
+*Nama:* ${nama.value}
+*Nomor:* ${telp.value}
 
 Catatan:
-${catatan || "-"}
+${catatan.value || "-"}
 
 Mohon info lebih lanjut ya kak.`;
 
-    // nomorWa harus tanpa + dan tanpa spasi → helper sudah bereskan
     const url = "https://wa.me/" + nomorTujuan + "?text=" + encodeURIComponent(pesan);
-
     window.open(url, "_blank");
 }
 </script>

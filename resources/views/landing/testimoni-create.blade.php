@@ -42,6 +42,26 @@
   @include('landing.components.header')
 
 <div class="container py-5">
+    {{-- ALERT ERROR VALIDASI --}}
+    @if ($errors->any())
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Ups! Ada kesalahan pada inputan:</strong>
+            <ul class="mt-2 mb-1">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    @endif
+
+    {{-- ALERT SUCCESS --}}
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Berhasil!</strong> {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    @endif
 
     <div class="card shadow-sm p-4 border-0 mb-4 mt-2 text-center">
         <h3 class="fw-bold mb-0">Tulis Testimonimu</h3>

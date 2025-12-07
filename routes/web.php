@@ -122,7 +122,7 @@ Route::prefix('admin')->group(function () {
             Route::post('/store', [AdminWisataController::class, 'store'])->name('store');
             Route::get('/detail/{id}', [AdminWisataController::class, 'detail'])->name('detail'); // FIXED
             Route::get('/edit/{id}', [AdminWisataController::class, 'edit'])->name('edit'); // tambahkan edit route
-            Route::put('/update/{id}', [AdminWisataController::class, 'update'])->name('update');
+            Route::post('/update/{id}', [AdminWisataController::class, 'update'])->name('update');
             Route::delete('/delete/{id}', [AdminWisataController::class, 'delete'])->name('delete');
         });
 

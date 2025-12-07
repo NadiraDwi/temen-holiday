@@ -22,7 +22,6 @@ class PaketController extends Controller
             ];
         });
 
-        // Wisata 3 item
         $wisata = Wisata::take(3)->get()->map(function ($item) {
             return (object)[
                 'id'     => $item->id,
@@ -33,7 +32,23 @@ class PaketController extends Controller
             ];
         });
 
-        $paket = $openTrip->merge($wisata);
+        // CEK KONDISI
+        if ($openTrip->isNotEmpty() && $wisata->isNotEmpty()) {
+            // KEDUANYA ADA
+            $paket = $openTrip->merge($wisata);
+
+        } elseif ($openTrip->isNotEmpty() && $wisata->isEmpty()) {
+            // HANYA OPENTRIP YANG ADA
+            $paket = $openTrip;
+
+        } elseif ($openTrip->isEmpty() && $wisata->isNotEmpty()) {
+            // HANYA WISATA YANG ADA
+            $paket = $wisata;
+
+        } else {
+            // KEDUANYA KOSONG
+            $paket = collect([]);
+        }
 
         return view('landing.paket', compact('paket'));
     }

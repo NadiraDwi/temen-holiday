@@ -187,8 +187,6 @@ class WisataController extends Controller
         'message' => 'Berhasil Update'
     ]);
 }
-
-
     /**
      * DELETE
      */

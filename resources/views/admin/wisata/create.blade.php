@@ -67,7 +67,7 @@
             {{-- Nama --}}
             <div class="mb-3">
                 <label class="form-label">Nama / Judul Wisata</label>
-                <input type="text" name="title" class="form-control" required>
+                <input type="text" name="title" class="form-control" placeholder="Contoh: Bromo Sunrise">
             </div>
 
             {{-- Deskripsi --}}
@@ -79,19 +79,19 @@
             {{-- Include --}}
             <div class="mb-3">
                 <label class="form-label">Include (Fasilitas / Paket)</label>
-                <textarea name="include" class="form-control" rows="3" required></textarea>
+                <textarea name="include" class="form-control" rows="3" placeholder="Contoh: Transport, snack, dll..."></textarea>
             </div>
 
             {{-- Harga --}}
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label class="form-label">Harga (Rp)</label>
-                    <input type="number" name="price" class="form-control" required>
+                    <input type="number" name="price" class="form-control">
                 </div>
 
                 <div class="col-md-6 mb-3">
                     <label class="form-label">Label Harga</label>
-                    <input type="text" name="price_label" class="form-control" placeholder="cth: 250K / orang">
+                    <input type="text" name="price_label" class="form-control" placeholder="/orang">
                 </div>
             </div>
 

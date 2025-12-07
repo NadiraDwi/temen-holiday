@@ -13,7 +13,7 @@ use App\Models\Wisata;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $categories = VehicleCategory::with(['vehicles' => function($q){
             $q->orderBy('created_at', 'desc');

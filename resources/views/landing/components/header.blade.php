@@ -16,6 +16,10 @@ body { top: 0 !important; }
 }
 </style>
 
+<head>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+</head>
+
 <nav id="mainNavbar" class="no-anim navbar navbar-expand-lg">
     <div class="no-anim container">
         <a class="no-anim navbar-brand d-flex align-items-center" href="{{ url('/') }}">
@@ -74,3 +78,65 @@ body { top: 0 !important; }
         </div>
     </div>
 </nav>
+{{-- ========== POPUP COOKIES ========== --}}
+@if (!Cookie::has('cookie_consent'))
+<div id="cookiePopup"
+     style="
+        position: fixed; 
+        bottom: 20px; 
+        left: 20px; 
+        background: #2b2b2b; 
+        color: #fff; 
+        padding: 18px 20px; 
+        border-radius: 12px; 
+        z-index: 9999; 
+        width: 280px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+        animation: slideUp 0.4s ease;
+     ">
+    <p class="mb-2" style="font-size:14px; line-height:1.4; margin:0 0 10px;">
+        Website ini menggunakan cookies untuk meningkatkan pengalaman Anda.
+    </p>
+
+    <button onclick="acceptCookies()" 
+            style="
+                background:#28a745; 
+                border:none; 
+                padding:8px 12px; 
+                color:#fff; 
+                width:100%; 
+                border-radius:6px; 
+                font-size:14px;
+                cursor:pointer;
+                transition:0.2s;
+            "
+            onmouseover="this.style.opacity='0.9'"
+            onmouseout="this.style.opacity='1'">
+        Saya Mengerti
+    </button>
+</div>
+
+<style>
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+</style>
+
+<script>
+function acceptCookies() {
+    fetch("/set-cookie", {
+        method: "POST",
+        credentials: "same-origin",
+        headers: {
+            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+            "Accept": "application/json"
+        }
+    }).then(() => {
+        location.reload(); 
+    });
+}
+</script>
+
+@endif
+{{-- ================================== --}}

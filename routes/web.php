@@ -32,6 +32,12 @@ Route::get('/paket/wisata/user/{id}', [PaketController::class, 'detailWisata'])-
 
 Route::get('/', [HomeController::class, 'index'])->name('/');
 
+Route::post('/set-cookie', function () {
+    return response()
+        ->json(['success' => true])
+        ->withCookie(cookie('cookie_consent', true, 60 * 24 * 30));
+});
+
 //kendaraan-landing
 Route::get('/kendaraan', [KendaraanController::class, 'index'])->name('kendaraan');
 Route::get('/kendaraan/pesan/{id}', [KendaraanController::class, 'pesan'])->name('pesan.kendaraan');

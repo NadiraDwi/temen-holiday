@@ -15,7 +15,7 @@
         <div class="row align-items-center">
             <div class="col-md-12">
                 <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Kendaraan</a></li>
+                    <li class="breadcrumb-item"><a href="#">Open Trip</a></li>
                     <li class="breadcrumb-item"><a href="javascript:void(0)">List</a></li>
                 </ul>
             </div>
@@ -30,7 +30,7 @@
     <div class="page-header-title">
       <h2 class="mb-0">List Open Trip</h2>
   </div>
-    <a href="{{ route('trip.create') }}" class="btn btn-primary">
+    <a href="{{ route('trip.create') }}" class="btn btn-outline-primary">
         + Create Open Trip
     </a>
 </div>

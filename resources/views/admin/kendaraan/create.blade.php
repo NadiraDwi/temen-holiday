@@ -68,7 +68,7 @@
             <!-- Kategori -->
             <div class="mb-3">
                 <label class="form-label">Kategori</label>
-                <select name="id_kategori" class="form-select" required>
+                <select name="id_kategori" class="form-select">
                     <option value="">-- Pilih Kategori --</option>
                     @foreach ($kategori as $k)
                         <option value="{{ $k->id_category }}">{{ $k->kategori }}</option>
@@ -79,31 +79,31 @@
             <!-- Nama -->
             <div class="mb-3">
                 <label class="form-label">Nama Kendaraan</label>
-                <input type="text" name="nama_kendaraan" class="form-control" required>
+                <input type="text" name="nama_kendaraan" class="form-control" placeholder="Hiace">
             </div>
 
             <!-- Kapasitas - Harga -->
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label class="form-label">Kapasitas (Orang)</label>
-                    <input type="number" name="kapasitas" class="form-control" required>
+                    <input type="number" name="kapasitas" class="form-control">
                 </div>
                 <div class="col-md-6 mb-3">
                     <label class="form-label">Harga (Rp)</label>
-                    <input type="number" name="harga" class="form-control" required>
+                    <input type="number" name="harga" class="form-control">
                 </div>
             </div>
 
             <!-- Fasilitas -->
             <div class="mb-3">
                 <label class="form-label">Fasilitas</label>
-                <textarea name="fasilitas" class="form-control" rows="3" required></textarea>
+                <textarea name="fasilitas" class="form-control" rows="3" placeholder="Contoh: AC, Audio, Reclining Seat, Charger, dll..."></textarea>
             </div>
 
             <!-- Kontak -->
             <div class="mb-3">
                 <label class="form-label">Kontak</label>
-                <select name="id_contact" class="form-select" required>
+                <select name="id_contact" class="form-select">
                     <option value="">-- Pilih Kontak --</option>
                     @foreach ($contact as $c)
                         <option value="{{ $c->id_contact }}">{{ $c->nama }} ({{ $c->no_hp }})</option>
@@ -231,6 +231,7 @@ document.getElementById('form-create').addEventListener('submit', async function
             title: "Gagal",
             text: "Terjadi kesalahan, cek kembali input."
         });
+
     }
 });
 

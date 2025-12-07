@@ -81,7 +81,7 @@
             {{-- KATEGORI --}}
             <div class="mb-3">
                 <label class="form-label">Kategori</label>
-                <select name="id_kategori" id="edit-kategori" class="form-select" required>
+                <select name="id_kategori" id="edit-kategori" class="form-select">
                     <option value="">-- Pilih Kategori --</option>
                     @foreach ($kategori as $k)
                         <option value="{{ $k->id_category }}" 
@@ -96,7 +96,7 @@
             <div class="mb-3">
                 <label class="form-label">Nama Kendaraan</label>
                 <input type="text" id="edit-nama" name="nama_kendaraan" class="form-control" 
-                    value="{{ $data->nama_kendaraan }}" required>
+                    value="{{ $data->nama_kendaraan }}">
             </div>
 
             {{-- KAPASITAS & HARGA --}}
@@ -104,13 +104,13 @@
                 <div class="col-md-6 mb-3">
                     <label class="form-label">Kapasitas (orang)</label>
                     <input type="number" id="edit-kapasitas" name="kapasitas" class="form-control"
-                        value="{{ $data->kapasitas }}" required>
+                        value="{{ $data->kapasitas }}">
                 </div>
 
                 <div class="col-md-6 mb-3">
                     <label class="form-label">Harga (Rp)</label>
                     <input type="number" id="edit-harga" name="harga" class="form-control"
-                        value="{{ $data->harga }}" required>
+                        value="{{ $data->harga }}">
                 </div>
             </div>
 
@@ -123,7 +123,7 @@
             {{-- KONTAK --}}
             <div class="mb-3">
                 <label class="form-label">Kontak</label>
-                <select name="id_contact" id="edit-contact" class="form-select" required>
+                <select name="id_contact" id="edit-contact" class="form-select">
                     <option value="">-- Pilih Kontak --</option>
                     @foreach ($contact as $c)
                         <option value="{{ $c->id_contact }}" {{ $c->id_contact == $data->id_contact ? 'selected' : '' }}>

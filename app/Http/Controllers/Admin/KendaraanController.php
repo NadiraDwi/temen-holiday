@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
 use App\Models\Vehicle;
 use App\Models\VehicleCategory;
@@ -99,47 +100,74 @@ class KendaraanController extends Controller
      * STORE — ADD MULTI IMAGE
      */
     public function store(Request $request)
-    {
-        $request->validate([
-            'nama_kendaraan' => 'required',
-            'kapasitas'      => 'required|numeric',
-            'fasilitas'      => 'required',
-            'harga'          => 'required|numeric',
-            'images.*'       => 'nullable|image|max:4096',
-            'id_contact'     => 'required|exists:contacts,id_contact',
-            'id_kategori'    => 'required|exists:vehicle_categories,id_category',
-        ]);
+{
+    $validator = Validator::make($request->all(), [
+        'nama_kendaraan' => 'required|string|max:255',
+        'kapasitas'      => 'required|numeric|min:1',
+        'fasilitas'      => 'required|string',
+        'harga'          => 'required|numeric|min:0',
+        'images.*'       => 'nullable|image|max:4096|mimes:jpg,jpeg,png,webp',
+        'id_contact'     => 'required|exists:contacts,id_contact',
+        'id_kategori'    => 'required|exists:vehicle_categories,id_category',
+    ], [
+        // === Pesan Error Custom ===
+        'nama_kendaraan.required' => 'Nama kendaraan wajib diisi.',
+        'kapasitas.required'      => 'Kapasitas wajib diisi.',
+        'kapasitas.numeric'       => 'Kapasitas harus berupa angka.',
+        'fasilitas.required'      => 'Fasilitas wajib diisi.',
+        'harga.required'          => 'Harga wajib diisi.',
+        'harga.numeric'           => 'Harga harus berupa angka.',
+        'images.*.image'          => 'File harus berupa gambar.',
+        'images.*.max'            => 'Ukuran gambar maksimal 4MB.',
+        'images.*.mimes'          => 'Format gambar harus JPG, JPEG, PNG, atau WEBP.',
+        'id_contact.required'     => 'Kontak wajib dipilih.',
+        'id_contact.exists'       => 'Kontak tidak valid.',
+        'id_kategori.required'    => 'Kategori wajib dipilih.',
+        'id_kategori.exists'      => 'Kategori tidak valid.',
+    ]);
 
-        $manager = new ImageManager(new Driver());
-        $paths = [];
-
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $file) {
-
-                $name = Str::uuid() . '.webp';
-                $path = "kendaraan/$name";
-
-                $img = $manager->read($file)->toWebp(75);
-                Storage::disk('public')->put($path, $img);
-
-                $paths[] = $path;
-            }
-        }
-
-        Vehicle::create([
-            'nama_kendaraan' => $request->nama_kendaraan,
-            'kapasitas'      => $request->kapasitas,
-            'fasilitas'      => $request->fasilitas,
-            'harga'          => $request->harga,
-            'images'         => $paths,
-            'id_contact'     => $request->id_contact,
-            'id_kategori'    => $request->id_kategori,
-            'tampilkan_harga'=> $request->tampilkan_harga ? 1 : 0,
-            'updated_by'     => Auth::id()
-        ]);
-
-        return response()->json(['success' => true]);
+    if ($validator->fails()) {
+        return response()->json([
+            'errors' => $validator->errors()
+        ], 422);
     }
+
+    // ========================
+    //   PROSES SIMPAN GAMBAR
+    // ========================
+    $manager = new ImageManager(new Driver());
+    $paths = [];
+
+    if ($request->hasFile('images')) {
+        foreach ($request->file('images') as $file) {
+
+            $name = Str::uuid() . '.webp';
+            $path = "kendaraan/$name";
+
+            $img = $manager->read($file)->toWebp(75);
+            Storage::disk('public')->put($path, $img);
+
+            $paths[] = $path;
+        }
+    }
+
+    // ========================
+    //   SIMPAN KE DATABASE
+    // ========================
+    Vehicle::create([
+        'nama_kendaraan' => $request->nama_kendaraan,
+        'kapasitas'      => $request->kapasitas,
+        'fasilitas'      => $request->fasilitas,
+        'harga'          => $request->harga,
+        'images'         => $paths,
+        'id_contact'     => $request->id_contact,
+        'id_kategori'    => $request->id_kategori,
+        'tampilkan_harga'=> $request->tampilkan_harga ? 1 : 0,
+        'updated_by'     => Auth::id()
+    ]);
+
+    return response()->json(['success' => true]);
+}
 
     /**
      * UPDATE — MULTI IMAGE
@@ -148,16 +176,38 @@ class KendaraanController extends Controller
     {
         $kendaraan = Vehicle::where('id_vehicle', $id)->firstOrFail();
 
-        $request->validate([
-            'nama_kendaraan' => 'required',
-            'kapasitas'      => 'required|numeric',
-            'fasilitas'      => 'required',
-            'harga'          => 'required|numeric',
-            'images.*'       => 'nullable|image|max:4096',
-            'hapus_images'   => 'nullable', // <= FIX
+        $validator = Validator::make($request->all(), [
+            'nama_kendaraan' => 'required|string|max:255',
+            'kapasitas'      => 'required|numeric|min:1',
+            'fasilitas'      => 'required|string',
+            'harga'          => 'required|numeric|min:0',
+            'images.*'       => 'nullable|image|max:4096|mimes:jpg,jpeg,png,webp',
+            'hapus_images'   => 'nullable',
             'id_contact'     => 'required|exists:contacts,id_contact',
             'id_kategori'    => 'required|exists:vehicle_categories,id_category',
+        ], [
+            // Custom error messages
+            'nama_kendaraan.required' => 'Nama kendaraan wajib diisi.',
+            'kapasitas.required'      => 'Kapasitas wajib diisi.',
+            'kapasitas.numeric'       => 'Kapasitas harus berupa angka.',
+            'kapasitas.min'           => 'Kapasitas minimal 1 orang.',
+            'fasilitas.required'      => 'Fasilitas wajib diisi.',
+            'harga.required'          => 'Harga wajib diisi.',
+            'harga.numeric'           => 'Harga harus berupa angka.',
+            'images.*.image'          => 'File harus berupa gambar.',
+            'images.*.max'            => 'Ukuran gambar maksimal 4MB.',
+            'images.*.mimes'          => 'Format gambar harus JPG, JPEG, PNG, atau WEBP.',
+            'id_contact.required'     => 'Kontak wajib dipilih.',
+            'id_contact.exists'       => 'Kontak tidak valid.',
+            'id_kategori.required'    => 'Kategori wajib dipilih.',
+            'id_kategori.exists'      => 'Kategori tidak valid.',
         ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ], 422);
+        }
 
         $manager = new ImageManager(new Driver());
         $list = $kendaraan->images ?? [];

@@ -873,3 +873,42 @@ html {
       top: 60px !important; 
   }
 }
+
+#btnID, #btnEN {
+    font-size: 0.8rem;
+    padding: 6px 12px;
+}
+
+.goog-logo-link,
+.goog-te-gadget span {
+    display: none !important; /* menghilangkan logo google */
+}
+
+.goog-te-gadget {
+    color: transparent !important;
+}
+
+/* HIDE Google Translate top bar */
+.goog-te-banner-frame.skiptranslate {
+    display: none !important;
+}
+body {
+    top: 0px !important;
+}
+
+/* HIDE Google toolbar floating */
+.goog-te-gadget-icon {
+    display: none !important;
+}
+
+.goog-te-banner {
+    display: none !important;
+}
+
+.goog-te-menu-frame.skiptranslate {
+    box-shadow: none !important;
+}
+
+.goog-te-menu-frame {
+    border: none !important;
+}

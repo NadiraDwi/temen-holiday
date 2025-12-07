@@ -1,3 +1,21 @@
+<style>
+/* Melindungi navbar agar tidak rusak karena translate */
+.goog-te-banner-frame,
+.skiptranslate {
+    display: none !important;
+}
+body { top: 0 !important; }
+
+/* Menu bahasa */
+#languageDropdown {
+    cursor: pointer;
+}
+
+.dropdown-menu a {
+    cursor: pointer;
+}
+</style>
+
 <nav id="mainNavbar" class="no-anim navbar navbar-expand-lg">
     <div class="no-anim container">
         <a class="no-anim navbar-brand d-flex align-items-center" href="{{ url('/') }}">
@@ -34,9 +52,22 @@
                 <li class="no-anim nav-item">
                     <a class="no-anim nav-link {{ Request::is('galeri', 'galeri/*') ? 'active' : '' }}" href="{{ url('/galeri') }}">Galeri</a>
                 </li>
-
+                
                 <li class="no-anim nav-item">
                     <a class="no-anim nav-link" href="{{ url('/admin/login') }}">Admin</a>
+                </li>
+
+                <li class="nav-item dropdown ms-3">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="languageDropdown"
+                    role="button" data-bs-toggle="dropdown">
+                        <i class="bi bi-globe"></i>
+                        <span class="ms-1">Lang</span>
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" id="btnID">Indonesia</a></li>
+                        <li><a class="dropdown-item" id="btnEN">English</a></li>
+                    </ul>
                 </li>
 
             </ul>

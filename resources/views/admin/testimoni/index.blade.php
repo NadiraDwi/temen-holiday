@@ -144,45 +144,66 @@
       </div>
 
       <div class="modal-body">
+        <div class="row">
+          <!-- Carousel Gambar Kiri -->
+          @if ($images && count($images) > 0)
+          <div class="col-md-5 mb-3 mb-md-0">
+            <div id="carousel{{ $t->id_testimoni }}" class="carousel slide" data-bs-ride="carousel">
+              <div class="carousel-inner">
+                @foreach ($images as $index => $img)
+                <div class="carousel-item @if($index==0) active @endif">
+                  <img src="{{ asset('storage/' . $img) }}" class="d-block w-100 rounded shadow" style="max-height:300px; object-fit:cover;" alt="Testimoni Image">
+                </div>
+                @endforeach
+              </div>
+              @if(count($images) > 1)
+              <button class="carousel-control-prev" type="button" data-bs-target="#carousel{{ $t->id_testimoni }}" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#carousel{{ $t->id_testimoni }}" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+              @endif
+            </div>
+          </div>
+          @endif
 
-        <h5 class="fw-bold">{{ $t->nama_user }}</h5>
+          <!-- Detail Testimoni Kanan -->
+          <div class="col-md-7">
+            <h5 class="fw-bold">{{ $t->nama_user }}</h5>
 
-        <div class="mb-1">
-            <strong>Fasilitas:</strong>
-            <span class="text-warning">
-                @for ($i = 1; $i <= 5; $i++)
-                    <i class="bi {{ $i <= $t->rating_fasilitas ? 'bi-star-fill' : 'bi-star' }}"></i>
-                @endfor
-            </span>
+            <div class="mb-1">
+              <strong>Fasilitas:</strong>
+              <span class="text-warning">
+                  @for ($i = 1; $i <= 5; $i++)
+                      <i class="bi {{ $i <= $t->rating_fasilitas ? 'bi-star-fill' : 'bi-star' }}"></i>
+                  @endfor
+              </span>
+            </div>
+
+            <div class="mb-2">
+              <strong>Harga:</strong>
+              <span class="text-warning">
+                  @for ($i = 1; $i <= 5; $i++)
+                      <i class="bi {{ $i <= $t->rating_harga ? 'bi-star-fill' : 'bi-star' }}"></i>
+                  @endfor
+              </span>
+            </div>
+
+            <p>{{ $t->pesan }}</p>
+          </div>
         </div>
-
-        <div class="mb-2">
-            <strong>Harga:</strong>
-            <span class="text-warning">
-                @for ($i = 1; $i <= 5; $i++)
-                    <i class="bi {{ $i <= $t->rating_harga ? 'bi-star-fill' : 'bi-star' }}"></i>
-                @endfor
-            </span>
-        </div>
-
-        <p>{{ $t->pesan }}</p>
-
-        @if ($images)
-        <div class="testi-images d-flex flex-wrap mb-3">
-            @foreach ($images as $img)
-                <img src="{{ asset('storage/' . $img) }}">
-            @endforeach
-        </div>
-        @endif
 
         <hr>
 
+        <!-- Form Balasan Admin -->
         <form action="{{ route('testimoni.reply', $t->id_testimoni) }}" method="POST">
-            @csrf
-            <label class="fw-semibold">Balasan Admin</label>
-            <textarea name="reply_admin" class="form-control" rows="3" required>{{ $t->reply_admin }}</textarea>
-
-            <button class="btn btn-primary mt-3 w-100">Kirim Balasan</button>
+          @csrf
+          <label class="fw-semibold">Balasan Admin</label>
+          <textarea name="reply_admin" class="form-control" rows="3" required>{{ $t->reply_admin }}</textarea>
+          <button class="btn btn-primary mt-3 w-100">Kirim Balasan</button>
         </form>
 
       </div>

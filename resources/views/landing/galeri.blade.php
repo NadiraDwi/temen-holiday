@@ -34,9 +34,9 @@ body {
 @include('landing.components.header')
 
 <!-- HERO -->
-<section class="hero hero-small" style="background-image: url('assets/image/home1.jpeg');">
+<section class="hero hero-small" style="background-image: url('{{ asset('assets/image/home6.jpeg') }}'); background-position: center 30%; background-size: cover;">
     <div class="hero-text">
-        <h1>Gallery</h1>
+      <h1>Galeri</h1>
     </div>
 </section>
 

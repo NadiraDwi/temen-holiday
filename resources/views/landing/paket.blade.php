@@ -33,10 +33,10 @@ body {
 
 @include('landing.components.header')
 
-<section class="hero hero-small" style="background-image: url('{{ asset('assets/image/home1.jpeg') }}');">
-  <div class="hero-text">
-    <h1>Paket Wisata</h1>
-  </div>
+<section class="hero hero-small" style="background-image: url('{{ asset('assets/image/home14.jpeg') }}'); background-position: center 15%; background-size: cover;">
+    <div class="hero-text">
+      <h1>Paket Wisata</h1>
+    </div>
 </section>
 
 <div class="container py-5">

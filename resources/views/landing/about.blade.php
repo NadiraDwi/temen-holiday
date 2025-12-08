@@ -47,6 +47,26 @@
 body {
     top: 0px !important;
 }
+
+.carousel-img {
+  max-height: 360px; /* default desktop */
+  object-fit: cover;
+}
+
+/* Mobile / tablet */
+@media (max-width: 768px) {
+  .carousel-img {
+    max-height: 300px; /* turunkan untuk layar kecil */
+  }
+}
+
+@media (max-width: 480px) {
+  .carousel-img {
+    max-height: 300px; /* untuk layar HP kecil */
+  }
+}
+
+
 </style>
 </head>
 <body>
@@ -55,7 +75,7 @@ body {
 @include('landing.components.header')
 
 <!-- HERO -->
-<section class="hero hero-small" style="background-image: url('assets/image/home1.jpeg');">
+<section class="hero hero-small" style="background-image: url('assets/image/home13.jpeg');">
   <div class="hero-text">
     <h1>Tentang Kami</h1>
   </div>
@@ -75,8 +95,31 @@ body {
     </div>
 
     <div class="col-md-6">
-        <img src="assets/image/home2.jpeg" class="img-fluid rounded shadow about-img" alt="Temen Holiday">
+    <div id="aboutCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000" data-bs-pause="hover">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="assets/image/home2.jpeg" class="d-block w-100 rounded shadow carousel-img" alt="Temen Holiday 1">
+        </div>
+        <div class="carousel-item">
+          <img src="assets/image/home8.jpeg" class="d-block w-100 rounded shadow carousel-img" alt="Temen Holiday 2">
+        </div>
+        <div class="carousel-item">
+          <img src="assets/image/home12.jpeg" class="d-block w-100 rounded shadow carousel-img" alt="Temen Holiday 2">
+        </div>
+        <div class="carousel-item">
+          <img src="assets/image/home3.png" class="d-block w-100 rounded shadow carousel-img" alt="Temen Holiday 2">
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#aboutCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#aboutCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
     </div>
+  </div>
 
   </div>
 </section>

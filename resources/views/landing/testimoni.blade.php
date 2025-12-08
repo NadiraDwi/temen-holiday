@@ -202,11 +202,11 @@ body {
   @include('landing.components.header')
 
   {{-- HERO --}}
-  <section class="hero hero-small" style="background-image: url('{{ asset('assets/image/home1.jpeg') }}');">
+  <section class="hero hero-small" style="background-image: url('{{ asset('assets/image/home5.jpeg') }}'); background-position: center 40%; background-size: cover;">
     <div class="hero-text">
       <h1>Testimoni</h1>
     </div>
-  </section>
+</section>
 
   <div class="container py-5">
 

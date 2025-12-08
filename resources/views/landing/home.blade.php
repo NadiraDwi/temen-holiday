@@ -196,11 +196,11 @@ body {
     <div class="carousel-inner">
 
       <div class="carousel-item active">
-        <div class="hero-bg" style="background-image:url('assets/image/home1.jpeg');"></div>
+        <div class="hero-bg" style="background-image:url('assets/image/home2.jpeg');"></div>
       </div>
 
       <div class="carousel-item">
-        <div class="hero-bg" style="background-image:url('assets/image/home2.jpeg');"></div>
+        <div class="hero-bg" style="background-image:url('assets/image/home1.jpeg');"></div>
       </div>
 
     </div>
